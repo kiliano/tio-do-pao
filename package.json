@@ -1,0 +1,29 @@
+{
+  "name": "tio-da-bike-bot",
+  "version": "1.0.0",
+  "description": "Bot para pedir o pãozinho de cada dia da Degrau Publicidade",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiliano/tio-da-bike.git"
+  },
+  "keywords": [
+    "bot",
+    "telegram",
+    "degrau",
+    "publicidade",
+    "pão"
+  ],
+  "author": "Kiliano Lopes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kiliano/tio-da-bike/issues"
+  },
+  "homepage": "https://github.com/kiliano/tio-da-bike#readme",
+  "dependencies": {
+    "telegram-node-bot": "^4.0.5"
+  }
+}
