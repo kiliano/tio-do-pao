@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kiliano/tio-da-bike#readme",
   "dependencies": {
+    "telegraf": "3.17.3",
     "telegram-node-bot": "^4.0.5"
   }
 }
