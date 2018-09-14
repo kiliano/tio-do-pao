@@ -7,7 +7,6 @@ bot.start (ctx => {
 	const from = ctx.update.message.from
 	console.log(from)
 	ctx.reply(`Oi ${from.first_name}!`)
-	console.log(mestre)
 })
 
 
