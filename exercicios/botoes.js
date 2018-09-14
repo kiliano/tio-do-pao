@@ -30,21 +30,18 @@ bot.start(async ctx=> {
 
 bot.action(/add (\d+)/, ctx => {
 	contagem += parseInt(ctx.match[1])
-	// ctx.reply(`A contagem atual está em ${contagem}`, botoes)
-	ctx.reply(`Anotei a mudança ${ctx.update.message.from.first_name}! Total: ${contagem}`)
+	ctx.reply(`A contagem atual está em ${contagem}`, botoes)
 	
 })
 
 bot.action(/sub (\d+)/, ctx => {
 	contagem -= parseInt(ctx.match[1])
-	// ctx.reply(`A contagem atual está em ${contagem}`, botoes)
-	ctx.reply(`Anotei a mudança ${ctx.update.message.from.first_name}! Total: ${contagem}`)
+	ctx.reply(`A contagem atual está em ${contagem}`, botoes)
 })
 
 bot.action('reset', ctx => {
 	contagem = 0
-	// ctx.reply(`A contagem atual está em ${contagem}`, botoes)
-	ctx.reply(`Anotei a mudança ${ctx.update.message.from.first_name}! Total: ${contagem}`)
+	ctx.reply(`A contagem atual está em ${contagem}`, botoes)
 })
 
 bot.action('result', ctx => {
