@@ -3,13 +3,8 @@
 
 // Chamando bases
 var token = process.env.token
+var port = (process.env.PORT || 5000)
 
-// var port = (process.env.PORT || 5000)
-
-var port = process.env.PORT || 3000;
-	app.listen(port, "0.0.0.0", function() {
-	console.log("Listening on Port 3000");
-});
 
 module.exports = {
 	token,
