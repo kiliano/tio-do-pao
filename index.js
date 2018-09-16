@@ -5,8 +5,6 @@
 
 var token = process.env.token
 
-server.listen process.env.PORT || 5000
-
 // Chamando bases
 
 module.exports = {
