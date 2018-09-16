@@ -1,7 +1,15 @@
+'use strict'
+
 
 // Chamando bases
-const token = process.env.token
+var token = process.env.token
 
+// var port = (process.env.PORT || 5000)
+
+var port = process.env.PORT || 3000;
+	app.listen(port, "0.0.0.0", function() {
+	console.log("Listening on Port 3000");
+});
 
 module.exports = {
 	token,
@@ -97,6 +105,12 @@ bot.command('pao', async ctx => {
 	abertura = true
 
 	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
+})
+
+bot.command('cardapio', async ctx => {
+	if (abertura == true) {
+		await ctx.reply(`Abrindo teclado de cardápio de novo`, tecladoPao)
+	}
 })
 
 // Ouvindo o pedido
