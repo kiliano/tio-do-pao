@@ -74,7 +74,7 @@ const tecladoCancelar = Markup.keyboard([
 
 // Teclado em branco
 const tecladoBranco = Markup.keyboard([
-	['👍 Valeu!']
+	['👍 Valeu Tio!']
 
 ]).resize().oneTime().extra()
 
