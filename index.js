@@ -100,7 +100,7 @@ const botoesinline = Extra.markup(Markup.inlineKeyboard([
 
 // Iniciando pedidos
 
-bot.command(['pao','pão','Pao', 'Pão'], async ctx => {
+bot.command(['pao','Pao'], async ctx => {
 	random = Math.floor((Math.random() * 23) + 1)
 
 	await ctx.replyWithMarkdown(`*📣📣📣 Hora do Pão Cambada!!! 📣📣📣*`, tecladoPao)
