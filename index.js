@@ -3,7 +3,7 @@
 
 // Chamando bases
 var token = process.env.token
-var port = (process.env.PORT || 5000)
+var port = process.env.PORT || 3000;
 
 
 module.exports = {
