@@ -349,6 +349,9 @@ bot.command('pedido', async ctx => {
 
 		await ctx.reply("[ "+lista+" ]", tecladoBranco)
 
+		await ctx.replyWithMarkdown(`##Pedidos pro Tio do Pão##`)
+		await ctx.reply("[ "+quem+" ]")
+
 		// Apagando mensagem original
 		// ctx.tg.deleteMessage(ctx.chat.id, ctx.message.message_id)
 
