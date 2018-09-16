@@ -48,6 +48,9 @@ let bisnaga = 0;
 let bisnagaacucar = 0;
 let bisnagacreme = 0;
 
+let total = 0;
+let totalpedidos = 0;
+
 // Teclado
 
 const tecladoPao = Markup.keyboard([
@@ -316,6 +319,9 @@ bot.command('pedido', async ctx => {
 		// fechando pedido
 		abertura = false
 
+		total = paofrances+paodemilho+rosquinha+rosquinharecheio+croissantpresunto+croissantfrango+bisnaga+bisnagaacucar+bisnagacreme
+		totalpedidos += 1
+
 		// Zerando lista
 		lista = []
 
@@ -331,11 +337,18 @@ bot.command('pedido', async ctx => {
 		bisnaga = 0;
 		bisnagaacucar = 0;
 		bisnagacreme = 0;
+
+
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
 	}
 })
 
+
+bot.command('total', async ctx => {
+	await ctx.reply("O Tio do Pão já anotou "+totalpedidos+" pedidos, somando "+total+" coisas gostosas pra comer.")
+
+})
 
 bot.command('lista', async ctx => {
 
