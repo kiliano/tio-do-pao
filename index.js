@@ -100,12 +100,12 @@ const botoesinline = Extra.markup(Markup.inlineKeyboard([
 
 // Iniciando pedidos
 
-bot.command('pao', async ctx => {
+bot.command(['pao','pão','Pao', 'Pão'], async ctx => {
 	random = Math.floor((Math.random() * 23) + 1)
 
 	await ctx.replyWithMarkdown(`*📣📣📣 Hora do Pão Cambada!!! 📣📣📣*`, tecladoPao)
-	await ctx.replyWithMarkdown(`Depois que todo mundo escolher o que quer, só digitar /fecharpedido pra fechar o pedido.
-		Se quiser remover algum item da lista, só digitar /cancelaritem.`)
+	await ctx.replyWithMarkdown(`Depois que todo mundo escolher o que quer, só digitar /pedido pra fechar o pedido.
+		Se quiser remover algum item da lista, só digitar /cancelar.`)
 	// abrindo pedidos
 	abertura = true
 
@@ -165,18 +165,9 @@ bot.hears(['❌ Pão Francês', '❌ Pão de Milho', '❌ Rosquinha', '❌ Rosqu
 	}
 })
 
-bot.command('pedirmais', async ctx => {
-	if (abertura == true) {
-		await ctx.reply(`Pode pedir mais`, tecladoPao)
-	} else {
-		await ctx.reply(`O pedido já foi fechado 🔒 `)
-	}
+// 
 
-
-
-})
-
-bot.command('cancelaritem', async ctx => {
+bot.command('cancelar', async ctx => {
 	if (abertura == true) {
 		if (paofrances > 0) {
 			lista.push('Pão Francês ('+paofrances+') ')
@@ -274,7 +265,7 @@ if (abertura == true) {
 }
 
 
-bot.command('fecharpedido', async ctx => {
+bot.command('pedido', async ctx => {
 
 
 	if (abertura == true) {
@@ -346,7 +337,7 @@ bot.command('fecharpedido', async ctx => {
 })
 
 
-bot.command('pedido', async ctx => {
+bot.command('lista', async ctx => {
 
 
 	if (abertura == true) {
