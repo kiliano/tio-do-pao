@@ -32,6 +32,7 @@ const bot = new Telegraf(token)
 let random = Math.floor((Math.random() * 23) + 1)
 
 let lista = []
+let quem = []
 
 let abertura = false
 
@@ -134,6 +135,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 	if (abertura == true) {
 		await ctx.reply(`${nome} pediu 1 ${pediu}`)
+		quem.push(`${nome}: ${pediu}`)
 
 		if (pediu == '🍞 Pão Francês') 	paofrances += 1
 		if (pediu == '🌽 Pão de Milho') 	paodemilho += 1
@@ -229,6 +231,7 @@ bot.action('pao', ctx => {
 	if (abertura == true) {
 		paofrances -= 1
 		ctx.reply(`1 Pão Francês Removido`)
+		quem.push(`1 Pão Francês Removido`)
 	}
 })
 
@@ -236,6 +239,7 @@ bot.action('milho', ctx => {
 	if (abertura == true) {
 		paodemilho -= 1
 		ctx.reply(`1 Pão de Milho Removido`)
+		quem.push(`1 Pão de Milho Removido`)
 	}
 })
 
@@ -243,6 +247,7 @@ bot.action('ros', ctx => {
 	if (abertura == true) {
 		rosquinha -= 1
 		ctx.reply(`1 Rosquinha Removida`)
+		quem.push(`1 Rosquinha Removida`)
 	}
 })
 
@@ -250,6 +255,7 @@ bot.action('rosres', ctx => {
 	if (abertura == true) {
 		rosquinharecheio -= 1
 		ctx.reply(`1 Rosquinha Recheio Removida`)
+		quem.push(`1 Rosquinha Recheio Removida`)
 	}
 })
 
@@ -257,6 +263,7 @@ bot.action('cropre', ctx => {
 	if (abertura == true) {
 		croissantpresunto -= 1
 		ctx.reply(`1 Croissant Presunto Removido`)
+		quem.push(`1 Croissant Presunto Removido`)
 	}
 })
 
@@ -264,6 +271,7 @@ bot.action('crofran', ctx => {
 	if (abertura == true) {
 		croissantfrango -= 1
 		ctx.reply(`1 Croissant Frango Removido`)
+		quem.push(`1 Croissant Frango Removido`)
 	}
 })
 
@@ -271,6 +279,7 @@ bot.action('bis', ctx => {
 	if (abertura == true) {
 		bisnaga -= 1
 		ctx.reply(`1 Bisnaga Removida`)
+		quem.push(`1 Bisnaga Removida`)
 	}
 })
 
@@ -279,6 +288,7 @@ bot.action('bisacu', ctx => {
 	if (abertura == true) {
 		bisnagaacucar -= 1
 		ctx.reply(`1 Bisnaga c Açúcar Removida`)
+		quem.push(`1 Bisnaga c Açúcar Removida`)
 	}
 })
 
@@ -287,6 +297,7 @@ bot.action('biscre', ctx => {
 	if (abertura == true) {
 		bisnagacreme -= 1
 		ctx.reply(`1 Bisnaga c Creme Removida`)
+		quem.push(`1 Bisnaga c Creme Removida`)
 	}
 })
 
@@ -334,7 +345,7 @@ bot.command('pedido', async ctx => {
 			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
 		}
 
-		await ctx.replyWithMarkdown(`*Pedidos pro Tio do Pão*`)
+		await ctx.replyWithMarkdown(`#Pedidos pro Tio do Pão#`)
 
 		await ctx.reply("[ "+lista+" ]", tecladoBranco)
 
@@ -349,6 +360,7 @@ bot.command('pedido', async ctx => {
 
 		// Zerando lista
 		lista = []
+		quem = []
 
 		paofrances = 0;
 		paodemilho = 0;
