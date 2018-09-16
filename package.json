@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiliano/tio-da-bike.git"
+    "url": "git+https://github.com/kiliano/tio-do-pao.git"
   },
   "keywords": [
     "bot",
@@ -22,17 +22,12 @@
   "author": "Kiliano Lopes",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kiliano/tio-da-bike/issues"
+    "url": "https://github.com/kiliano/tio-do-pao/issues"
   },
-  "homepage": "https://github.com/kiliano/tio-da-bike#readme",
+  "homepage": "https://github.com/kiliano/tio-do-pao#readme",
   "dependencies": {
     "axios": "0.17.1",
     "moment": "2.20.1",
     "telegraf": "3.17.3"
-  },
-
-  "engines": {
-    "node": "5.0.0",
-    "npm": "4.6.1"
-  },
+  }
 }

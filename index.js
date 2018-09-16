@@ -1,10 +1,25 @@
 'use strict'
 
 
-// Chamando bases
-var token = process.env.token
-var port = process.env.PORT || 3000;
+// Chamads do Heroku
 
+var token = process.env.token
+
+var express = require('express');
+var path = require('path');
+var app = express();
+
+global.appRoot = path.resolve(__dirname);
+
+var port = process.env.PORT | 8000;
+
+app.use(express.static(appRoot + '/public/dist'));
+
+app.listen(port, '0.0.0.0', function() {
+console.log("Listening on Port "+port);
+});
+
+// Chamando bases
 
 module.exports = {
 	token,
