@@ -84,9 +84,9 @@ const tecladoCancelarInline = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('❌ Pão de Milho', 'milho'),
 	Markup.callbackButton('❌ Rosquinha', 'ros'),
 
-	Markup.callbackButton('❌ Rosquinha Recheio', 'rosres'),
-	Markup.callbackButton('❌ Croissant Presunto', 'cropre'),
-	Markup.callbackButton('❌ Croissant Frango', 'crofran'),
+	Markup.callbackButton('❌ Ros. Recheio', 'rosres'),
+	Markup.callbackButton('❌ Cro. Presunto', 'cropre'),
+	Markup.callbackButton('❌ Cro. Frango', 'crofran'),
 
 	Markup.callbackButton('❌ Bisnaga', 'bis'),
 	Markup.callbackButton('❌ Bis. c Açúcar', 'bisacu'),
@@ -218,54 +218,72 @@ bot.command('cancelar', async ctx => {
 
 })
 
-if (abertura == true) {
+
 	bot.action('pao', ctx => {
-		paofrances -= 1
-		ctx.reply(`1 Pão Francês Removido`)
+		if (abertura == true) {
+			paofrances -= 1
+			ctx.reply(`1 Pão Francês Removido`)
+		}
 	})
 
 	bot.action('milho', ctx => {
-		paodemilho -= 1
-		ctx.reply(`1 Pão de Milho Removido`)
+		if (abertura == true) {
+			paodemilho -= 1
+			ctx.reply(`1 Pão de Milho Removido`)
+		}
 	})
 
 	bot.action('ros', ctx => {
-		rosquinha -= 1
-		ctx.reply(`1 Rosquinha Removida`)
+		if (abertura == true) {
+			rosquinha -= 1
+			ctx.reply(`1 Rosquinha Removida`)
+		}
 	})
 
 	bot.action('rosres', ctx => {
-		rosquinharecheio -= 1
-		ctx.reply(`1 Rosquinha Recheio Removida`)
+		if (abertura == true) {
+			rosquinharecheio -= 1
+			ctx.reply(`1 Rosquinha Recheio Removida`)
+		}
 	})
 
 	bot.action('cropre', ctx => {
-		croissantpresunto -= 1
-		ctx.reply(`1 Croissant Presunto Removido`)
+		if (abertura == true) {
+			croissantpresunto -= 1
+			ctx.reply(`1 Croissant Presunto Removido`)
+		}
 	})
 
 	bot.action('crofran', ctx => {
-		croissantfrango -= 1
-		ctx.reply(`1 Croissant Frango Removido`)
+		if (abertura == true) {
+			croissantfrango -= 1
+			ctx.reply(`1 Croissant Frango Removido`)
+		}
 	})
 
 	bot.action('bis', ctx => {
-		bisnaga -= 1
-		ctx.reply(`1 Bisnaga Removida`)
+		if (abertura == true) {
+			bisnaga -= 1
+			ctx.reply(`1 Bisnaga Removida`)
+		}
 	})
 
 
 	bot.action('bisacu', ctx => {
-		bisnagaacucar -= 1
-		ctx.reply(`1 Bisnaga c Açúcar Removida`)
+		if (abertura == true) {
+			bisnagaacucar -= 1
+			ctx.reply(`1 Bisnaga c Açúcar Removida`)
+		}
 	})
 
 
 	bot.action('biscre', ctx => {
-		bisnagacreme -= 1
-		ctx.reply(`1 Bisnaga c Creme Removida`)
+		if (abertura == true) {
+			bisnagacreme -= 1
+			ctx.reply(`1 Bisnaga c Creme Removida`)
+		}
 	})
-}
+
 
 
 bot.command('pedido', async ctx => {
