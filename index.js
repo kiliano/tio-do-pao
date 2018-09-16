@@ -1,4 +1,7 @@
+
 // Chamando bases
+const token = process.env.token
+
 
 module.exports = {
 	token,
@@ -9,7 +12,7 @@ module.exports = {
 const Telegraf = require('telegraf')
 const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
-const bot = new Telegraf(env.token)
+const bot = new Telegraf(token)
 
 // Código
 
