@@ -7,6 +7,8 @@ const bot = new Telegraf(env.token)
 
 // Código
 
+let random = Math.floor((Math.random() * 23) + 1)
+
 let lista = []
 
 let abertura = false
@@ -77,13 +79,15 @@ const botoesinline = Extra.markup(Markup.inlineKeyboard([
 // Iniciando pedidos
 
 bot.command('pao', async ctx => {
-	
+	random = Math.floor((Math.random() * 23) + 1)
+
 	await ctx.replyWithMarkdown(`*📣📣📣 Hora do Pão Cambada!!! 📣📣📣*`, tecladoPao)
 	await ctx.replyWithMarkdown(`Depois que todo mundo escolher o que quer, só digitar /fecharpedido pra fechar o pedido.
 		Se quiser remover algum item da lista, só digitar /cancelaritem.`)
-
 	// abrindo pedidos
 	abertura = true
+
+	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
 })
 
 // Ouvindo o pedido
@@ -146,7 +150,46 @@ bot.command('pedirmais', async ctx => {
 
 bot.command('cancelaritem', async ctx => {
 	if (abertura == true) {
-		await ctx.reply(`Cancelar`, tecladoCancelarInline)
+		if (paofrances > 0) {
+			lista.push('Pão Francês ('+paofrances+') ')
+		}
+
+		if (paodemilho > 0) {
+			lista.push('Pão de Milho ('+paodemilho+') ')
+		}
+
+		if (rosquinha > 0) {
+			lista.push('Rosquinha Comum ('+rosquinha+') ')
+		}
+
+		if (rosquinharecheio > 0) {
+			lista.push('Rosquinha com Recheio ('+rosquinharecheio+') ')
+		}
+
+		if (croissantpresunto > 0) {
+			lista.push('Croissant de Presunto ('+croissantpresunto+') ')
+		}
+
+		if (croissantfrango > 0) {
+			lista.push('Croissant de Frango ('+croissantfrango+') ')
+		}
+
+		if (bisnaga > 0) {
+			lista.push('Bisnaga Comum ('+bisnaga+') ')
+		}
+
+		if (bisnagaacucar > 0) {
+			lista.push('Bisnaga com Açúcar ('+bisnagaacucar+') ')
+		}
+
+		if (bisnagacreme > 0) {
+			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
+		}
+
+		await ctx.reply("Itens até o momento: [ "+lista+" ]", tecladoBranco)
+
+
+		await ctx.reply(`Clique no item para diminuir a quantidade da lista.`, tecladoCancelarInline)
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
 	}
