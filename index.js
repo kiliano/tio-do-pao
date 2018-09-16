@@ -115,6 +115,12 @@ bot.command(['pao','Pao'], async ctx => {
 	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
 })
 
+
+bot.command(['bicho'], async ctx => {
+	random = Math.floor((Math.random() * 23) + 1)
+	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
+})
+
 bot.command('cardapio', async ctx => {
 	if (abertura == true) {
 		await ctx.reply(`Abrindo teclado de cardápio de novo`, tecladoPao)
@@ -219,70 +225,70 @@ bot.command('cancelar', async ctx => {
 })
 
 
-	bot.action('pao', ctx => {
-		if (abertura == true) {
-			paofrances -= 1
-			ctx.reply(`1 Pão Francês Removido`)
-		}
-	})
+bot.action('pao', ctx => {
+	if (abertura == true) {
+		paofrances -= 1
+		ctx.reply(`1 Pão Francês Removido`)
+	}
+})
 
-	bot.action('milho', ctx => {
-		if (abertura == true) {
-			paodemilho -= 1
-			ctx.reply(`1 Pão de Milho Removido`)
-		}
-	})
+bot.action('milho', ctx => {
+	if (abertura == true) {
+		paodemilho -= 1
+		ctx.reply(`1 Pão de Milho Removido`)
+	}
+})
 
-	bot.action('ros', ctx => {
-		if (abertura == true) {
-			rosquinha -= 1
-			ctx.reply(`1 Rosquinha Removida`)
-		}
-	})
+bot.action('ros', ctx => {
+	if (abertura == true) {
+		rosquinha -= 1
+		ctx.reply(`1 Rosquinha Removida`)
+	}
+})
 
-	bot.action('rosres', ctx => {
-		if (abertura == true) {
-			rosquinharecheio -= 1
-			ctx.reply(`1 Rosquinha Recheio Removida`)
-		}
-	})
+bot.action('rosres', ctx => {
+	if (abertura == true) {
+		rosquinharecheio -= 1
+		ctx.reply(`1 Rosquinha Recheio Removida`)
+	}
+})
 
-	bot.action('cropre', ctx => {
-		if (abertura == true) {
-			croissantpresunto -= 1
-			ctx.reply(`1 Croissant Presunto Removido`)
-		}
-	})
+bot.action('cropre', ctx => {
+	if (abertura == true) {
+		croissantpresunto -= 1
+		ctx.reply(`1 Croissant Presunto Removido`)
+	}
+})
 
-	bot.action('crofran', ctx => {
-		if (abertura == true) {
-			croissantfrango -= 1
-			ctx.reply(`1 Croissant Frango Removido`)
-		}
-	})
+bot.action('crofran', ctx => {
+	if (abertura == true) {
+		croissantfrango -= 1
+		ctx.reply(`1 Croissant Frango Removido`)
+	}
+})
 
-	bot.action('bis', ctx => {
-		if (abertura == true) {
-			bisnaga -= 1
-			ctx.reply(`1 Bisnaga Removida`)
-		}
-	})
-
-
-	bot.action('bisacu', ctx => {
-		if (abertura == true) {
-			bisnagaacucar -= 1
-			ctx.reply(`1 Bisnaga c Açúcar Removida`)
-		}
-	})
+bot.action('bis', ctx => {
+	if (abertura == true) {
+		bisnaga -= 1
+		ctx.reply(`1 Bisnaga Removida`)
+	}
+})
 
 
-	bot.action('biscre', ctx => {
-		if (abertura == true) {
-			bisnagacreme -= 1
-			ctx.reply(`1 Bisnaga c Creme Removida`)
-		}
-	})
+bot.action('bisacu', ctx => {
+	if (abertura == true) {
+		bisnagaacucar -= 1
+		ctx.reply(`1 Bisnaga c Açúcar Removida`)
+	}
+})
+
+
+bot.action('biscre', ctx => {
+	if (abertura == true) {
+		bisnagacreme -= 1
+		ctx.reply(`1 Bisnaga c Creme Removida`)
+	}
+})
 
 
 
@@ -290,6 +296,7 @@ bot.command('pedido', async ctx => {
 
 
 	if (abertura == true) {
+		lista = []
 	
 		if (paofrances > 0) {
 			lista.push('Pão Francês ('+paofrances+') ')
@@ -364,7 +371,19 @@ bot.command('pedido', async ctx => {
 
 
 bot.command('total', async ctx => {
-	await ctx.reply("O Tio do Pão já anotou "+totalpedidos+" pedidos, somando "+total+" coisas gostosas pra comer.")
+	await ctx.reply("O Tio do Pão já anotou "+totalpedidos+" pedidos, somando "+total+" coisas pra comer.")
+
+})
+
+bot.command('help', async ctx => {
+	await ctx.reply(`
+		/pao para iniciar um pedido
+		/pedido para finalizar um pedido
+		/cancelar para carregar o menu de subtração de itens
+		/lista para carregar a lista de itens pedidos no momento
+		/total para o tio falar quantos pedidos e pães já foram feitos desde a última vez que ele foi ligado
+		/bicho para mostrar uma foto bonitinha de pães e bichos
+		`)
 
 })
 
@@ -372,6 +391,7 @@ bot.command('lista', async ctx => {
 
 
 	if (abertura == true) {
+		lista = []
 	
 		if (paofrances > 0) {
 			lista.push('Pão Francês ('+paofrances+') ')
