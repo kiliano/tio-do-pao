@@ -345,11 +345,11 @@ bot.command('pedido', async ctx => {
 			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
 		}
 
-		await ctx.replyWithMarkdown(`#Pedidos pro Tio do Pão#`)
+		await ctx.replyWithMarkdown(`*Pedidos pro Tio do Pão*`)
 
 		await ctx.reply("[ "+lista+" ]", tecladoBranco)
 
-		await ctx.replyWithMarkdown(`##Pedidos pro Tio do Pão##`)
+		await ctx.replyWithMarkdown(`*Listagem de quem pediu o que*`)
 		await ctx.reply("[ "+quem+" ]")
 
 		// Apagando mensagem original
