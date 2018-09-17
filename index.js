@@ -23,9 +23,9 @@
 var http = require('http')
 
 var datacompleta = new Date();
-var datahora = datacompleta.getHours();
+var datahora = ((datacompleta.getHours())-3);
 
-if (datahora < 22) {
+if (datahora < 19) {
 	setInterval(function(){
 		http.get("http://shielded-peak-24448.herokuapp.com/")
 	},300000);
