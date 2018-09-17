@@ -2,35 +2,55 @@
 
 
 // Chamadas para o Local
-const env = require('./.env')
-const Telegraf = require('telegraf')
-const Markup = require('telegraf/markup')
-const Extra = require('telegraf/extra')
-const bot = new Telegraf(env.token)
-
-
-// Chamadas para o Heroku
-// var http = require('http')
-// var port = (process.env.PORT || 5000)
-
-// http.createServer(function(request, response) {
-// 	response.writeHead(200,{'Content-Type': 'application/json'});
-// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-// 	response.end();
-// }).listen(port)
-
-// var token = process.env.token
-
-// module.exports = {
-// 	token,
-// 	apiUrl: 'https://api.telegram.org/bot${token}',
-// 	apiFileUrl: 'https://api.telegram.org/file/bot${token}'
-// }
-
+// const env = require('./.env')
 // const Telegraf = require('telegraf')
 // const Markup = require('telegraf/markup')
 // const Extra = require('telegraf/extra')
-// const bot = new Telegraf(token)
+// const bot = new Telegraf(env.token)
+
+// var datacompleta = new Date();
+// var datahora = datacompleta.getHours();
+
+// if (datahora < 19) {
+// 	setInterval(function(){
+// 		console.log("ping")
+// 	},300000);
+// }
+
+
+// Chamadas para o Heroku
+var http = require('http')
+
+var datacompleta = new Date();
+var datahora = datacompleta.getHours();
+
+if (datahora < 19) {
+	setInterval(function(){
+		http.get("http://shielded-peak-24448.herokuapp.com/")
+	},300000);
+}
+
+
+var port = (process.env.PORT || 5000)
+
+http.createServer(function(request, response) {
+	response.writeHead(200,{'Content-Type': 'application/json'});
+	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	response.end();
+}).listen(port)
+
+var token = process.env.token
+
+module.exports = {
+	token,
+	apiUrl: 'https://api.telegram.org/bot${token}',
+	apiFileUrl: 'https://api.telegram.org/file/bot${token}'
+}
+
+const Telegraf = require('telegraf')
+const Markup = require('telegraf/markup')
+const Extra = require('telegraf/extra')
+const bot = new Telegraf(token)
 
 
 
@@ -477,6 +497,12 @@ bot.command('lista', async ctx => {
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
 	}
+})
+
+// TESTES
+
+bot.command('teste', async ctx => {
+	await ctx.reply("são "+datahora+" horas")
 })
 
 // Zueiras
