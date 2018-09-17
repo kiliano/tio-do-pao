@@ -79,6 +79,8 @@ let bisnagacreme = 0;
 let total = 0;
 let totalpedidos = 0;
 
+let soninho = 1;
+
 // Teclado
 
 const tecladoPao = Markup.keyboard([
@@ -90,15 +92,6 @@ const tecladoPao = Markup.keyboard([
 
 ]).resize().extra()
 
-// Teclado de cancelamento
-const tecladoCancelar = Markup.keyboard([
-	['❌ Pão Francês', '❌ Pão de Milho'],
-	['❌ Rosquinha', '❌ Rosquinha Recheio'],
-	['❌ Croissant Presunto', '❌ Croissant Frango'],
-	['❌ Bisnaga','❌ Bis. c Açúcar','❌ Bis. c Creme'],
-	['✖ Não cancelar nada']
-
-]).resize().oneTime().extra()
 
 // Teclado em branco
 const tecladoBranco = Markup.keyboard([
@@ -132,22 +125,15 @@ const botoesinline = Extra.markup(Markup.inlineKeyboard([
 // Iniciando pedidos
 
 bot.command(['pao','Pao'], async ctx => {
-	random = Math.floor((Math.random() * 23) + 1)
+	let quem = []
 
 	await ctx.replyWithMarkdown(`*📣📣📣 Hora do Pão Cambada!!! 📣📣📣*`, tecladoPao)
 	await ctx.replyWithMarkdown(`Depois que todo mundo escolher o que quer, só digitar /pedido pra fechar o pedido.
 		Se quiser remover algum item da lista, só digitar /cancelar.`)
 	// abrindo pedidos
 	abertura = true
-
-	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
 })
 
-
-bot.command(['bicho'], async ctx => {
-	random = Math.floor((Math.random() * 23) + 1)
-	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
-})
 
 bot.command('cardapio', async ctx => {
 	if (abertura == true) {
@@ -181,69 +167,81 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 })
 
 
-// Cancelando o pedido
-bot.hears(['❌ Pão Francês', '❌ Pão de Milho', '❌ Rosquinha', '❌ Rosquinha Recheio','❌ Croissant Presunto', '❌ Croissant Frango','❌ Bisnaga','❌ Bis. c Açúcar','❌ Bis. c Creme'], async ctx => {
-	const nome = ctx.update.message.from.first_name
-	let pediu = ctx.update.message.text
-
-	if (abertura == true) {
-		await ctx.reply(`${nome} removeu 1 ${pediu} do pedido `)
-
-		if (pediu == '❌ Pão Francês') 	paofrances -= 1
-		if (pediu == '❌ Pão de Milho') 	paodemilho -= 1
-		if (pediu == '❌ Rosquinha') 	rosquinha -= 1
-		if (pediu == '❌ Rosquinha Recheio') 	rosquinharecheio -= 1
-		if (pediu == '❌ Croissant Presunto') 	croissantpresunto -= 1
-		if (pediu == '❌ Croissant Frango') 	croissantfrango -= 1
-		if (pediu == '❌ Bisnaga') 	bisnaga -= 1
-		if (pediu == '❌ Bis. c Açúcar') 	bisnagaacucar -= 1
-		if (pediu == '❌ Bis. c Creme') 	bisnagacreme -= 1
-	} else {
-		await ctx.reply(`Oi, ${nome}. A anotação dos pedidos já foi fechada 🔒 `)
-	}
-})
-
-// 
-
 bot.command('cancelar', async ctx => {
 	if (abertura == true) {
-		if (paofrances > 0) {
+		if (paofrances == 1) {
 			lista.push('Pão Francês ('+paofrances+') ')
 		}
 
-		if (paodemilho > 0) {
+		if (paofrances > 1) {
+			lista.push('Pão Francês ('+paofãesnces+') es')
+		}
+
+		if (paodemilho == 1) {
 			lista.push('Pão de Milho ('+paodemilho+') ')
 		}
 
-		if (rosquinha > 0) {
+		if (paodemilho > 1) {
+			lista.push('Pão de Milho ('+paodesmilho+') ')
+		}
+
+		if (rosquinha == 1) {
 			lista.push('Rosquinha Comum ('+rosquinha+') ')
 		}
 
-		if (rosquinharecheio > 0) {
+		if (rosquinha > 1) {
+			lista.push('Rosquinha Comum ('+rosquinsha+')ns')
+		}
+
+		if (rosquinharecheio == 1) {
 			lista.push('Rosquinha com Recheio ('+rosquinharecheio+') ')
 		}
 
-		if (croissantpresunto > 0) {
+		if (rosquinharecheio > 1) {
+			lista.push('Rosquinha com Recheio ('+rosquinhsarecheio+') ')
+		}
+
+		if (croissantpresunto == 1) {
 			lista.push('Croissant de Presunto ('+croissantpresunto+') ')
 		}
 
-		if (croissantfrango > 0) {
+		if (croissantpresunto > 1) {
+			lista.push('Croissant de Presunto ('+croissantspresunto+') ')
+		}
+
+		if (croissantfrango == 1) {
 			lista.push('Croissant de Frango ('+croissantfrango+') ')
 		}
 
-		if (bisnaga > 0) {
+		if (croissantfrango > 1) {
+			lista.push('Croissant de Frango ('+croissantsfrango+') ')
+		}
+
+		if (bisnaga == 1) {
 			lista.push('Bisnaga Comum ('+bisnaga+') ')
 		}
 
-		if (bisnagaacucar > 0) {
+		if (bisnaga > 1) {
+			lista.push('Bisnaga Comum ('+bisnasga+')ns')
+		}
+
+		if (bisnagaacucar == 1) {
 			lista.push('Bisnaga com Açúcar ('+bisnagaacucar+') ')
 		}
 
-		if (bisnagacreme > 0) {
+		if (bisnagaacucar > 1) {
+			lista.push('Bisnaga com Açúcar ('+bisnagsaacucar+') ')
+		}
+
+		if (bisnagacreme == 1) {
 			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
 		}
 
-		await ctx.reply("Itens até o momento: [ "+lista+" ]", tecladoBranco)
+		if (bisnagacreme > 1) {
+			lista.push('Bisnaga com Creme ('+bisnagsacreme+') ')
+		}
+
+		await ctx.reply("Itens até o momento: "+lista+"", tecladoBranco)
 
 
 		await ctx.reply(`Clique no item para diminuir a quantidade da lista.`, tecladoCancelarInline)
@@ -354,51 +352,84 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 	if (abertura == true) {
 		lista = []
 	
-		if (paofrances > 0) {
-			lista.push('Pão Francês ('+paofrances+') ')
+		if (paofrances == 1) {
+			lista.push(' \n'+paofrances+' Pão Francês')
 		}
 
-		if (paodemilho > 0) {
-			lista.push('Pão de Milho ('+paodemilho+') ')
+		if (paofrances > 1) {
+			lista.push(' \n'+paofrances+' Pães Francêses')
 		}
 
-		if (rosquinha > 0) {
-			lista.push('Rosquinha Comum ('+rosquinha+') ')
+		if (paodemilho == 1) {
+			lista.push(' \n'+paodemilho+' Pão de Milho')
 		}
 
-		if (rosquinharecheio > 0) {
-			lista.push('Rosquinha com Recheio ('+rosquinharecheio+') ')
+		if (paodemilho > 1) {
+			lista.push(' \n'+paodemilho+' Pães de Milho')
 		}
 
-		if (croissantpresunto > 0) {
-			lista.push('Croissant de Presunto ('+croissantpresunto+') ')
+		if (rosquinha == 1) {
+			lista.push(' \n'+rosquinha+' Rosquinha Comum')
 		}
 
-		if (croissantfrango > 0) {
-			lista.push('Croissant de Frango ('+croissantfrango+') ')
+		if (rosquinha > 1) {
+			lista.push(' \n'+rosquinha+' Rosquinhas Comuns')
 		}
 
-		if (bisnaga > 0) {
-			lista.push('Bisnaga Comum ('+bisnaga+') ')
+		if (rosquinharecheio == 1) {
+			lista.push(' \n'+rosquinharecheio+' Rosquinha com Recheio')
 		}
 
-		if (bisnagaacucar > 0) {
-			lista.push('Bisnaga com Açúcar ('+bisnagaacucar+') ')
+		if (rosquinharecheio > 1) {
+			lista.push(' \n'+rosquinharecheio+' Rosquinhas com Recheio')
 		}
 
-		if (bisnagacreme > 0) {
-			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
+		if (croissantpresunto == 1) {
+			lista.push(' \n'+croissantpresunto+' Croissant de Presunto')
+		}
+
+		if (croissantpresunto > 1) {
+			lista.push(' \n'+croissantpresunto+' Croissants de Presunto')
+		}
+
+		if (croissantfrango == 1) {
+			lista.push(' \n'+croissantfrango+' Croissant de Frango')
+		}
+
+		if (croissantfrango > 1) {
+			lista.push(' \n'+croissantfrango+' Croissants de Frango')
+		}
+
+		if (bisnaga == 1) {
+			lista.push(' \n'+bisnaga+' Bisnaga Comum')
+		}
+
+		if (bisnaga > 1) {
+			lista.push(' \n'+bisnaga+' Bisnagas Comuns')
+		}
+
+		if (bisnagaacucar == 1) {
+			lista.push(' \n'+bisnagaacucar+' Bisnaga com Açúcar')
+		}
+
+		if (bisnagaacucar > 1) {
+			lista.push(' \n'+bisnagaacucar+' Bisnagas com Açúcar')
+		}
+
+		if (bisnagacreme == 1) {
+			lista.push(' \n'+bisnagacreme+' Bisnaga com Creme')
+		}
+
+		if (bisnagacreme > 1) {
+			lista.push(' \n'+bisnagacreme+' Bisnagas com Creme')
 		}
 
 		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
 
-		await ctx.reply("[ "+lista+" ]", tecladoBranco)
+		await ctx.reply(""+lista+"", tecladoBranco)
 
-		await ctx.replyWithMarkdown(`*Quem pediu o que:*`)
-		await ctx.replyWithMarkdown("_[ "+quem+" ]_")
-
-		// Apagando mensagem original
-		// ctx.tg.deleteMessage(ctx.chat.id, ctx.message.message_id)
+		// await ctx.replyWithMarkdown(`*Quem pediu o que:*`)
+		// await ctx.replyWithMarkdown("_[ "+quem+" ]_")
 
 		// fechando pedido
 		abertura = false
@@ -408,7 +439,6 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		// Zerando lista
 		lista = []
-		quem = []
 
 		paofrances = 0;
 		paodemilho = 0;
@@ -442,10 +472,10 @@ bot.command(['help', 'ajuda'], async ctx => {
 	await ctx.reply(`
 		/pao para iniciar um pedido
 		/pedido para finalizar um pedido
+		/quem mostra quem pediu o que no último pedido
 		/cancelar para carregar o menu de subtração de itens
 		/lista para carregar a lista de itens pedidos no momento
 		/total para o tio falar quantos pedidos e pães já foram feitos desde a última vez que ele foi ligado
-		/bicho para mostrar uma foto bonitinha de pães e bichos
 		`)
 
 })
@@ -456,48 +486,100 @@ bot.command('lista', async ctx => {
 	if (abertura == true) {
 		lista = []
 	
-		if (paofrances > 0) {
-			lista.push('Pão Francês ('+paofrances+') ')
+		if (paofrances == 1) {
+			lista.push(' \n'+paofrances+' Pão Francês')
 		}
 
-		if (paodemilho > 0) {
-			lista.push('Pão de Milho ('+paodemilho+') ')
+		if (paofrances > 1) {
+			lista.push(' \n'+paofrances+' Pães Francêses')
 		}
 
-		if (rosquinha > 0) {
-			lista.push('Rosquinha Comum ('+rosquinha+') ')
+		if (paodemilho == 1) {
+			lista.push(' \n'+paodemilho+' Pão de Milho')
 		}
 
-		if (rosquinharecheio > 0) {
-			lista.push('Rosquinha com Recheio ('+rosquinharecheio+') ')
+		if (paodemilho > 1) {
+			lista.push(' \n'+paodemilho+' Pães de Milho')
 		}
 
-		if (croissantpresunto > 0) {
-			lista.push('Croissant de Presunto ('+croissantpresunto+') ')
+		if (rosquinha == 1) {
+			lista.push(' \n'+rosquinha+' Rosquinha Comum')
 		}
 
-		if (croissantfrango > 0) {
-			lista.push('Croissant de Frango ('+croissantfrango+') ')
+		if (rosquinha > 1) {
+			lista.push(' \n'+rosquinha+' Rosquinhas Comuns')
 		}
 
-		if (bisnaga > 0) {
-			lista.push('Bisnaga Comum ('+bisnaga+') ')
+		if (rosquinharecheio == 1) {
+			lista.push(' \n'+rosquinharecheio+' Rosquinha com Recheio')
 		}
 
-		if (bisnagaacucar > 0) {
-			lista.push('Bisnaga com Açúcar ('+bisnagaacucar+') ')
+		if (rosquinharecheio > 1) {
+			lista.push(' \n'+rosquinharecheio+' Rosquinhas com Recheio')
 		}
 
-		if (bisnagacreme > 0) {
-			lista.push('Bisnaga com Creme ('+bisnagacreme+') ')
+		if (croissantpresunto == 1) {
+			lista.push(' \n'+croissantpresunto+' Croissant de Presunto')
 		}
 
-		await ctx.reply("Pedido atual: "+lista)
+		if (croissantpresunto > 1) {
+			lista.push(' \n'+croissantpresunto+' Croissants de Presunto')
+		}
+
+		if (croissantfrango == 1) {
+			lista.push(' \n'+croissantfrango+' Croissant de Frango')
+		}
+
+		if (croissantfrango > 1) {
+			lista.push(' \n'+croissantfrango+' Croissants de Frango')
+		}
+
+		if (bisnaga == 1) {
+			lista.push(' \n'+bisnaga+' Bisnaga Comum')
+		}
+
+		if (bisnaga > 1) {
+			lista.push(' \n'+bisnaga+' Bisnagas Comuns')
+		}
+
+		if (bisnagaacucar == 1) {
+			lista.push(' \n'+bisnagaacucar+' Bisnaga com Açúcar')
+		}
+
+		if (bisnagaacucar > 1) {
+			lista.push(' \n'+bisnagaacucar+' Bisnagas com Açúcar')
+		}
+
+		if (bisnagacreme == 1) {
+			lista.push(' \n'+bisnagacreme+' Bisnaga com Creme')
+		}
+
+		if (bisnagacreme > 1) {
+			lista.push(' \n'+bisnagacreme+' Bisnagas com Creme')
+		}
+
+		await ctx.reply(""+lista+"", tecladoBranco)
 
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
 	}
 })
+
+
+bot.command('quem', async ctx => {
+
+	if (abertura == true) {
+	
+		await ctx.replyWithMarkdown(`*Quem pediu o que, até o momento:*`)
+		await ctx.replyWithMarkdown("_[ "+quem+" ]_")
+
+	} else {
+		await ctx.replyWithMarkdown(`*Quem pediu o que, no último pedido:*`)
+		await ctx.replyWithMarkdown("_[ "+quem+" ]_")
+	}
+})
+
+
 
 // TESTES
 
@@ -515,12 +597,26 @@ bot.command('mimi', async ctx => {
 	await ctx.reply("🐦")
 })
 
+bot.command('gege', async ctx => {
+	await ctx.reply("🐷")
+})
+
 bot.command('kiki', async ctx => {
 	await ctx.reply("🙏 god 🙏")
 })
 
 bot.command('tavinho', async ctx => {
 	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
+})
+
+bot.command(['bicho'], async ctx => {
+	random = Math.floor((Math.random() * 23) + 1)
+	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
+})
+
+bot.command(['faustop'], async ctx => {
+	random = Math.floor((Math.random() * 3) + 1)
+	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
 })
 
 
