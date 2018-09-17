@@ -1,5 +1,6 @@
 'use strict'
 
+// Data de nascimento do bot: 17/09/2018
 
 // Chamadas para o Local
 // const env = require('./.env')
@@ -579,6 +580,11 @@ bot.command('quem', async ctx => {
 	}
 })
 
+
+
+bot.command('id', async ctx => {
+	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+})
 
 
 // TESTES
