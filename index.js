@@ -1,31 +1,38 @@
 'use strict'
 
 
-// Chamads do Heroku
-
-var http = require('http')
-var port = (process.env.PORT || 5000)
-
-http.createServer(function(request, response) {
-	response.writeHead(200,{'Content-Type': 'application/json'});
-	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	response.end();
-}).listen(port)
-
-var token = process.env.token
-
-// Chamando bases
-
-module.exports = {
-	token,
-	apiUrl: 'https://api.telegram.org/bot${token}',
-	apiFileUrl: 'https://api.telegram.org/file/bot${token}'
-}
-
+// Chamadas para o Local
+const env = require('./.env')
 const Telegraf = require('telegraf')
 const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
-const bot = new Telegraf(token)
+const bot = new Telegraf(env.token)
+
+
+// Chamadas para o Heroku
+// var http = require('http')
+// var port = (process.env.PORT || 5000)
+
+// http.createServer(function(request, response) {
+// 	response.writeHead(200,{'Content-Type': 'application/json'});
+// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+// 	response.end();
+// }).listen(port)
+
+// var token = process.env.token
+
+// module.exports = {
+// 	token,
+// 	apiUrl: 'https://api.telegram.org/bot${token}',
+// 	apiFileUrl: 'https://api.telegram.org/file/bot${token}'
+// }
+
+// const Telegraf = require('telegraf')
+// const Markup = require('telegraf/markup')
+// const Extra = require('telegraf/extra')
+// const bot = new Telegraf(token)
+
+
 
 // Código
 
@@ -75,7 +82,7 @@ const tecladoCancelar = Markup.keyboard([
 
 // Teclado em branco
 const tecladoBranco = Markup.keyboard([
-	['👍 Valeu Tio!']
+	['👍 Valeu Tio!', '👍 Valeu Bel!']
 
 ]).resize().oneTime().extra()
 
@@ -301,10 +308,28 @@ bot.action('biscre', ctx => {
 	}
 })
 
+bot.command(['oi'], async ctx => {
+	await ctx.replyWithMarkdown(`*🤙 Galera eu sou o Tio do Pão 🤙*
 
+		Vou anotar os pedidos de 🥖pão🥖, pra não ter bizu.
 
-bot.command('pedido', async ctx => {
+		O que eu posso fazer:
 
+		_/pao para iniciar um pedido
+		/pedido para finalizar um pedido
+		/cancelar para carregar o menu de subtração de itens
+		/lista para carregar a lista de itens pedidos no momento
+		/bicho para mostrar uma foto bonitinha de pães e bichos
+		/wifi para eu lembrar vocês qual a senha do wifi para visitantes
+		 _
+		`)
+})
+
+bot.command(['bomdia'], async ctx => {
+	await ctx.reply(`Bom dia ${ctx.update.message.from.first_name} 😉`)
+})
+
+bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	if (abertura == true) {
 		lista = []
@@ -387,10 +412,13 @@ bot.command('pedido', async ctx => {
 
 bot.command('total', async ctx => {
 	await ctx.reply("O Tio do Pão já anotou "+totalpedidos+" pedidos, somando "+total+" coisas pra comer.")
-
 })
 
-bot.command('help', async ctx => {
+bot.command('wifi', async ctx => {
+	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
+})
+
+bot.command(['help', 'ajuda'], async ctx => {
 	await ctx.reply(`
 		/pao para iniciar um pedido
 		/pedido para finalizar um pedido
@@ -449,6 +477,24 @@ bot.command('lista', async ctx => {
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
 	}
+})
+
+// Zueiras
+
+bot.command('bichao', async ctx => {
+	await ctx.reply("display: table;")
+})
+
+bot.command('mimi', async ctx => {
+	await ctx.reply("🐦")
+})
+
+bot.command('kiki', async ctx => {
+	await ctx.reply("🙏 god 🙏")
+})
+
+bot.command('tavinho', async ctx => {
+	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
 })
 
 
