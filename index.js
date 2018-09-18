@@ -26,12 +26,13 @@ var datacompleta = new Date();
 
 let datahora = ((datacompleta.getHours())-3);
 
-if (datahora < 19) {
-	setInterval(function(){
-		datahora = ((datacompleta.getHours())-3);
+setInterval(function(){
+	datahora = ((datacompleta.getHours())-3);
+	if (datahora < 19) {
 		http.get("http://shielded-peak-24448.herokuapp.com/")
-	},300000);
-}
+		console.log(datahora)
+	}
+},300000);
 
 
 var port = (process.env.PORT || 5000)
