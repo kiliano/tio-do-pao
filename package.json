@@ -1,6 +1,6 @@
 {
-  "name": "tio-da-bike-bot",
-  "version": "1.0.0",
+  "name": "tio-do-pao",
+  "version": "1.1.0",
   "description": "Bot para pedir o pãozinho de cada dia da Degrau Publicidade",
   "main": "app.js",
   "scripts": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/kiliano/tio-do-pao#readme",
   "dependencies": {
     "axios": "0.17.1",
+    "cloudflare": "^2.4.1",
     "moment": "2.20.1",
     "telegraf": "3.17.3"
   }

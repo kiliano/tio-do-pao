@@ -12,13 +12,6 @@
 	// var datacompleta = new Date();
 	// var datahora = datacompleta.getHours();
 
-	// if (datahora < 19) {
-	// 	setInterval(function(){
-	// 		console.log("ping")
-	// 	},300000);
-	// }
-
-
 // Chamadas para o Heroku
 	var http = require('http')
 
@@ -26,20 +19,11 @@
 
 	let datahora = ((datacompleta.getHours())-3);
 
-	// Loop para dar um ping a cada 5 minutos
-	// setInterval(function(){
-		// http.get("http://shielded-peak-24448.herokuapp.com/")
-		// console.log(datahora)
-	// },300000);
-
-	// Não deixando o bot dormir até as 19h
-		// Primeiro ping
 			setTimeout(function(){
 				http.get("http://shielded-peak-24448.herokuapp.com/")
 				console.log(datahora)
 			 },1350000);
 
-		// loop a cada 40 minutos, dá um ping depois de 12 e 25 minutos
 			setInterval(function(){ 
 				var datacompleta = new Date();
 				let datahora = ((datacompleta.getHours())-3);
@@ -618,6 +602,13 @@ bot.command('teste', async ctx => {
 	await ctx.reply("esse é um teste")
 })
 
+bot.command('cache', async ctx => {
+	
+	http.get("https://api.cloudflare.com/client/v4/zones/282af19b2c3bd1c3c89586002934a660/purge_cache")
+
+	await ctx.reply("foi?")
+})
+
 // Zueiras
 
 let trem = 1;
@@ -658,7 +649,7 @@ bot.command('trem', async ctx => {
 
 	if (trem == 0) {
 		await ctx.replyWithMarkdown(`
-			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤮.
+			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤢.
 			Drops Garoto, na mão do Kiliano, 2 é 2$ e 4 é 4$.
 		`)
 	}
