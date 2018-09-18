@@ -469,7 +469,9 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
-		await ctx.reply("Essa é a lista do último pedido feito: "+lista+"", tecladoBranco)
+		if (lista != '[]') {
+			await ctx.reply("Essa é a lista do último pedido feito: "+lista+"")
+		}
 	}
 })
 
