@@ -590,7 +590,7 @@ bot.command('id', async ctx => {
 // TESTES
 
 bot.command('teste', async ctx => {
-	await ctx.reply("são "+datahora+" horas")
+	await ctx.reply("esse é um teste")
 })
 
 // Zueiras
