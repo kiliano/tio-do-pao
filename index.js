@@ -663,6 +663,39 @@ bot.command('kiki', async ctx => {
 	await ctx.reply("🙏 god 🙏")
 })
 
+bot.command('roro', async ctx => {
+
+	random = Math.floor((Math.random() * 5) + 1)
+
+	if (random == ultimorandom) {
+		random = Math.floor((Math.random() * 5) + 1)
+	}
+
+	if (random == 1) {
+		await ctx.reply("🐔 Pupu pupuru puuu 🐔")
+	}
+
+	if (random == 2) {
+		await ctx.reply("🎶 Quero ti vê contennntiiiii 🎶")
+	}
+
+	if (random == 3) {
+		await ctx.reply("🎵👵 Minha vó ta maluca 👵🎵")
+	}
+
+	if (random == 4) {
+		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
+	}
+
+	if (random == 5) {
+		await ctx.reply("😈 Cê curte❓")
+	}
+
+
+	ultimorandom = random
+
+})
+
 bot.command('tavinho', async ctx => {
 	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
 })
