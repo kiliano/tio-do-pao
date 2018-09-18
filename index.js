@@ -69,6 +69,7 @@
 let random = Math.floor((Math.random() * 23) + 1)
 
 let lista = []
+let listaanterior = []
 let quem = []
 
 let abertura = false
@@ -345,7 +346,8 @@ bot.command(['oi'], async ctx => {
 
 		_/pao para iniciar um pedido
 		/pedido para finalizar um pedido
-		/cancelar para carregar o menu de subtração de itens
+		/remover para carregar o menu de subtração de itens
+		/cancelarpedido para 
 		/lista para carregar a lista de itens pedidos no momento
 		/bicho para mostrar uma foto bonitinha de pães e bichos
 		/wifi para eu lembrar vocês qual a senha do wifi para visitantes
@@ -436,7 +438,8 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
 
-		await ctx.reply(""+lista+"", tecladoBranco)
+		await ctx.reply("Pedido: "+lista+"", tecladoBranco)
+		listaanterior = lista
 
 		// await ctx.replyWithMarkdown(`*Quem pediu o que:*`)
 		// await ctx.replyWithMarkdown("_[ "+quem+" ]_")
@@ -466,6 +469,38 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	} else {
 		await ctx.reply(`O pedido já foi fechado 🔒 `)
+		await ctx.reply("Essa é a lista do último pedido feito: "+lista+"", tecladoBranco)
+	}
+})
+
+bot.command(['cancelarpedido'], async ctx => {
+
+	if (abertura == true) {
+		lista = []
+		await ctx.replyWithMarkdown(`*Pedido cancelado*`, tecladoBranco)
+
+		// fechando pedido
+		abertura = false
+
+		// Zerando lista
+		lista = []
+
+		paofrances = 0;
+		paodemilho = 0;
+
+		rosquinha = 0;
+		rosquinharecheio = 0;
+
+		croissantpresunto = 0;
+		croissantfrango = 0;
+
+		bisnaga = 0;
+		bisnagaacucar = 0;
+		bisnagacreme = 0;
+
+
+	} else {
+		await ctx.reply(`Esse comando é para cancelar um pedido aberto `)
 	}
 })
 
