@@ -105,7 +105,7 @@ let bisnagacreme = 0;
 let total = 0;
 let totalpedidos = 0;
 
-let soninho = 1;
+
 
 // Teclado
 
@@ -620,6 +620,8 @@ bot.command('teste', async ctx => {
 
 // Zueiras
 
+let trem = 1;
+
 bot.command('bichao', async ctx => {
 	await ctx.reply("display: table;")
 })
@@ -638,6 +640,39 @@ bot.command('kiki', async ctx => {
 
 bot.command('tavinho', async ctx => {
 	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
+})
+
+bot.command('trem', async ctx => {
+
+	await ctx.replyWithMarkdown(`
+		*🚆🚆 FIU FIII, SHOPPING TREM! 🚆🚆*
+		Ótimo dia madame, ótimo dia patrão.
+	`)
+
+	if (trem >= 1) {
+		trem = 0
+
+	} else {
+		trem += 1
+	}
+
+	if (trem == 0) {
+		await ctx.replyWithMarkdown(`
+			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤮.
+			Drops Garoto, na mão do Kiliano, 2 é 2$ e 4 é 4$.
+		`)
+	}
+
+	if (trem == 1) {
+		await ctx.replyWithMarkdown(`
+			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em *CHURROS* para quem gosta de comer e para quem 😏 prefere não mastigar 😏. 
+			De doce de leite 🥛 a strogonoff 🤢, de acordo com o freguês (Jowjow gosta do español).
+		`)
+	}
+
+	await ctx.replyWithMarkdown(`
+		🚂🚃🚃🚃🚃🚃🚃
+	`)
 })
 
 bot.command(['bicho'], async ctx => {
