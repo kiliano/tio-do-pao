@@ -67,6 +67,7 @@
 // Código
 
 let random = Math.floor((Math.random() * 23) + 1)
+let ultimorandom = random
 
 let lista = []
 let listaanterior = []
@@ -701,17 +702,36 @@ bot.command('trem', async ctx => {
 
 bot.command(['bicho'], async ctx => {
 	random = Math.floor((Math.random() * 23) + 1)
+
+	if (random == ultimorandom) {
+		random = Math.floor((Math.random() * 23) + 1)
+	}
+
 	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
+
+	ultimorandom = random
 })
 
 bot.command(['faustop'], async ctx => {
 	random = Math.floor((Math.random() * 3) + 1)
+
+	if (random == ultimorandom) {
+		random = Math.floor((Math.random() * 3) + 1)
+	}
+
 	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
+	ultimorandom = random
 })
 
 bot.command(['marcelo'], async ctx => {
 	random = Math.floor((Math.random() * 8) + 1)
+
+	if (random == ultimorandom) {
+		random = Math.floor((Math.random() * 8) + 1)
+	}
+	
 	ctx.replyWithPhoto('http://degraupublicidade.com.br/telegram/marcelo/'+random+'.jpg')
+	ultimorandom = random
 })
 
 
