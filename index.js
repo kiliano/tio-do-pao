@@ -709,6 +709,11 @@ bot.command(['faustop'], async ctx => {
 	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
 })
 
+bot.command(['marcelo'], async ctx => {
+	random = Math.floor((Math.random() * 8) + 1)
+	ctx.replyWithPhoto('http://degraupublicidade.com.br/telegram/marcelo/'+random+'.jpg')
+})
+
 
 // / Código
 
