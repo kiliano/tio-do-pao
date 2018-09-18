@@ -603,9 +603,6 @@ bot.command('teste', async ctx => {
 })
 
 bot.command('cache', async ctx => {
-	
-	http.get("https://api.cloudflare.com/client/v4/zones/282af19b2c3bd1c3c89586002934a660/purge_cache")
-
 	await ctx.reply("foi?")
 })
 
