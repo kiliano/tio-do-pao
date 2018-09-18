@@ -3,58 +3,80 @@
 // Data de nascimento do bot: 17/09/2018
 
 // Chamadas para o Local
-// const env = require('./.env')
-// const Telegraf = require('telegraf')
-// const Markup = require('telegraf/markup')
-// const Extra = require('telegraf/extra')
-// const bot = new Telegraf(env.token)
+	// const env = require('./.env')
+	// const Telegraf = require('telegraf')
+	// const Markup = require('telegraf/markup')
+	// const Extra = require('telegraf/extra')
+	// const bot = new Telegraf(env.token)
 
-// var datacompleta = new Date();
-// var datahora = datacompleta.getHours();
+	// var datacompleta = new Date();
+	// var datahora = datacompleta.getHours();
 
-// if (datahora < 19) {
-// 	setInterval(function(){
-// 		console.log("ping")
-// 	},300000);
-// }
+	// if (datahora < 19) {
+	// 	setInterval(function(){
+	// 		console.log("ping")
+	// 	},300000);
+	// }
 
 
 // Chamadas para o Heroku
-var http = require('http')
+	var http = require('http')
 
-var datacompleta = new Date();
+	var datacompleta = new Date();
 
-let datahora = ((datacompleta.getHours())-3);
+	let datahora = ((datacompleta.getHours())-3);
 
-setInterval(function(){
-	datahora = ((datacompleta.getHours())-3);
-	if (datahora < 19) {
-		http.get("http://shielded-peak-24448.herokuapp.com/")
-		console.log(datahora)
+	// Loop para dar um ping a cada 5 minutos
+	// setInterval(function(){
+		// http.get("http://shielded-peak-24448.herokuapp.com/")
+		// console.log(datahora)
+	// },300000);
+
+	// Não deixando o bot dormir até as 19h
+		// Primeiro ping
+			setTimeout(function(){
+				http.get("http://shielded-peak-24448.herokuapp.com/")
+				console.log(datahora)
+			 },1350000);
+
+		// loop a cada 40 minutos, dá um ping depois de 12 e 25 minutos
+			setInterval(function(){ 
+				var datacompleta = new Date();
+				let datahora = ((datacompleta.getHours())-3);
+				if (datahora < 19) {
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log(datahora)
+					 },750000);
+
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log(datahora)
+					 },1350000);
+				}
+			}, 2400000);
+
+
+	var port = (process.env.PORT || 5000)
+
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.end();
+	}).listen(port)
+
+	var token = process.env.token
+
+	module.exports = {
+		token,
+		apiUrl: 'https://api.telegram.org/bot${token}',
+		apiFileUrl: 'https://api.telegram.org/file/bot${token}'
 	}
-},300000);
 
-
-var port = (process.env.PORT || 5000)
-
-http.createServer(function(request, response) {
-	response.writeHead(200,{'Content-Type': 'application/json'});
-	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	response.end();
-}).listen(port)
-
-var token = process.env.token
-
-module.exports = {
-	token,
-	apiUrl: 'https://api.telegram.org/bot${token}',
-	apiFileUrl: 'https://api.telegram.org/file/bot${token}'
-}
-
-const Telegraf = require('telegraf')
-const Markup = require('telegraf/markup')
-const Extra = require('telegraf/extra')
-const bot = new Telegraf(token)
+	const Telegraf = require('telegraf')
+	const Markup = require('telegraf/markup')
+	const Extra = require('telegraf/extra')
+	const bot = new Telegraf(token)
 
 
 
