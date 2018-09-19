@@ -6,7 +6,8 @@ const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 const axios = require('axios')
 
-var update = "Oi!";
+var update = "Oi!"
+var updateBol = false
 
 var datacompleta = new Date();
 var datahora = datacompleta.getHours();
@@ -709,9 +710,18 @@ bot.command('update', async ctx => {
 })
 
 bot.command('gravarupdate', async ctx => {
-
-	update = ctx.update.message.from.message;
+	if (updateBol == false) {
+		await ctx.reply("Fala que eu te escuto")
+	}
+	
 })
+
+bot.hears(async ctx => {
+	if (updateBol == true) {
+		update = ctx.update.message.from.message
+		updateBol = false
+	}
+}
 
 bot.command('mimi', async ctx => {
 
