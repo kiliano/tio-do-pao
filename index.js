@@ -699,7 +699,15 @@ bot.command('bichao', async ctx => {
 })
 
 bot.command('mimi', async ctx => {
-	await ctx.reply("🐦")
+
+	var mimiId = ctx.update.message.from.id
+
+	if (mimiId == 617148944) {
+		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
+	} else {
+		await ctx.reply("🐦")
+	}
+	
 })
 
 bot.command('gege', async ctx => {
