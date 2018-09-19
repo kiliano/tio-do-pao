@@ -701,27 +701,6 @@ bot.command('bichao', async ctx => {
 	await ctx.reply("display: table;")
 })
 
-bot.command('update', async ctx => {
-	if (update == "" || update == undefined) {
-
-	} else {
-		await ctx.reply(update)
-	}
-})
-
-bot.command('gravarupdate', async ctx => {
-	if (updateBol == false) {
-		await ctx.reply("Fala que eu te escuto")
-	}
-	
-})
-
-bot.hears(async ctx => {
-	if (updateBol == true) {
-		update = ctx.update.message.from.message
-		updateBol = false
-	}
-}
 
 bot.command('mimi', async ctx => {
 
