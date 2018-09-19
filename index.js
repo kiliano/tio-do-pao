@@ -17,7 +17,7 @@
 
 	var datacompleta = new Date();
 
-	let datahora = ((datacompleta.getHours())-3);
+	let datahora = ((datacompleta.getHours()));
 
 			setTimeout(function(){
 				http.get("http://shielded-peak-24448.herokuapp.com/")
@@ -26,8 +26,8 @@
 
 			setInterval(function(){ 
 				var datacompleta = new Date();
-				let datahora = ((datacompleta.getHours())-3);
-				if (datahora < 19) {
+				let datahora = ((datacompleta.getHours()));
+				if (datahora < 19+3) {
 					setTimeout(function(){
 						http.get("http://shielded-peak-24448.herokuapp.com/")
 						console.log(datahora)
@@ -642,6 +642,77 @@ bot.command('teste', async ctx => {
 bot.command('cache', async ctx => {
 	await ctx.reply("foi?")
 })
+
+// Teste com o Open Weather
+
+var apikey = "4776fa0c9244a9cbe081ace2bdd8c376";
+
+// Opções da requisição
+var options = {
+    method: "GET",
+    hostname: "api.openweathermap.org",
+    path: "/data/2.5/weather?q=Benguela&APPID=" + apikey,
+    port: 80
+}
+
+var GET = http.request(options, function(res){
+
+    var response = "";
+
+    // Enquanto chegar dados na resposta
+    res.on("data", function(chunk){
+        response += chunk;
+    });
+
+    // Ao terminar a requisição
+    res.on("end", function(){
+        console.log(response);
+        return response;    
+    });
+
+    // Tratamento dos erros ao requisitar
+    res.on("error", function(err){
+        console.log("Oops, houve um erro na requisição: " + err);
+    })
+
+});
+
+// Termina a requisção
+GET.end();
+
+
+bot.command('clima', async ctx => {
+	GET.end();
+	await ctx.reply("foi?")
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Zueiras
 
