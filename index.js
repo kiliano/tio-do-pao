@@ -6,6 +6,8 @@ const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 const axios = require('axios')
 
+var update = "Oi!";
+
 var datacompleta = new Date();
 var datahora = datacompleta.getHours();
 
@@ -696,6 +698,19 @@ let trem = 1;
 
 bot.command('bichao', async ctx => {
 	await ctx.reply("display: table;")
+})
+
+bot.command('update', async ctx => {
+	if (update == "" || update == undefined) {
+
+	} else {
+		await ctx.reply(update)
+	}
+})
+
+bot.command('gravarupdate', async ctx => {
+
+	update = ctx.update.message.from.message;
 })
 
 bot.command('mimi', async ctx => {
