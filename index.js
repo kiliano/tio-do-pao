@@ -102,12 +102,7 @@ let bisnagacreme = 0;
 let total = 0;
 let totalpedidos = 0;
 
-const msgGrupo = msg => {
-	axios.get(`${apiUrl}/sendMessage?chat_id=${idChatDegrau}&text=${encodeURI(msg)}`)
-		.catch(e => console.log(e))
-}
-
-const msgId = (msg, id) => {
+const msg = (msg, id) => {
 	axios.get(`${apiUrl}/sendMessage?chat_id=${id}&text=${encodeURI(msg)}`)
 		.catch(e => console.log(e))
 }
@@ -470,7 +465,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 		await ctx.reply("Pedido: "+lista+"", tecladoBranco)
 
 		if (debug == false) {
-			msgId(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
+			msg(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
 		}
 
 		listaanterior = lista
@@ -681,7 +676,10 @@ bot.command('msggrupo', async ctx => {
 // TESTES
 
 bot.command('teste', async ctx => {
-	msgId('Mensagem teste', idKiliano)
+	var mimic = ctx.update.message.text
+	msg(mimic, idKiliano)
+	// idChatDegrau
+	
 })
 
 bot.command('cache', async ctx => {
