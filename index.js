@@ -19,12 +19,14 @@ var debug = false
 	// const env = require('./.env')
 	// const bot = new Telegraf(env.token)
 
+	// const apiUrl = env.apiUrl
+	// const apiFileUrl = env.apiFileUrl
+
 	// const idRodrigo = env.idRodrigo
 	// const idKiliano = env.idKiliano
 	// const idBartira = env.idBartira
 	// const idChatDegrau = env.idChatDegrau
-	// const apiUrl = env.apiUrl
-	// const apiFileUrl = env.apiFileUrl
+	// const idChatFronts = env.idChatFronts
 
 
 // Chamadas para o Heroku
@@ -64,6 +66,7 @@ var debug = false
 	const idKiliano = process.env.idKiliano
 	const idBartira = process.env.idBartira
 	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
 
 	const apiUrl = `https://api.telegram.org/bot${token}`
 	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
@@ -676,9 +679,14 @@ bot.command('msg', async ctx => {
 				if (destino == "bartira" ) {
 					msg(mimic, idBartira)
 				} else {
-					await ctx.reply(`Mensagem "${mimic}" não pode ser entregue porque o destino não foi especificado.
-						Atuais cadastrados: grupo, kiliano, bartira
-					`)
+
+					if (destino == "fronts" ) {
+						msg(mimic, idChatFronts)
+					} else {
+						await ctx.reply(`Mensagem "${mimic}" não pode ser entregue porque o destino não foi especificado.
+							Atuais cadastrados: grupo, kiliano, bartira
+						`)
+					}
 				}
 			}
 
