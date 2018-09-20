@@ -659,15 +659,37 @@ bot.command('id', async ctx => {
 	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
 })
 
-bot.command('msggrupo', async ctx => {
+bot.command('msg', async ctx => {
 	if (ctx.update.message.from.id == idKiliano) {
-		// msgGrupo('Isso aí galera, escutem o Marcos')
+		
 		var mimic = ctx.update.message.text
-		var mimic = mimic.replace("/msggrupo", "");
-		msg(mimic, idKiliano)
 
+		var destino = mimic.split(/\s+/).slice(1,2);
+
+		var mimic = mimic.replace("/msg", "");
+
+		if (destino == "grupo" ) {
+			msg(mimic, idChatDegrau)
+		} else {
+			if (destino == "kiliano" ) {
+				msg(mimic, idKiliano)
+			} else {
+				if (destino == "bartira" ) {
+					msg(mimic, idBartira)
+				} else {
+					await ctx.reply(`Mensagem "${mimic}" não pode ser entregue porque o destino não foi especificado.
+						Atuais cadastrados: grupo, kiliano, bartira
+					`)
+				}
+			}
+
+			
+		}
+
+		
 	}
 })
+
 
 
 
@@ -675,10 +697,7 @@ bot.command('msggrupo', async ctx => {
 // TESTES
 
 bot.command('teste', async ctx => {
-	
 	msg("testado", idKiliano)
-	// idChatDegrau
-	
 })
 
 bot.command('cache', async ctx => {
