@@ -11,6 +11,7 @@ var updateBol = false
 
 var datacompleta = new Date();
 var datahora = datacompleta.getHours();
+var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
 
 // Data de nascimento do bot: 17/09/2018
@@ -19,7 +20,13 @@ var datahora = datacompleta.getHours();
 	// const env = require('./.env')
 	// const bot = new Telegraf(env.token)
 
-	
+	// const idRodrigo = env.idRodrigo
+	// const idKiliano = env.idKiliano
+	// const idBartira = env.idBartira
+	// const idChatDegrau = env.idChatDegrau
+	// const apiUrl = env.apiUrl
+	// const apiFileUrl = env.apiFileUrl
+
 
 // Chamadas para o Heroku
 			setTimeout(function(){
@@ -52,13 +59,15 @@ var datahora = datacompleta.getHours();
 		response.end();
 	}).listen(port)
 
-	var token = process.env.token
+	const token = process.env.token
 
-	module.exports = {
-		token,
-		apiUrl: 'https://api.telegram.org/bot${token}',
-		apiFileUrl: 'https://api.telegram.org/file/bot${token}'
-	}
+	const idRodrigo = process.env.idRodrigo
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idChatDegrau = process.env.idChatDegrau
+
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
 	const bot = new Telegraf(token)
 
@@ -90,6 +99,17 @@ let bisnagacreme = 0;
 
 let total = 0;
 let totalpedidos = 0;
+
+const msgGrupo = msg => {
+	axios.get(`${apiUrl}/sendMessage?chat_id=${idChatDegrau}&text=${encodeURI(msg)}`)
+		.catch(e => console.log(e))
+}
+
+const msgId = (msg, id) => {
+	axios.get(`${apiUrl}/sendMessage?chat_id=${id}&text=${encodeURI(msg)}`)
+		.catch(e => console.log(e))
+}
+
 
 
 
@@ -447,6 +467,8 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		await ctx.reply("Pedido: "+lista+"", tecladoBranco)
 
+		msgId(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
+
 		listaanterior = lista
 
 		// await ctx.replyWithMarkdown(`*Quem pediu o que:*`)
@@ -638,11 +660,24 @@ bot.command('id', async ctx => {
 	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
 })
 
+bot.command('msggrupo', async ctx => {
+	if (ctx.update.message.from.id == idKiliano) {
+		// msgGrupo('Isso aí galera, escutem o Marcos')
+		console.log('foi')
+	} else {
+		console.log('id nao compativel')
+	}
+
+	console.log('funcao foi')
+})
+
+
+
 
 // TESTES
 
 bot.command('teste', async ctx => {
-	await ctx.reply("esse é um teste")
+	msgId('Mensagem teste', idKiliano)
 })
 
 bot.command('cache', async ctx => {
@@ -695,136 +730,136 @@ bot.command('clima', async ctx => {
 
 // Zueiras
 
-let trem = 1;
+// let trem = 1;
 
-bot.command('bichao', async ctx => {
-	await ctx.reply("display: table;")
-})
+// bot.command('bichao', async ctx => {
+// 	await ctx.reply("display: table;")
+// })
 
 
-bot.command('mimi', async ctx => {
+// bot.command('mimi', async ctx => {
 
-	var mimiId = ctx.update.message.from.id
+// 	var mimiId = ctx.update.message.from.id
 
-	if (mimiId == 617148944) {
-		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
-	} else {
-		await ctx.reply("🐦")
-	}
+// 	if (mimiId == idRodrigo) {
+// 		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
+// 	} else {
+// 		await ctx.reply("🐦")
+// 	}
 	
-})
+// })
 
-bot.command('gege', async ctx => {
-	await ctx.reply("🐷")
-})
+// bot.command('gege', async ctx => {
+// 	await ctx.reply("🐷")
+// })
 
-bot.command('kiki', async ctx => {
-	await ctx.reply("🙏 god 🙏")
-})
+// bot.command('kiki', async ctx => {
+// 	await ctx.reply("🙏 god 🙏")
+// })
 
-bot.command('roro', async ctx => {
+// bot.command('roro', async ctx => {
 
-	random = Math.floor((Math.random() * 5) + 1)
+// 	random = Math.floor((Math.random() * 5) + 1)
 
-	if (random == ultimorandom) {
-		random = Math.floor((Math.random() * 5) + 1)
-	}
+// 	if (random == ultimorandom) {
+// 		random = Math.floor((Math.random() * 5) + 1)
+// 	}
 
-	if (random == 1) {
-		await ctx.reply("🐔 Pupu pupuru puuu 🐔")
-	}
+// 	if (random == 1) {
+// 		await ctx.reply("🐔 Pupu pupuru puuu 🐔")
+// 	}
 
-	if (random == 2) {
-		await ctx.reply("🎶 Quero ti vê contennntiiiii 🎶")
-	}
+// 	if (random == 2) {
+// 		await ctx.reply("🎶 Quero ti vê contennntiiiii 🎶")
+// 	}
 
-	if (random == 3) {
-		await ctx.reply("🎵👵 Minha vó ta maluca 👵🎵")
-	}
+// 	if (random == 3) {
+// 		await ctx.reply("🎵👵 Minha vó ta maluca 👵🎵")
+// 	}
 
-	if (random == 4) {
-		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
-	}
+// 	if (random == 4) {
+// 		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
+// 	}
 
-	if (random == 5) {
-		await ctx.reply("😈 Cê curte❓")
-	}
+// 	if (random == 5) {
+// 		await ctx.reply("😈 Cê curte❓")
+// 	}
 
 
-	ultimorandom = random
+// 	ultimorandom = random
 
-})
+// })
 
-bot.command('tavinho', async ctx => {
-	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
-})
+// bot.command('tavinho', async ctx => {
+// 	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
+// })
 
-bot.command('trem', async ctx => {
+// bot.command('trem', async ctx => {
 
-	await ctx.replyWithMarkdown(`
-		*🚆🚆 FIU FIII, SHOPPING TREM! 🚆🚆*
-		Ótimo dia madame, ótimo dia patrão.
-	`)
+// 	await ctx.replyWithMarkdown(`
+// 		*🚆🚆 FIU FIII, SHOPPING TREM! 🚆🚆*
+// 		Ótimo dia madame, ótimo dia patrão.
+// 	`)
 
-	if (trem >= 1) {
-		trem = 0
+// 	if (trem >= 1) {
+// 		trem = 0
 
-	} else {
-		trem += 1
-	}
+// 	} else {
+// 		trem += 1
+// 	}
 
-	if (trem == 0) {
-		await ctx.replyWithMarkdown(`
-			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤢.
-			Drops Garoto, na mão do Kiliano, 2 é 2$ e 4 é 4$.
-		`)
-	}
+// 	if (trem == 0) {
+// 		await ctx.replyWithMarkdown(`
+// 			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤢.
+// 			Drops Garoto, na mão do Kiliano, 2 é 2$ e 4 é 4$.
+// 		`)
+// 	}
 
-	if (trem == 1) {
-		await ctx.replyWithMarkdown(`
-			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em *CHURROS* para quem gosta de comer e para quem 😏 prefere não mastigar 😏. 
-			De doce de leite 🥛 a strogonoff 🤢, de acordo com o freguês (Jowjow gosta do español).
-		`)
-	}
+// 	if (trem == 1) {
+// 		await ctx.replyWithMarkdown(`
+// 			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em *CHURROS* para quem gosta de comer e para quem 😏 prefere não mastigar 😏. 
+// 			De doce de leite 🥛 a strogonoff 🤢, de acordo com o freguês (Jowjow gosta do español).
+// 		`)
+// 	}
 
-	await ctx.replyWithMarkdown(`
-		🚂🚃🚃🚃🚃🚃🚃
-	`)
-})
+// 	await ctx.replyWithMarkdown(`
+// 		🚂🚃🚃🚃🚃🚃🚃
+// 	`)
+// })
 
-bot.command(['bicho'], async ctx => {
-	random = Math.floor((Math.random() * 23) + 1)
+// bot.command(['bicho'], async ctx => {
+// 	random = Math.floor((Math.random() * 23) + 1)
 
-	if (random == ultimorandom) {
-		random = Math.floor((Math.random() * 23) + 1)
-	}
+// 	if (random == ultimorandom) {
+// 		random = Math.floor((Math.random() * 23) + 1)
+// 	}
 
-	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
+// 	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
 
-	ultimorandom = random
-})
+// 	ultimorandom = random
+// })
 
-bot.command(['faustop'], async ctx => {
-	random = Math.floor((Math.random() * 3) + 1)
+// bot.command(['faustop'], async ctx => {
+// 	random = Math.floor((Math.random() * 3) + 1)
 
-	if (random == ultimorandom) {
-		random = Math.floor((Math.random() * 3) + 1)
-	}
+// 	if (random == ultimorandom) {
+// 		random = Math.floor((Math.random() * 3) + 1)
+// 	}
 
-	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
-	ultimorandom = random
-})
+// 	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
+// 	ultimorandom = random
+// })
 
-bot.command(['marcelo'], async ctx => {
-	random = Math.floor((Math.random() * 8) + 1)
+// bot.command(['marcelo'], async ctx => {
+// 	random = Math.floor((Math.random() * 8) + 1)
 
-	if (random == ultimorandom) {
-		random = Math.floor((Math.random() * 8) + 1)
-	}
+// 	if (random == ultimorandom) {
+// 		random = Math.floor((Math.random() * 8) + 1)
+// 	}
 	
-	ctx.replyWithPhoto('http://degraupublicidade.com.br/telegram/marcelo/'+random+'.jpg')
-	ultimorandom = random
-})
+// 	ctx.replyWithPhoto('http://degraupublicidade.com.br/telegram/marcelo/'+random+'.jpg')
+// 	ultimorandom = random
+// })
 
 
 // / Código
