@@ -661,12 +661,14 @@ bot.command('id', async ctx => {
 
 bot.command('msg', async ctx => {
 	if (ctx.update.message.from.id == idKiliano) {
-		
+
 		var mimic = ctx.update.message.text
 
 		var destino = mimic.split(/\s+/).slice(1,2);
 
 		var mimic = mimic.replace("/msg", "");
+		
+		var mimic = mimic.replace(destino, "");
 
 		if (destino == "grupo" ) {
 			msg(mimic, idChatDegrau)
