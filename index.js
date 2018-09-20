@@ -662,12 +662,11 @@ bot.command('id', async ctx => {
 bot.command('msggrupo', async ctx => {
 	if (ctx.update.message.from.id == idKiliano) {
 		// msgGrupo('Isso aí galera, escutem o Marcos')
-		console.log('foi')
-	} else {
-		console.log('id nao compativel')
-	}
+		var mimic = ctx.update.message.text
+		var mimic = mimic.replace("/msggrupo", "");
+		msg(mimic, idKiliano)
 
-	console.log('funcao foi')
+	}
 })
 
 
@@ -676,8 +675,8 @@ bot.command('msggrupo', async ctx => {
 // TESTES
 
 bot.command('teste', async ctx => {
-	var mimic = ctx.update.message.text
-	msg(mimic, idKiliano)
+	
+	msg("testado", idKiliano)
 	// idChatDegrau
 	
 })
