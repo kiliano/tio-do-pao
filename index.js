@@ -13,6 +13,8 @@ var datacompleta = new Date();
 var datahora = datacompleta.getHours();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
+var debug = false
+
 
 // Data de nascimento do bot: 17/09/2018
 
@@ -467,7 +469,9 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		await ctx.reply("Pedido: "+lista+"", tecladoBranco)
 
-		msgId(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
+		if (debug == false) {
+			msgId(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
+		}
 
 		listaanterior = lista
 
