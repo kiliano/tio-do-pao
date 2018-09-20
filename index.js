@@ -6,9 +6,6 @@ const Markup = require('telegraf/markup')
 const Extra = require('telegraf/extra')
 const axios = require('axios')
 
-var update = "Oi!"
-var updateBol = false
-
 var datacompleta = new Date();
 var datahora = datacompleta.getHours();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
@@ -656,7 +653,7 @@ bot.command('quem', async ctx => {
 
 
 bot.command('id', async ctx => {
-	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
 })
 
 bot.command('msg', async ctx => {
