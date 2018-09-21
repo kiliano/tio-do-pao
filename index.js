@@ -32,7 +32,7 @@ var debug = false
 // Chamadas para o Heroku
 			setTimeout(function(){
 				http.get("http://shielded-peak-24448.herokuapp.com/")
-				console.log(datahora)
+				console.log(datahora-3)
 			 },1350000);
 
 			setInterval(function(){ 
@@ -41,12 +41,12 @@ var debug = false
 				if (datahora < 19+3) {
 					setTimeout(function(){
 						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora)
+						console.log(datahora-3)
 					 },750000);
 
 					setTimeout(function(){
 						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora)
+						console.log(datahora-3)
 					 },1350000);
 				}
 			}, 2400000);
@@ -464,11 +464,9 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		await ctx.reply("Pedido: "+lista+"", tecladoBranco)
 
-		if (debug == false) {
-			msg(`Oi Bartira, segue o pedido do dia:\n\n ${datadata} \n ${lista}`, idBartira)
-		}
-
 		listaanterior = lista
+
+		msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
 
 		// await ctx.replyWithMarkdown(`*Quem pediu o que:*`)
 		// await ctx.replyWithMarkdown("_[ "+quem+" ]_")
@@ -501,6 +499,17 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 		await ctx.reply("Essa é a lista do último pedido feito: "+listaanterior+"")
 	}
 })
+
+
+
+bot.command(['/bartira'], async ctx => {
+	if (debug == false) {
+		msg(`Último pedido feito :\n\n ${datadata} \n ${listaanterior}`, idKiliano)
+
+		msg(`Oi Bartira, o último pedido feito hoje foi:\n\n ${datadata} \n ${listaanterior}`, idKiliano)
+	}
+})
+
 
 bot.command(['cancelarpedido'], async ctx => {
 
@@ -728,165 +737,6 @@ bot.command('clima', async ctx => {
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Zueiras
-
-// let trem = 1;
-
-// bot.command('bichao', async ctx => {
-// 	await ctx.reply("display: table;")
-// })
-
-
-// bot.command('mimi', async ctx => {
-
-// 	var mimiId = ctx.update.message.from.id
-
-// 	if (mimiId == idRodrigo) {
-// 		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
-// 	} else {
-// 		await ctx.reply("🐦")
-// 	}
-	
-// })
-
-// bot.command('gege', async ctx => {
-// 	await ctx.reply("🐷")
-// })
-
-// bot.command('kiki', async ctx => {
-// 	await ctx.reply("🙏 god 🙏")
-// })
-
-// bot.command('roro', async ctx => {
-
-// 	random = Math.floor((Math.random() * 5) + 1)
-
-// 	if (random == ultimorandom) {
-// 		random = Math.floor((Math.random() * 5) + 1)
-// 	}
-
-// 	if (random == 1) {
-// 		await ctx.reply("🐔 Pupu pupuru puuu 🐔")
-// 	}
-
-// 	if (random == 2) {
-// 		await ctx.reply("🎶 Quero ti vê contennntiiiii 🎶")
-// 	}
-
-// 	if (random == 3) {
-// 		await ctx.reply("🎵👵 Minha vó ta maluca 👵🎵")
-// 	}
-
-// 	if (random == 4) {
-// 		await ctx.reply("🐦♀♂ 🐦 Passarinho tem sexo❓ ")
-// 	}
-
-// 	if (random == 5) {
-// 		await ctx.reply("😈 Cê curte❓")
-// 	}
-
-
-// 	ultimorandom = random
-
-// })
-
-// bot.command('tavinho', async ctx => {
-// 	await ctx.reply("OH TAAAA TAAAAAAAHHHH.....")
-// })
-
-// bot.command('trem', async ctx => {
-
-// 	await ctx.replyWithMarkdown(`
-// 		*🚆🚆 FIU FIII, SHOPPING TREM! 🚆🚆*
-// 		Ótimo dia madame, ótimo dia patrão.
-// 	`)
-
-// 	if (trem >= 1) {
-// 		trem = 0
-
-// 	} else {
-// 		trem += 1
-// 	}
-
-// 	if (trem == 0) {
-// 		await ctx.replyWithMarkdown(`
-// 			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em 🍬drops🍬 e 🍬balas🍬 para refrescar sua garganta. Pode conferir a validade, menos o *Murilo* 🤢.
-// 			Drops Garoto, na mão do Kiliano, 2 é 2$ e 4 é 4$.
-// 		`)
-// 	}
-
-// 	if (trem == 1) {
-// 		await ctx.replyWithMarkdown(`
-// 			Desculpa atrapalhar a viagem, mas hoje eu trago o melhor em *CHURROS* para quem gosta de comer e para quem 😏 prefere não mastigar 😏. 
-// 			De doce de leite 🥛 a strogonoff 🤢, de acordo com o freguês (Jowjow gosta do español).
-// 		`)
-// 	}
-
-// 	await ctx.replyWithMarkdown(`
-// 		🚂🚃🚃🚃🚃🚃🚃
-// 	`)
-// })
-
-// bot.command(['bicho'], async ctx => {
-// 	random = Math.floor((Math.random() * 23) + 1)
-
-// 	if (random == ultimorandom) {
-// 		random = Math.floor((Math.random() * 23) + 1)
-// 	}
-
-// 	ctx.replyWithPhoto('http://kiliano.com.br/pao/'+random+'.jpg')
-
-// 	ultimorandom = random
-// })
-
-// bot.command(['faustop'], async ctx => {
-// 	random = Math.floor((Math.random() * 3) + 1)
-
-// 	if (random == ultimorandom) {
-// 		random = Math.floor((Math.random() * 3) + 1)
-// 	}
-
-// 	ctx.replyWithPhoto('http://kiliano.com.br/faustop/'+random+'.jpg')
-// 	ultimorandom = random
-// })
-
-// bot.command(['marcelo'], async ctx => {
-// 	random = Math.floor((Math.random() * 8) + 1)
-
-// 	if (random == ultimorandom) {
-// 		random = Math.floor((Math.random() * 8) + 1)
-// 	}
-	
-// 	ctx.replyWithPhoto('http://degraupublicidade.com.br/telegram/marcelo/'+random+'.jpg')
-// 	ultimorandom = random
-// })
 
 
 // / Código
