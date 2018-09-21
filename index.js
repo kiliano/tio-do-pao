@@ -506,7 +506,7 @@ bot.command(['/bartira'], async ctx => {
 	if (debug == false) {
 		msg(`Último pedido feito :\n\n ${datadata} \n ${listaanterior}`, idKiliano)
 
-		msg(`Oi Bartira, o último pedido feito hoje foi:\n\n ${datadata} \n ${listaanterior}`, idKiliano)
+		msg(`Oi Bartira, o último pedido feito hoje foi:\n\n ${datadata} \n ${listaanterior}`, idBartira)
 	}
 })
 
