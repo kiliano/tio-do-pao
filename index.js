@@ -568,6 +568,11 @@ bot.command('lista', async ctx => {
 	await ctx.reply("Pedidos: "+pedido.lista+" ")
 })
 
+bot.command('novodia', async ctx => {
+	novodia();
+	await ctx.reply("Um novo dia começa")
+})
+
 bot.command('remover', async ctx => {
 	await ctx.reply("Escolha o que você quer remover da lista", tecladoRemover)
 })
@@ -576,29 +581,56 @@ bot.command('remover', async ctx => {
 
 bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
-		listar()
 
-		if (pedido.lista.length > 0) {
-			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
+	// Deixar esse comando habilitado em grupos
+	listar()
 
-			await ctx.reply(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`)
+	if (pedido.lista.length > 0) {
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
 
-			msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
-		} else {
-			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
-		}
+		await ctx.reply(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`)
+
+		msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}
 
 
 })
 
+bot.command(['quem'], async ctx => {
+
+	var quem = [];
+	var quemtroca = [];
+
+	for (var i = 0; i < pedido.acoes.length; i++) {
+		var acaoatual = pedido.acoes[i].split(' : ');
+		if (acaoatual[2] == 'pediu') {
+			quem.push("\n"+acaoatual[1]+" pediu 1 "+acaoatual[3]);
+		}
+
+		if (acaoatual[2] == 'trocaria') {
+			quemtroca.push("\n"+acaoatual[1]+": se não houver "+acaoatual[3]+", quero um "+acaoatual[5]);
+		}
+	}
+
+	if (quem.length > 0 ) {
+		await ctx.reply(`Quem pediu o que: ${quem}`)
+	}
+
+	if (quemtroca.length > 0 ) {
+		await ctx.reply(`Listagem de trocas: ${quemtroca}`)
+	}
+})
 
 
-bot.command(['/bartira'], async ctx => {
+
+bot.command(['bartira'], async ctx => {
 	listar();
-	msg(`Pedido do dia: ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data}    \n\n ${pedido.lista}`, idKiliano)
+	msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idKiliano)
 
 	if (debug == false) {
-		msg(`Pedido do dia: ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data}    \n\n ${pedido.lista}`, idBartira)
+		msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idBartira)
 	}
 })
 
