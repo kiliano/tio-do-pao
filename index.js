@@ -13,24 +13,27 @@ var datames = (datacompleta.getMonth()+1);
 var dataano = datacompleta.getFullYear();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
-var debug = false
+var debug = true;
+
+var acordado = true;
 
 
 // Data de nascimento do bot: 17/09/2018
 
 // Chamadas para o Local
-	const env = require('./.env')
-	const bot = new Telegraf(env.token)
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	const apiUrl = env.apiUrl
-	const apiFileUrl = env.apiFileUrl
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano
-	const idBartira = env.idBartira
-	const idChatDegrau = env.idChatDegrau
-	const idChatFronts = env.idChatFronts
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	// const idChatDegrau = env.idChatDegrau;
+	const idChatDegrau = env.idChatFronts;
+	const idChatFronts = env.idChatFronts;
 
-	const idTodos = env.idTodos
+	const idTodos = env.idTodos;
 
 
 // Chamadas para o Heroku
@@ -145,7 +148,6 @@ const novodia = () => {
 		"bisnagacreme":0,
 	};
 
-	console.log(pedido)
 }
 
 
@@ -190,8 +192,8 @@ const listar = () => {
 
 			var acaoatual = pedido.acoes[i].split(' : ');
 
-			// Estrutura da troca id[0] : nome[1] : trocou[2] : produto original[3] : por[4] : produto trocado[5]
-			if (acaoatual[2] == 'trocou' ) {
+			// Estrutura da troca id[0] : nome[1] : trocaria[2] : produto original[3] : por[4] : produto trocado[5]
+			if (acaoatual[2] == 'trocaria' ) {
 				trocasvalidas.push(pedido.acoes[i]);
 			}
 		}
@@ -215,18 +217,14 @@ const listar = () => {
 					if ( acaoatual[5] == 'Bisnaga Comum') pedido.bisnaga +=1 
 					if ( acaoatual[5] == 'Bisnaga com Açúcar') pedido.bisnagaacucar +=1 
 					if ( acaoatual[5] == 'Bisnaga com Creme') pedido.bisnagacreme +=1 
-
-
 				}
 
 			}
 
 		}
 
-		console.log(pedido.indisponibilidade);
 
 		for (var ij = 0; ij < pedido.indisponibilidade.length; ij++) {
-			console.log("indisponivel zerar "+pedido.indisponibilidade[ij]);
 
 			if ( pedido.indisponibilidade[ij] == 'Pão Francês') pedido.paofrances = 0 
 			if ( pedido.indisponibilidade[ij] == 'Pão de Milho') pedido.paodemilho = 0 
@@ -318,8 +316,6 @@ const listar = () => {
 		pedido.lista.push(' \n '+pedido.bisnagacreme+' Bisnagas com Creme')
 	}
 
-	console.log("lista: "+pedido.lista)
-
 	
 }
 
@@ -347,17 +343,18 @@ const tecladoSegunda = Markup.keyboard([
 
 ]).resize().oneTime().extra()
 
-const tecladoRemover = Markup.keyboard([
-	['❌ P. Francês', '❌ P. Milho'],
-	['❌ Rosquinha', '❌ Ros. com Recheio'],
-	['❌ Croissant Presunto', '❌ Croissant Frango'],
-	['❌ Bisnaga','❌ Bis. Açúcar,','❌ Bis. Creme']
+
+
+const tecladoFinal = Markup.keyboard([
+	['👍 Tô satisfeito tio!'],
+	['😋 Quero pedir mais um pão'],
+	['❌ Cancelar meus Pedidos ❌']
 
 ]).resize().oneTime().extra()
 
-const tecladoFinal = Markup.keyboard([
-	['😋 Quero pedir mais um pão'],
-	['👍 Tô satisfeito tio!'],
+const tecladoCancelar = Markup.keyboard([
+	['Voltar,'],
+	['❌ Certeza que quero cancelar ❌']
 
 ]).resize().oneTime().extra()
 
@@ -377,40 +374,58 @@ novodia();
 // Criação de comandos
 
 bot.command(['pao','Pao'], async ctx => {
-	await ctx.replyWithMarkdown(`*📣📣📣 Hora do Pão Cambada!!! 📣📣📣*`)
-	msg(`📣📣📣 O pedido do Pão está aberto! 📣📣📣 \n Só clicar ou digitar /pedir para pedir o pão`, idKiliano)
+
+	if (acordado == true) {
+		if (ctx.update.message.from.id == ctx.chat.id) {
+			await ctx.replyWithMarkdown(`📣 Abrindo pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}* 📣 \n O que você quer pedir?`, tecladoPao)
+		} else {
+			await ctx.replyWithMarkdown(`*Agora os pedidos só podem ser feitos me mandando uma mensagem direta* \n Clique aqui no meu nome e depois em *Enviar Mensagem*`)
+			// msg(`📣📣📣 O pedido do Pão está aberto! 📣📣📣 \n Só clicar ou digitar /pao para pedir o pão`, idKiliano)
+
+		}
+	} else {
+		await ctx.reply("💤💤💤")
+	}
 
 
 })
 
-bot.command(['pedir'], async ctx => {
-	await ctx.replyWithMarkdown(`Escolha seu pãozinho`, tecladoPao)
 
+bot.command(['pedir', 'cardapio'], async ctx => {
+	await ctx.replyWithMarkdown(`Escolha seu pãozinho`, tecladoPao)
 })
 
 
 // Ouvindo o pedido
 bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 com Recheio','🥐 Croissant Presunto', '🥐 Croissant Frango','🥖 Bisnaga','🥖 com Açúcar','🥖 com Creme'], async ctx => {
-	await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegunda)
+	if (acordado == true) {
+		await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegunda)
 
-	var nome = ctx.update.message.from.first_name
-	nome.replace(":", " ")
+		var nome = ctx.update.message.from.first_name
+		nome.replace(":", " ")
 
 
-	var item = ctx.update.message.text;
-	
-	if (item == '🍞 Pão Francês') item = 'Pão Francês'
-	if (item == '🌽 Pão de Milho') item = 'Pão de Milho'
-	if (item == '🍩 Rosquinha') item = 'Rosquinha Comum'
-	if (item == '🍩 com Recheio') item = 'Rosquinha com Recheio'
-	if (item == '🥐 Croissant Presunto') item = 'Croissant Presunto'
-	if (item == '🥐 Croissant Frango') item = 'Croissant Frango'
-	if (item == '🥖 Bisnaga') item = 'Bisnaga Comum'
-	if (item == '🥖 com Açúcar') item = 'Bisnaga com Açúcar'
-	if (item == '🥖 com Creme') item = 'Bisnaga com Creme'
+		var item = ctx.update.message.text;
+		
+		if (item == '🍞 Pão Francês') item = 'Pão Francês'
+		if (item == '🌽 Pão de Milho') item = 'Pão de Milho'
+		if (item == '🍩 Rosquinha') item = 'Rosquinha Comum'
+		if (item == '🍩 com Recheio') item = 'Rosquinha com Recheio'
+		if (item == '🥐 Croissant Presunto') item = 'Croissant Presunto'
+		if (item == '🥐 Croissant Frango') item = 'Croissant Frango'
+		if (item == '🥖 Bisnaga') item = 'Bisnaga Comum'
+		if (item == '🥖 com Açúcar') item = 'Bisnaga com Açúcar'
+		if (item == '🥖 com Creme') item = 'Bisnaga com Creme'
 
-	pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
-	console.log(pedido.acoes)
+		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
+
+		if (debug == false) {
+			// manter isso enquanto estiver de testes
+			msg(`${nome} pediu 1 ${item}`, idKiliano)
+		}
+	} else {
+		await ctx.reply("💤💤💤")
+	}
 })
 
 
@@ -425,76 +440,116 @@ bot.hears(['❌Não quero uma segunda opção❌'], async ctx => {
 
 bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '🍩 com Recheio.','🥐 Croissant Presunto.', '🥐 Croissant Frango.','🥖 Bisnaga.','🥖 com Açúcar.','🥖 com Creme.'], async ctx => {
 
-	// Estrutura do pedido id[0] : nome[1] : pediu[2] : produto[3]
+	if (acordado == true) {
+		// Estrutura do pedido id[0] : nome[1] : pediu[2] : produto[3]
 
-	var acaoitemoriginal = "";
+		var acaoitemoriginal = "";
 
-	if (pedido.acoes.length > 0) {
+		if (pedido.acoes.length > 0) {
 
-		for (var i = pedido.acoes.length; i > 0; i--) {
+			for (var i = pedido.acoes.length; i > 0; i--) {
 
-			var acaoatual = pedido.acoes[i-1].split(' : ');
+				var acaoatual = pedido.acoes[i-1].split(' : ');
 
-			if (acaoatual[0] == ctx.update.message.from.id && acaoatual[2] == 'pediu' ) {
-				acaoitemoriginal = acaoatual[3];
-				i = 0;
-			} else {
+				if (acaoatual[0] == ctx.update.message.from.id && acaoatual[2] == 'pediu' ) {
+					acaoitemoriginal = acaoatual[3];
+					i = 0;
+				} else {
+				}
 			}
 		}
+		
+		// Estrutura da troca id[0] : nome[1] : trocaria[2] : produto original[3] : por[4] : produto trocado[5]
+		var nome = ctx.update.message.from.first_name
+		nome.replace(":", " ")
+
+		var item = ctx.update.message.text;
+		
+		if (item == '🍞 Pão Francês.') item = 'Pão Francês'
+		if (item == '🌽 Pão de Milho.') item = 'Pão de Milho'
+		if (item == '🍩 Rosquinha.') item = 'Rosquinha Comum'
+		if (item == '🍩 com Recheio.') item = 'Rosquinha com Recheio'
+		if (item == '🥐 Croissant Presunto.') item = 'Croissant Presunto'
+		if (item == '🥐 Croissant Frango.') item = 'Croissant Frango'
+		if (item == '🥖 Bisnaga.') item = 'Bisnaga Comum'
+		if (item == '🥖 com Açúcar.') item = 'Bisnaga com Açúcar'
+		if (item == '🥖 com Creme.') item = 'Bisnaga com Creme'
+
+
+		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : trocaria : '+acaoitemoriginal+' : por : '+item)
+
+		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${ctx.update.message.text} Mais alguma coisa? `, tecladoFinal)
+	} else {
+		await ctx.reply("💤💤💤")
 	}
-	
-	// Estrutura da troca id[0] : nome[1] : trocou[2] : produto original[3] : por[4] : produto trocado[5]
-	var nome = ctx.update.message.from.first_name
-	nome.replace(":", " ")
-
-	var item = ctx.update.message.text;
-	
-	if (item == '🍞 Pão Francês.') item = 'Pão Francês'
-	if (item == '🌽 Pão de Milho.') item = 'Pão de Milho'
-	if (item == '🍩 Rosquinha.') item = 'Rosquinha Comum'
-	if (item == '🍩 com Recheio.') item = 'Rosquinha com Recheio'
-	if (item == '🥐 Croissant Presunto.') item = 'Croissant Presunto'
-	if (item == '🥐 Croissant Frango.') item = 'Croissant Frango'
-	if (item == '🥖 Bisnaga.') item = 'Bisnaga Comum'
-	if (item == '🥖 com Açúcar.') item = 'Bisnaga com Açúcar'
-	if (item == '🥖 com Creme.') item = 'Bisnaga com Creme'
-
-
-	pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : trocou : '+acaoitemoriginal+' : por : '+item)
-	console.log(pedido.acoes)
-
-	await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${ctx.update.message.text} Mais alguma coisa? `, tecladoFinal)
 })
 
 // Removendo um pedido
-bot.hears(['❌ Cancelar meus Pedidos ❌'], async ctx => {
+bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
 	if (pedido.acoes.length > 0) {
-		for (var i = pedido.acoes.length - 1; i > 0; i--) {
-
+		for (var i = 0; i < pedido.acoes.length;) {
 			var acaoatual = pedido.acoes[i].split(' : ');
 
-			console.log("avaliando item "+i);
-
-			console.log('Comparação de ids '+acaoatual[0]+' == '+ctx.update.message.from.id);
 			if(acaoatual[0] == ctx.update.message.from.id) {
 		        pedido.acoes.splice(i, 1);
-
-		        i = pedido.acoes.length;
-		        console.log("igual! apagando");
+		        i = 0;
 		    } else {
-		    	console.log("apagando");
+		    	i += 1;
 		    }
 		}
 	}
 
 
-	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`, tecladoSegunda);
+	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`, tecladoFinal);
+	// msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatDegrau)
 
-	console.log(pedido.acoes);
 })
 
+bot.command('cancelar', async ctx => {
 
+	if (pedido.acoes.length > 0) {
+		for (var i = 0; i < pedido.acoes.length;) {
+			var acaoatual = pedido.acoes[i].split(' : ');
+
+			if(acaoatual[0] == ctx.update.message.from.id) {
+		        pedido.acoes.splice(i, 1);
+		        i = 0;
+		    } else {
+		    	i += 1;
+		    }
+		}
+	}
+
+	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`);
+})
+
+bot.command('cancelartodosospedidos', async ctx => {
+	pedido.acoes = [];
+	pedido.indisponibilidade = [];
+	pedido.lista = [];
+
+	pedido.paofrances = 0;
+	pedido.paodemilho = 0;
+	pedido.rosquinha = 0;
+	pedido.rosquinharecheio = 0;
+	pedido.croissantpresunto = 0;
+	pedido.croissantfrango = 0;
+	pedido.bisnaga = 0;
+	pedido.bisnagaacucar = 0;
+	pedido.bisnagacreme = 0;
+
+	await ctx.replyWithMarkdown(`*Todos pedidos de todo mundo foram cacelados*`);
+
+})
+
+bot.hears(['❌ Cancelar meus Pedidos ❌'], async ctx => {
+	await ctx.replyWithMarkdown(`*Tem certeza que quer cancelar tudo que pediu hoje?*`, tecladoCancelar);
+})
+
+bot.hears(['Voltar,'], async ctx => {
+	await ctx.replyWithMarkdown(`Voltando...`, tecladoFinal);
+})
 
 
 // Finalizando pedido particular
@@ -523,22 +578,29 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 		listar()
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
+		if (pedido.lista.length > 0) {
+			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
 
-		await ctx.reply("Pedido: "+pedido.lista+"", tecladoBranco)
+			await ctx.reply(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`)
 
-		msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
+			msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
+		} else {
+			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+		}
+
+
 })
 
 
 
-// bot.command(['/bartira'], async ctx => {
-// 	if (debug == false) {
-// 		msg(`Último pedido feito :\n\n ${datadata} \n ${listaanterior}`, idKiliano)
+bot.command(['/bartira'], async ctx => {
+	listar();
+	msg(`Pedido do dia: ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data}    \n\n ${pedido.lista}`, idKiliano)
 
-// 		msg(`Oi Bartira, o último pedido feito hoje foi:\n\n ${datadata} \n ${listaanterior}`, idBartira)
-// 	}
-// })
+	if (debug == false) {
+		msg(`Pedido do dia: ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data}    \n\n ${pedido.lista}`, idBartira)
+	}
+})
 
 
 
@@ -608,7 +670,16 @@ bot.command('msg', async ctx => {
 // Start
 
 bot.start(async ctx => {
-	await ctx.reply(`Oi! 😀`);
+	var datacompleta = new Date();
+	var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		await ctx.replyWithMarkdown(`📣📣📣 Hora do Pão! 📣📣📣 \n O que você quer pedir?`, tecladoPao)
+	} else {
+		await ctx.replyWithMarkdown(`*Agora os pedidos só podem ser feitos me mandando uma mensagem direta* \n Clique aqui no meu nome e depois em *Enviar Mensagem*`)
+		// msg(`📣📣📣 O pedido do Pão está aberto! 📣📣📣 \n Só clicar ou digitar /pao para pedir o pão`, idKiliano)
+
+	}
+
 	if (ctx.chat.id != idChatDegrau) {
 		msg(`${ctx.update.message.from.first_name} começou a conversar com o Horácio. O ID dele é ${ctx.update.message.from.id} `, idKiliano)
 	}
@@ -621,7 +692,6 @@ bot.start(async ctx => {
 // TESTES
 
 bot.command('teste', async ctx => {
-	console.log(pedido.acoes);
 	await ctx.reply(`Testado`);
 
 })
