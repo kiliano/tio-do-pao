@@ -1,0 +1,146 @@
+{
+	"ano": [
+		{
+			"ano_data": 2018,
+			"mes": [
+				{
+					"mes_data": 9,
+					"dia": [
+						{
+							"dia_data": 22,
+							"pedido": "2 pães de milho",
+							"acoes": ["Kiliano pediu 1 pão de milho","Kiliano pediu 1 pão de milho"],
+							"paofrances":0,
+							"paodemilho":2,
+							"rosquinha":0,
+							"rosquinharecheio":0,
+							"croissantpresunto":0,
+							"croissantfrango":0,
+							"bisnaga":0,
+							"bisnagaacucar":0,
+							"bisnagacreme":0,
+						},
+
+						{
+							"dia_data": 21,
+							"pedido": "1 pães de milho",
+							"acoes": ["Kiliano pediu 1 pão de milho"],
+							"paofrances":0,
+							"paodemilho":1,
+							"rosquinha":0,
+							"rosquinharecheio":0,
+							"croissantpresunto":0,
+							"croissantfrango":0,
+							"bisnaga":0,
+							"bisnagaacucar":0,
+							"bisnagacreme":0,
+						}
+					]
+				}
+			]
+		},
+
+
+		{
+			"ano_data": 2017,
+			"mes": [
+				{
+					"mes_data": 12,
+					"dia": [
+						{
+							"dia_data": 31,
+							"pedido": "2 pães de milho",
+							"acoes": ["Kiliano pediu 1 pão de milho","Kiliano pediu 1 pão de milho"],
+							"paofrances":0,
+							"paodemilho":2,
+							"rosquinha":0,
+							"rosquinharecheio":0,
+							"croissantpresunto":0,
+							"croissantfrango":0,
+							"bisnaga":0,
+							"bisnagaacucar":0,
+							"bisnagacreme":0,
+						},
+
+						{
+							"dia_data": 30,
+							"pedido": "1 pães de milho",
+							"acoes": ["Kiliano pediu 1 pão de milho"],
+							"paofrances":0,
+							"paodemilho":1,
+							"rosquinha":0,
+							"rosquinharecheio":0,
+							"croissantpresunto":0,
+							"croissantfrango":0,
+							"bisnaga":0,
+							"bisnagaacucar":0,
+							"bisnagacreme":0,
+						}
+					]
+				}
+			]
+		},
+	]
+}
+
+
+
+
+
+{
+  "colors": [
+    {
+      "color": "black",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [255,255,255,1],
+        "hex": "#000"
+      }
+    },
+    {
+      "color": "white",
+      "category": "value",
+      "code": {
+        "rgba": [0,0,0,1],
+        "hex": "#FFF"
+      }
+    },
+    {
+      "color": "red",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [255,0,0,1],
+        "hex": "#FF0"
+      }
+    },
+    {
+      "color": "blue",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [0,0,255,1],
+        "hex": "#00F"
+      }
+    },
+    {
+      "color": "yellow",
+      "category": "hue",
+      "type": "primary",
+      "code": {
+        "rgba": [255,255,0,1],
+        "hex": "#FF0"
+      }
+    },
+    {
+      "color": "green",
+      "category": "hue",
+      "type": "secondary",
+      "code": {
+        "rgba": [0,255,0,1],
+        "hex": "#0F0"
+      }
+    },
+  ]
+}
