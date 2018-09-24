@@ -403,7 +403,7 @@ bot.command(['pao','Pao'], async ctx => {
 
 	if (acordado == true) {
 		if (ctx.update.message.from.id == ctx.chat.id) {
-			await ctx.replyWithMarkdown(`📣 Abrindo pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}* 📣 \n O que você quer pedir?`, tecladoPao)
+			await ctx.replyWithMarkdown(`📣📣📣 Pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} * 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 		} else {
 			await ctx.replyWithMarkdown(`*Agora os pedidos só podem ser feitos me mandando uma mensagem direta* \n Clique aqui no meu nome e depois em *Enviar Mensagem*`)
 			// msg(`📣📣📣 O pedido do Pão está aberto! 📣📣📣 \n Só clicar ou digitar /pao para pedir o pão`, idKiliano)
@@ -599,25 +599,47 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 
 	// Deixar esse comando habilitado em grupos
-	listar()
+	listar();
 
-			
-	if (pedido.lista.length > 0) {
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		var listapessoal = [];
 
-		if (pedido.indisponibilidade.length > 0) {
-			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
-		} else {
-			indisponiveltxt = ""
+		if (pedido.acoes.length > 0) {
+			for (var ip = 0; ip < pedido.acoes.length; ip++) {
+
+				var acaoatual = pedido.acoes[ip].split(' : ');
+				if (acaoatual[2] == 'pediu' && acaoatual[0] == ctx.chat.id ) {
+					listapessoal.push(" \n "+acaoatual[3]);
+				}
+
+			}
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
+		if (listapessoal.length > 0) {
+			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
+			await ctx.replyWithMarkdown(`*Para ver o pedido geral, escreva /pedido no grupo da degrau*`);
+			await ctx.replyWithMarkdown(`*Para cancelar os seus pedidos, escreva /cancelar*`);
+		} else {
+			await ctx.replyWithMarkdown(`Sua lista de pedidos está vazia. Peça algo com o /pao`);
+		}
+		
 
 	} else {
-		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+		if (pedido.lista.length > 0) {
+
+			if (pedido.indisponibilidade.length > 0) {
+				indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+			} else {
+				indisponiveltxt = ""
+			}
+
+			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+			console.log(pedido.lista);
+
+		} else {
+			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+		}
 	}
-
-
 })
 
 bot.command(['quem'], async ctx => {
