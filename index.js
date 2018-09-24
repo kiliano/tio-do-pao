@@ -88,6 +88,7 @@ var acordado = true;
 let random = Math.floor((Math.random() * 23) + 1)
 let ultimorandom = random
 var trocasvalidas = [];
+var indisponiveltxt = [];
 
 // Pedido
 
@@ -364,6 +365,27 @@ const tecladoBranco = Markup.keyboard([
 
 ]).resize().oneTime().extra()
 
+// botões fixos
+const tecladoFixoItensFalta = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('Pão Francês', 'xpaofrances'),
+	Markup.callbackButton('Pão de Milho', 'xpaodemilho'),
+	Markup.callbackButton('Rosquinha Comum', 'xrosquinha'),
+
+	Markup.callbackButton('Rosquinha com Recheio', 'xrosquinharecheio'),
+	Markup.callbackButton('Croissant Presunto', 'xcroissantpresunto'),
+	Markup.callbackButton('Croissant Frango', 'xcroissantfrango'),
+
+	Markup.callbackButton('Bisnaga Comum', 'xbisnaga'),
+	Markup.callbackButton('Bisnaga com Açúcar', 'xbisnagaacucar'),
+	Markup.callbackButton('Bisnaga com Creme', 'xbisnagacreme'),
+
+	Markup.callbackButton('Nenhum item em falta', 'xreiniciar')
+], {columns: 3}))
+
+const tecladoFixoItens = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('✔ Confirmar Pedido', 'pconfirmar'),
+	Markup.callbackButton('✖ Falta de Produto', 'pfalta')
+], {columns: 2}))
 
 
 
@@ -386,8 +408,6 @@ bot.command(['pao','Pao'], async ctx => {
 	} else {
 		await ctx.reply("💤💤💤")
 	}
-
-
 })
 
 
@@ -478,7 +498,7 @@ bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '�
 
 		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : trocaria : '+acaoitemoriginal+' : por : '+item)
 
-		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${ctx.update.message.text} Mais alguma coisa? `, tecladoFinal)
+		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${item} Mais alguma coisa? `, tecladoFinal)
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -563,11 +583,6 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 })
 
 
-bot.command('lista', async ctx => {
-	listar();
-	await ctx.reply("Pedidos: "+pedido.lista+" ")
-})
-
 bot.command('novodia', async ctx => {
 	novodia();
 	await ctx.reply("Um novo dia começa")
@@ -585,12 +600,17 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 	// Deixar esse comando habilitado em grupos
 	listar()
 
+			
 	if (pedido.lista.length > 0) {
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝*`)
 
-		await ctx.reply(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`)
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
 
-		msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
 	}
@@ -626,12 +646,14 @@ bot.command(['quem'], async ctx => {
 
 
 bot.command(['bartira'], async ctx => {
-	listar();
-	msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idKiliano)
+	if (pedido.lista.length > 0) {
+		msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idKiliano)
 
-	if (debug == false) {
-		msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idBartira)
+		if (debug == false) {
+			msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idBartira)
+		}
 	}
+	
 })
 
 
@@ -698,6 +720,257 @@ bot.command('msg', async ctx => {
 })
 
 
+// Actions
+bot.action('pfalta', async ctx => {
+	await ctx.editMessageText(`Qual item está em falta?`, tecladoFixoItensFalta)
+})
+
+bot.action('pconfirmar', async ctx => {
+	await ctx.editMessageText(`✅ Pedido gravado ✅`);
+
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+
+	await ctx.reply(`(Por enquanto isso não faz nada, mas futuramente vai ser 🔝)`)
+	msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
+})
+
+bot.action('xpaofrances', async ctx => {
+	pedido.indisponibilidade.push('Pão Francês');
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+
+bot.action('xpaodemilho', async ctx => {
+	pedido.indisponibilidade.push('Pão de Milho');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xrosquinha', async ctx => {
+	pedido.indisponibilidade.push('Rosquinha Comum');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xrosquinharecheio', async ctx => {
+	pedido.indisponibilidade.push('Rosquinha com Recheio');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+
+bot.action('xcroissantpresunto', async ctx => {
+	pedido.indisponibilidade.push('Croissant Presunto');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xcroissantfrango', async ctx => {
+	pedido.indisponibilidade.push('Croissant Frango');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+
+bot.action('xbisnaga', async ctx => {
+	pedido.indisponibilidade.push('Bisnaga Comum');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xbisnagaacucar', async ctx => {
+	pedido.indisponibilidade.push('Bisnaga com Açúcar');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xbisnagacreme', async ctx => {
+	pedido.indisponibilidade.push('Bisnaga com Creme');
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('xreiniciar', async ctx => {
+	pedido.indisponibilidade = [];
+
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
 
 // Start
 
@@ -721,14 +994,12 @@ bot.start(async ctx => {
 
 
 
-// TESTES
+// Testes
 
-bot.command('teste', async ctx => {
-	await ctx.reply(`Testado`);
+bot.command(['teste'], async ctx => {
 
+	console.log(pedido)
 })
-
-// Teste com o Open Weather
 
 
 
