@@ -13,7 +13,7 @@ var datames = (datacompleta.getMonth()+1);
 var dataano = datacompleta.getFullYear();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
-var debug = true;
+var debug = false;
 
 var acordado = true;
 
@@ -29,11 +29,13 @@ var acordado = true;
 
 	const idKiliano = env.idKiliano;
 	const idBartira = env.idBartira;
-	// const idChatDegrau = env.idChatDegrau;
-	const idChatDegrau = env.idChatFronts;
+	const idChatDegrau = env.idChatDegrau;
 	const idChatFronts = env.idChatFronts;
 
 	const idTodos = env.idTodos;
+
+
+	const apiClimatempo = env.apiClimatempo;
 
 
 // Chamadas para o Heroku
@@ -78,6 +80,8 @@ var acordado = true;
 
 	// const apiUrl = `https://api.telegram.org/bot${token}`
 	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	// const apiClimatempo = process.env.
 
 	// const bot = new Telegraf(token)
 
@@ -439,10 +443,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
 
-		if (debug == false) {
-			// manter isso enquanto estiver de testes
-			msg(`${nome} pediu 1 ${item}`, idKiliano)
-		}
+		console.log(`${nome} pediu 1 ${item}`)
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -610,6 +611,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 		}
 
 		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -657,67 +659,6 @@ bot.command(['bartira'], async ctx => {
 })
 
 
-
-
-
-
-
-bot.command('wifi', async ctx => {
-	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
-})
-
-bot.command(['help', 'ajuda'], async ctx => {
-	await ctx.reply(`
-		/pao para iniciar um pedido
-		/pedido para finalizar um pedido
-		/quem mostra quem pediu o que no último pedido
-		/cancelar para carregar o menu de subtração de itens
-		/lista para carregar a lista de itens pedidos no momento
-		/total para o tio falar quantos pedidos e pães já foram feitos desde a última vez que ele foi ligado
-		`)
-
-})
-
-
-bot.command('id', async ctx => {
-	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
-})
-
-bot.command('msg', async ctx => {
-	if (ctx.update.message.from.id == idKiliano) {
-
-		var mimic = ctx.update.message.text
-
-		var destino = mimic.split(/\s+/).slice(1,2);
-
-		var mimic = mimic.replace("/msg", "");
-		
-		var mimic = mimic.replace(destino, "");
-
-		if (destino == "grupo" ) {
-			msg(mimic, idChatDegrau)
-		} else {
-			if (destino == "kiliano" ) {
-				msg(mimic, idKiliano)
-			} else {
-				if (destino == "bartira" ) {
-					msg(mimic, idBartira)
-				} else {
-
-					if (destino == "fronts" ) {
-						msg(mimic, idChatFronts)
-					} else {
-						await ctx.reply(`Mensagem - ${mimic} - não pode ser entregue porque o destino não foi especificado.
-							Atuais cadastrados: grupo, kiliano, bartira
-						`)
-					}
-				}
-			}
-
-			
-		}
-	}
-})
 
 
 // Actions
@@ -989,6 +930,87 @@ bot.start(async ctx => {
 		msg(`${ctx.update.message.from.first_name} começou a conversar com o Horácio. O ID dele é ${ctx.update.message.from.id} `, idKiliano)
 	}
 })
+
+
+
+
+
+
+
+
+// ----- Comandos e actions não relacionados ao pão ------
+
+
+
+bot.command(['clima'], async ctx => {
+	// var clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+	// console.log(clima);
+
+	// await ctx.replyWithMarkdown(`A previsão do tempo para amanhã (${clima.data[1].date_br}) é:
+	// 	Min: ${clima.data[1].temperature.min}ºC | Max: ${clima.data[1].temperature.max}ºC
+	//  ${clima.data[1].text_icon.text.pt}
+	//  `);
+		
+})
+
+
+bot.command('wifi', async ctx => {
+	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
+})
+
+bot.command(['help', 'ajuda'], async ctx => {
+	await ctx.reply(`
+		/pao para iniciar um pedido
+		/pedido para finalizar um pedido
+		/quem mostra quem pediu o que no último pedido
+		/cancelar para carregar o menu de subtração de itens
+		/lista para carregar a lista de itens pedidos no momento
+		/total para o tio falar quantos pedidos e pães já foram feitos desde a última vez que ele foi ligado
+		`)
+
+})
+
+
+bot.command('id', async ctx => {
+	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+})
+
+bot.command('msg', async ctx => {
+	if (ctx.update.message.from.id == idKiliano) {
+
+		var mimic = ctx.update.message.text
+
+		var destino = mimic.split(/\s+/).slice(1,2);
+
+		var mimic = mimic.replace("/msg", "");
+		
+		var mimic = mimic.replace(destino, "");
+
+		if (destino == "grupo" ) {
+			msg(mimic, idChatDegrau)
+		} else {
+			if (destino == "kiliano" ) {
+				msg(mimic, idKiliano)
+			} else {
+				if (destino == "bartira" ) {
+					msg(mimic, idBartira)
+				} else {
+
+					if (destino == "fronts" ) {
+						msg(mimic, idChatFronts)
+					} else {
+						await ctx.reply(`Mensagem - ${mimic} - não pode ser entregue porque o destino não foi especificado.
+							Atuais cadastrados: grupo, kiliano, bartira
+						`)
+					}
+				}
+			}
+
+			
+		}
+	}
+})
+
 
 
 
