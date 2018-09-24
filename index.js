@@ -405,9 +405,7 @@ bot.command(['pao','Pao'], async ctx => {
 		if (ctx.update.message.from.id == ctx.chat.id) {
 			await ctx.replyWithMarkdown(`📣📣📣 Pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} * 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 		} else {
-			await ctx.replyWithMarkdown(`*Agora os pedidos só podem ser feitos me mandando uma mensagem direta* \n Clique aqui no meu nome e depois em *Enviar Mensagem*`)
-			// msg(`📣📣📣 O pedido do Pão está aberto! 📣📣📣 \n Só clicar ou digitar /pao para pedir o pão`, idKiliano)
-
+			await ctx.replyWithMarkdown(`\n 📣📣📣 *Hora do Pão cambada!!!* 📣📣📣 \n\n Os pedidos devem ser feitos por uma *✉ mensagem direta ✉* \n Só me mandar uma direct e escrever /pao`)
 		}
 	} else {
 		await ctx.reply("💤💤💤")
@@ -581,6 +579,36 @@ bot.hears(['😋 Quero pedir mais um pão'], async ctx => {
 
 bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 	await ctx.reply(`É nóiz 👍`)
+
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		listar();
+		var listapessoal = [];
+
+		if (pedido.acoes.length > 0) {
+			for (var ip = 0; ip < pedido.acoes.length; ip++) {
+
+				var acaoatual = pedido.acoes[ip].split(' : ');
+				if (acaoatual[2] == 'pediu' && acaoatual[0] == ctx.chat.id ) {
+					listapessoal.push(" \n "+acaoatual[3]);
+				}
+
+			}
+		}
+
+		if (listapessoal.length > 0) {
+			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
+			msg(`${ctx.update.message.from.first_name} já fez o pedido de hoje.`, idChatFronts);
+
+		} else {
+			await ctx.replyWithMarkdown(`Sua lista de pedidos está vazia. Peça algo com o /pao`);
+		}
+		
+
+	}
+
+
+	
 })
 
 
