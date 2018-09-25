@@ -1,10 +1,41 @@
 'use strict'
-var http = require('http')
 
-const Telegraf = require('telegraf')
-const Markup = require('telegraf/markup')
-const Extra = require('telegraf/extra')
-const axios = require('axios')
+var http = require('http');
+const Telegraf = require('telegraf');
+const Markup = require('telegraf/markup');
+const Extra = require('telegraf/extra');
+const axios = require('axios');
+
+var fs = require('fs');
+var databaselocal = fs.readFileSync('pao.json');
+
+var databaselocaltxt = JSON.parse(databaselocal);
+
+
+
+// var admin = require("firebase-admin");
+
+// var serviceAccount = require("./tio-do-pao-firebase-adminsdk-ayyc4-69a6baa2b5.json");
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://tio-do-pao.firebaseio.com"
+// });
+
+
+
+// iniciar sem usar o json
+
+// admin.initializeApp({
+//   credential: admin.credential.cert({
+//     projectId: '<PROJECT_ID>',
+//     clientEmail: 'foo@<PROJECT_ID>.iam.gserviceaccount.com',
+//     privateKey: '-----BEGIN PRIVATE KEY-----\n<KEY>\n-----END PRIVATE KEY-----\n'
+//   }),
+//   databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
+// });
+
+
 
 var datacompleta = new Date();
 var datahora = datacompleta.getHours();
@@ -13,7 +44,7 @@ var datames = (datacompleta.getMonth()+1);
 var dataano = datacompleta.getFullYear();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
-var debug = false;
+var debug = true;
 
 var acordado = true;
 
@@ -28,82 +59,82 @@ var climaicon = "";
 // Data de nascimento do bot: 17/09/2018
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/")
-				console.log(datahora-3)
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 			console.log(datahora-3)
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				var datacompleta = new Date();
-				let datahora = ((datacompleta.getHours()));
-				if (datahora < 19+3) {
+	// 		setInterval(function(){ 
+	// 			var datacompleta = new Date();
+	// 			let datahora = ((datacompleta.getHours()));
+	// 			if (datahora < 19+3) {
 
-					if (fimdodia == true) {
-						fimdodia = false;
-						novodia();
-					}
-
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
-					 },750000);
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
-					 },1350000);
-				} else {
-
-					if (fimdodia == false) {
-						fimdodia = true;
-					}
-
-				}
-			}, 2400000);
+	// 				if (fimdodia == true) {
+	// 					fimdodia = false;
+	// 					novodia();
+	// 				}
 
 
-	var port = (process.env.PORT || 5000)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log(datahora-3)
+	// 				 },750000);
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log(datahora-3)
+	// 				 },1350000);
+	// 			} else {
 
-	const token = process.env.token
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 				}
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
+	// 			}
+	// 		}, 2400000);
 
-	const idTodos = process.env.idTodos
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// var port = (process.env.PORT || 5000)
 
-	const apiClimatempo = process.env.apiClimatempo
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const bot = new Telegraf(token)
+	// const token = process.env.token
+
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+
+	// const idTodos = process.env.idTodos
+
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
 
 
 
@@ -131,7 +162,7 @@ var pedido = {
 		"croissantfrango":0,
 		"bisnaga":0,
 		"bisnagaacucar":0,
-		"bisnagacreme":0,
+		"bisnagacreme":0
 	};
 
 // Variáveis do pedido
@@ -170,7 +201,7 @@ const novodia = () => {
 		"croissantfrango":0,
 		"bisnaga":0,
 		"bisnagaacucar":0,
-		"bisnagacreme":0,
+		"bisnagacreme":0
 	};
 
 	if (debug == false) {
@@ -347,6 +378,22 @@ const listar = () => {
 
 	
 }
+
+
+const gravarlocal = () => {
+	datacompleta = new Date();
+	datadia = datacompleta.getDate();
+	datames = (datacompleta.getMonth()+1);
+	dataano = datacompleta.getFullYear();
+
+	console.log(databaselocaltxt.ano[0].mes[0].dia[0]);
+
+	// if (databaselocaltxt.ano[0] != datadia) {
+	// 	databaselocaltxt.unshift("ano_data")
+	// }
+	// fs.writeFile('pao.json', 'teste');
+}
+		// unshift
 
 
 
@@ -1202,8 +1249,9 @@ bot.command('msg', async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-
-	console.log(pedido)
+	
+	gravarlocal()
+	console.log('gravado')
 })
 
 
