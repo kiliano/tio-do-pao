@@ -1106,9 +1106,7 @@ bot.action('choje', async ctx => {
 
 	}
 
-	await ctx.editMessageText(` ☀ ☀ Previsão do tempo ☀ ☀
-
-		Hoje (${clima.data.data[0].date_br})
+	await ctx.editMessageText(` ☀ ☀ HOJE (${clima.data.data[0].date_br}) ☀ ☀
 
 		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
 	 	${clima.data.data[0].text_icon.text.pt} ☀
@@ -1137,9 +1135,7 @@ bot.action('camanha', async ctx => {
 
 	}
 
-	await ctx.editMessageText(` ☀ ☀ Previsão do tempo ☀ ☀
-
-		Amanhã (${clima.data.data[1].date_br})
+	await ctx.editMessageText(` ☀ ☀ AMANHÃ (${clima.data.data[1].date_br}) ☀ ☀
 
 		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 	 	${clima.data.data[1].text_icon.text.pt} ☀
@@ -1177,7 +1173,7 @@ bot.action('csetedias', async ctx => {
 
 
 	// for
-	await ctx.editMessageText(` ☀ ☀ Previsão do tempo - 7 Dias ☀ ☀ ${csetedias}`);	
+	await ctx.editMessageText(` ☀ ☀ 7 Dias ☀ ☀ ${csetedias}`);	
 })
 
 
