@@ -1108,7 +1108,9 @@ bot.command(['jandira'], async ctx => {
 
 	}
 
-	await ctx.reply(` ☀ ☀ JANDIRA - Hoje (${clima.data.data[0].date_br}) ☀ ☀
+	await ctx.replyWithMarkdown(`☀ ☀ *Previsão para JANDIRA* ☀ ☀`);
+
+	await ctx.reply(`HOJE (${clima.data.data[0].date_br})
 
 		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
 	 	${clima.data.data[0].text_icon.text.pt} ☀
@@ -1137,7 +1139,7 @@ bot.command(['jandira'], async ctx => {
 
 	}
 
-	await ctx.reply(` ☀ ☀ JANDIRA - Amanhã (${clima.data.data[1].date_br}) ☀ ☀
+	await ctx.reply(` AMANHÃ (${clima.data.data[1].date_br})
 
 		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 	 	${clima.data.data[1].text_icon.text.pt} ☀
