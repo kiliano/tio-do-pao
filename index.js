@@ -13,7 +13,7 @@ var datames = (datacompleta.getMonth()+1);
 var dataano = datacompleta.getFullYear();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
-var debug = true;
+var debug = false;
 
 var acordado = true;
 
@@ -475,7 +475,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
 
-		console.log(`${nome} pediu 1 ${item}`)
+		console.log(pedido.acoes);
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -529,9 +529,11 @@ bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '�
 		if (item == '🥖 com Creme.') item = 'Bisnaga com Creme'
 
 
-		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : trocaria : '+acaoitemoriginal+' : por : '+item)
+		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : trocaria : '+acaoitemoriginal+' : por : '+item);
 
-		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${item} Mais alguma coisa? `, tecladoFinal)
+		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${item} Mais alguma coisa? `, tecladoFinal);
+		
+		console.log(pedido.acoes);
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -632,7 +634,9 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 
 		if (listapessoal.length > 0) {
 			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
-			msg(`${ctx.update.message.from.first_name} fez o pedido de hoje.`, idChatFronts);
+
+			// apagar pós testes
+			// msg(`${ctx.update.message.from.first_name} pediu ${listapessoal}`, idChatKiliano);
 
 		} else {
 			await ctx.replyWithMarkdown(`Sua lista de pedidos está vazia. Peça algo com o /pao`);
