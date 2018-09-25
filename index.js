@@ -96,7 +96,7 @@ var fimdodia = false;
 	const apiUrl = `https://api.telegram.org/bot${token}`
 	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.
+	const apiClimatempo = process.env.apiClimatempo
 
 	const bot = new Telegraf(token)
 
