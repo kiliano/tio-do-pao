@@ -786,6 +786,7 @@ bot.command(['quem'], async ctx => {
 
 
 bot.command(['bartira'], async ctx => {
+	listar();
 	if (pedido.lista.length > 0) {
 		msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idKiliano)
 
