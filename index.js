@@ -13,11 +13,16 @@ var datames = (datacompleta.getMonth()+1);
 var dataano = datacompleta.getFullYear();
 var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
 
-var debug = false;
+var debug = true;
 
 var acordado = true;
 
 var fimdodia = false;
+
+// Clima
+
+var clima = {};
+var climaicon = "";
 
 
 // Data de nascimento do bot: 17/09/2018
@@ -168,7 +173,9 @@ const novodia = () => {
 		"bisnagacreme":0,
 	};
 
-	msg(`novodia()`, idKiliano)
+	if (debug == false) {
+		msg(`novodia()`, idKiliano)
+	}
 
 }
 
@@ -387,6 +394,8 @@ const tecladoBranco = Markup.keyboard([
 ]).resize().oneTime().extra()
 
 // botões fixos
+
+// Substituição de pão
 const tecladoFixoItensFalta = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('Pão Francês', 'xpaofrances'),
 	Markup.callbackButton('Pão de Milho', 'xpaodemilho'),
@@ -403,10 +412,18 @@ const tecladoFixoItensFalta = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('Nenhum item em falta', 'xreiniciar')
 ], {columns: 3}))
 
+// Finalização de pedido
 const tecladoFixoItens = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('✔ Confirmar Pedido', 'pconfirmar'),
 	Markup.callbackButton('✖ Falta de Produto', 'pfalta')
 ], {columns: 2}))
+
+// Clima
+const tecladoClima = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('Hoje', 'choje'),
+	Markup.callbackButton('Amanhã', 'camanha'),
+	Markup.callbackButton('Próximos 7 Dias', 'csetedias')
+], {columns: 3}))
 
 
 
@@ -615,7 +632,7 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 
 		if (listapessoal.length > 0) {
 			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
-			msg(`${ctx.update.message.from.first_name} já fez o pedido de hoje.`, idChatFronts);
+			msg(`${ctx.update.message.from.first_name} fez o pedido de hoje.`, idChatFronts);
 
 		} else {
 			await ctx.replyWithMarkdown(`Sua lista de pedidos está vazia. Peça algo com o /pao`);
@@ -1008,19 +1025,114 @@ bot.start(async ctx => {
 // ----- Comandos e actions não relacionados ao pão ------
 
 
+// Previsão do tempo
 
 bot.command(['clima'], async ctx => {
-	// var clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-	// console.log(clima);
+	// tecladoClima
+	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+	climaicon = "";
 
-	// await ctx.replyWithMarkdown(`A previsão do tempo para amanhã (${clima.data[1].date_br}) é:
-	// 	Min: ${clima.data[1].temperature.min}ºC | Max: ${clima.data[1].temperature.max}ºC
-	//  ${clima.data[1].text_icon.text.pt}
-	//  `);
-		
+	await ctx.reply(`Clima pra que dia?`,tecladoClima);
+})
+
+bot.action('choje', async ctx => {
+
+	if (clima.data.data[0].rain.probability >= 90) {
+		climaicon = "☔";
+	} else {
+
+		if (clima.data.data[0].rain.probability >= 70) {
+			climaicon = "☂";
+		} else {
+
+			if (clima.data.data[0].rain.probability >= 50) {
+				climaicon = "🌂";
+			} else {
+				climaicon = "🌤";
+			}
+
+		}
+
+	}
+
+	await ctx.editMessageText(` ☀ ☀ Previsão do tempo ☀ ☀
+
+		Hoje (${clima.data.data[0].date_br})
+
+		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
+	 	${clima.data.data[0].text_icon.text.pt} ☀
+	 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+	 	\n
+	 `);
+})
+
+bot.action('camanha', async ctx => {
+
+	if (clima.data.data[1].rain.probability >= 90) {
+		climaicon = "☔";
+	} else {
+
+		if (clima.data.data[1].rain.probability >= 70) {
+			climaicon = "☂";
+		} else {
+
+			if (clima.data.data[1].rain.probability >= 50) {
+				climaicon = "🌂";
+			} else {
+				climaicon = "🌤";
+			}
+
+		}
+
+	}
+
+	await ctx.editMessageText(` ☀ ☀ Previsão do tempo ☀ ☀
+
+		Amanhã (${clima.data.data[1].date_br})
+
+		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+	 	${clima.data.data[1].text_icon.text.pt} ☀
+	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+	 	\n
+	 `);
+})
+
+bot.action('csetedias', async ctx => {
+
+	var csetedias = [];
+
+
+	// for
+	for (var iclima = 0; iclima < 7; iclima++) {
+		if (clima.data.data[iclima].rain.probability >= 90) {
+			climaicon = "☔";
+		} else {
+
+			if (clima.data.data[iclima].rain.probability >= 70) {
+				climaicon = "☂";
+			} else {
+
+				if (clima.data.data[iclima].rain.probability >= 50) {
+					climaicon = "🌂";
+				} else {
+					climaicon = "🌤";
+				}
+
+			}
+		}
+
+		csetedias.push(`\n\n ${clima.data.data[iclima].date_br} \n🌡 ${clima.data.data[iclima].temperature.min}ºC a ${clima.data.data[iclima].temperature.max}ºC | ${climaicon} ${clima.data.data[iclima].text_icon.text.pt}`)
+	}
+
+
+	// for
+	await ctx.editMessageText(` ☀ ☀ Previsão do tempo - 7 Dias ☀ ☀ ${csetedias}`);	
 })
 
 
+
+
+// Extras
 bot.command('wifi', async ctx => {
 	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
 })
