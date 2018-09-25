@@ -6,10 +6,10 @@ const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
 
-var fs = require('fs');
-var databaselocal = fs.readFileSync('pao.json');
+// var fs = require('fs');
+// var databaselocal = fs.readFileSync('pao.json');
 
-var databaselocaltxt = JSON.parse(databaselocal);
+// var databaselocaltxt = JSON.parse(databaselocal);
 
 
 
@@ -55,8 +55,11 @@ var fimdodia = false;
 var clima = {};
 var climaicon = "";
 
-
 // Data de nascimento do bot: 17/09/2018
+
+
+
+
 
 // Chamadas para o Local
 	const env = require('./.env');
@@ -381,12 +384,12 @@ const listar = () => {
 
 
 const gravarlocal = () => {
-	datacompleta = new Date();
-	datadia = datacompleta.getDate();
-	datames = (datacompleta.getMonth()+1);
-	dataano = datacompleta.getFullYear();
+	// datacompleta = new Date();
+	// datadia = datacompleta.getDate();
+	// datames = (datacompleta.getMonth()+1);
+	// dataano = datacompleta.getFullYear();
 
-	console.log(databaselocaltxt.ano[0].mes[0].dia[0]);
+	// console.log(databaselocaltxt.ano[0].mes[0].dia[0]);
 
 	// if (databaselocaltxt.ano[0] != datadia) {
 	// 	databaselocaltxt.unshift("ano_data")
@@ -1079,14 +1082,80 @@ bot.start(async ctx => {
 // Previsão do tempo
 
 bot.command(['clima'], async ctx => {
-	// tecladoClima
-	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-	climaicon = "";
-
 	await ctx.reply(`Clima pra que dia?`,tecladoClima);
 })
 
+bot.command(['jandira'], async ctx => {
+	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`);
+	climaicon = "";
+
+	if (clima.data.data[0].rain.probability >= 90) {
+		climaicon = "☔";
+	} else {
+
+		if (clima.data.data[0].rain.probability >= 70) {
+			climaicon = "☂";
+		} else {
+
+			if (clima.data.data[0].rain.probability >= 50) {
+				climaicon = "🌂";
+			} else {
+				climaicon = "🌤";
+			}
+
+		}
+
+	}
+
+	await ctx.reply(` ☀ ☀ JANDIRA - Hoje (${clima.data.data[0].date_br}) ☀ ☀
+
+		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
+	 	${clima.data.data[0].text_icon.text.pt} ☀
+	 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+	 	\n\n
+	 `);
+
+
+
+
+	if (clima.data.data[1].rain.probability >= 90) {
+		climaicon = "☔";
+	} else {
+
+		if (clima.data.data[1].rain.probability >= 70) {
+			climaicon = "☂";
+		} else {
+
+			if (clima.data.data[1].rain.probability >= 50) {
+				climaicon = "🌂";
+			} else {
+				climaicon = "🌤";
+			}
+
+		}
+
+	}
+
+	await ctx.reply(` ☀ ☀ JANDIRA - Amanhã (${clima.data.data[1].date_br}) ☀ ☀
+
+		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+	 	${clima.data.data[1].text_icon.text.pt} ☀
+	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+	 	\n
+	 `);
+
+
+
+
+})
+
+
+http://apiadvisor.climatempo.com.br/api/v1/locale/city?name=São Paulo&state=SP&token=99933162ee7138af4aebd85f77b32265
+
 bot.action('choje', async ctx => {
+
+	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+	climaicon = "";
 
 	if (clima.data.data[0].rain.probability >= 90) {
 		climaicon = "☔";
@@ -1117,6 +1186,9 @@ bot.action('choje', async ctx => {
 
 bot.action('camanha', async ctx => {
 
+	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+	climaicon = "";
+
 	if (clima.data.data[1].rain.probability >= 90) {
 		climaicon = "☔";
 	} else {
@@ -1145,6 +1217,9 @@ bot.action('camanha', async ctx => {
 })
 
 bot.action('csetedias', async ctx => {
+
+	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+	climaicon = "";
 
 	var csetedias = [];
 
