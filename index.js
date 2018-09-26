@@ -8,10 +8,9 @@ const axios = require('axios');
 var wordpress = require( "wordpress" );
 
 
-// FINALMENTE
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
-
 // https://www.npmjs.com/package/wordpress
+
 
 var datacompleta;
 var datahora;
@@ -1111,8 +1110,6 @@ bot.command(['jandira'], async ctx => {
 	 `);
 
 
-
-
 	if (clima.data.data[1].rain.probability >= 90) {
 		climaicon = "☔";
 	} else {
@@ -1144,8 +1141,6 @@ bot.command(['jandira'], async ctx => {
 
 })
 
-
-http://apiadvisor.climatempo.com.br/api/v1/locale/city?name=São Paulo&state=SP&token=99933162ee7138af4aebd85f77b32265
 
 bot.action('choje', async ctx => {
 
@@ -1309,18 +1304,10 @@ bot.command('msg', async ctx => {
 
 
 
-
-
-
 // Testes
 
 bot.command(['teste'], async ctx => {
 	
-	pedido.dia_data = 1;
-	// var testewp = await axios.get(`http://api.degraupublicidade.com.br/wp-json/wp/v2/pao/`);
-	// console.log(testewp.data[0].acf.teste01);
-
-
 	// wp.getPosts({
 	// 	type: "cpt-pao"
 
@@ -1336,14 +1323,23 @@ bot.command(['teste'], async ctx => {
 
 })
 
-wp.getPosts({
-	type: "cpt-pao"
+// wp.getPosts({
+// 	type: "cpt-pao"
 
-}, function( error, data ) {
-        conteudo = arguments;
-        conteudo = JSON.stringify(conteudo);
-        console.log(conteudo);
-})
+// }, function( error, data ) {
+//         conteudo = arguments;
+//         conteudo = JSON.stringify(conteudo);
+//         console.log(conteudo);
+// })
+
+wp.getPosts({
+	type: "cpt-pao",
+},["title","date", "customFields"],function( error, posts ) {
+    console.log( "Found " + posts.length + " posts!" );
+    conteudo = posts;
+    conteudo = JSON.stringify(conteudo);
+    console.log(conteudo);
+});
 
 // wp.getPosts({
 // 		type: "cpt-pao"
@@ -1385,10 +1381,13 @@ bot.command(['post'], async ctx => {
 	}
 
 	wp.newPost({
-	        title: "Pedido: "+pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
+	        title: pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
 	        status: "publish",
 	        type: "cpt-pao",
 	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
+	        termNames: {
+                "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
+	        },
 	        "customFields": [
 		        {
 		          "key": "dia_data",
@@ -1404,15 +1403,15 @@ bot.command(['post'], async ctx => {
 		        },
 		        {
 		          "key": "acoes",
-		          "value": pedido.acoes
+		          "value": JSON.stringify(pedido.acoes)
 		        },
 		        {
 		          "key": "indisponibilidade",
-		          "value": pedido.indisponibilidade
+		          "value": JSON.stringify(pedido.indisponibilidade)
 		        },
 		        {
 		          "key": "lista",
-		          "value": pedido.lista
+		          "value": JSON.stringify(pedido.lista)
 		        },
 		        {
 		          "key": "paofrances",
@@ -1485,15 +1484,7 @@ bot.command(['post'], async ctx => {
 // title
 // type
 
-
-
-
-	// var testewp = await axios.post(`http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content`).catch(e => console.log(e));
 })
-
-// tiodopao
-// mQAj*r)!Vxi4u3qUB(5vnaO6
-
 
 // / Código
 
