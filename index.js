@@ -5,50 +5,21 @@ const Telegraf = require('telegraf');
 const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
-// https://github.com/WP-API/Basic-Auth/issues/35
-
-// https://github.com/WP-API/node-wpapi
+var wordpress = require( "wordpress" );
 
 
+// FINALMENTE
+// http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 
+// https://www.npmjs.com/package/wordpress
 
-// var fs = require('fs');
-// var databaselocal = fs.readFileSync('pao.json');
-
-// var databaselocaltxt = JSON.parse(databaselocal);
-
-
-
-// var admin = require("firebase-admin");
-
-// var serviceAccount = require("./tio-do-pao-firebase-adminsdk-ayyc4-69a6baa2b5.json");
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://tio-do-pao.firebaseio.com"
-// });
-
-
-
-// iniciar sem usar o json
-
-// admin.initializeApp({
-//   credential: admin.credential.cert({
-//     projectId: '<PROJECT_ID>',
-//     clientEmail: 'foo@<PROJECT_ID>.iam.gserviceaccount.com',
-//     privateKey: '-----BEGIN PRIVATE KEY-----\n<KEY>\n-----END PRIVATE KEY-----\n'
-//   }),
-//   databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
-// });
-
-
-
-var datacompleta = new Date();
-var datahora = datacompleta.getHours();
-var datadia = datacompleta.getDate();
-var datames = (datacompleta.getMonth()+1);
-var dataano = datacompleta.getFullYear();
-var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
+var datacompleta;
+var datahora;
+var datadia;
+var datames;
+var dataano;
+var datadata;
+var dataai;
 
 var debug = false;
 
@@ -83,6 +54,8 @@ var climaicon = "";
 
 
 	const apiClimatempo = env.apiClimatempo;
+
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
@@ -135,6 +108,7 @@ var climaicon = "";
 	// const idBartira = process.env.idBartira
 	// const idChatDegrau = process.env.idChatDegrau
 	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
 
 	// const idTodos = process.env.idTodos
 
@@ -153,6 +127,15 @@ let random = Math.floor((Math.random() * 23) + 1)
 let ultimorandom = random
 var trocasvalidas = [];
 var indisponiveltxt = [];
+
+var conteudo = {};
+
+// Login WP
+var wp = wordpress.createClient({
+    url: "http://api.degraupublicidade.com.br",
+    username: "tiodopao",
+    password: wordpressPass
+});
 
 // Pedido
 
@@ -186,12 +169,7 @@ const msg = (msg, id) => {
 const novodia = () => {
 
 	// Horário
-	datacompleta = new Date();
-	datahora = datacompleta.getHours();
-	datadia = datacompleta.getDate();
-	datames = (datacompleta.getMonth()+1);
-	dataano = datacompleta.getFullYear();
-	datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
+	atualizarData();
 
 
 	// Zerando pedido do dia
@@ -388,6 +366,15 @@ const listar = () => {
 	
 }
 
+const atualizarData = () => {
+	datacompleta = new Date();
+	datahora = datacompleta.getHours();
+	datadia = datacompleta.getDate();
+	datames = (datacompleta.getMonth()+1);
+	dataano = datacompleta.getFullYear();
+	datadata = (datadia+'/'+datames+'/'+dataano);
+	dataai = dataano+'-'+datames+'-'+datadia;
+}
 
 const gravarlocal = () => {
 	// datacompleta = new Date();
@@ -1061,8 +1048,7 @@ bot.action('xreiniciar', async ctx => {
 // Start
 
 bot.start(async ctx => {
-	var datacompleta = new Date();
-	var datadata = (datacompleta.getDate()+'/'+(datacompleta.getMonth()+1)+'/'+datacompleta.getFullYear());
+	atualizarData();
 	if (ctx.update.message.from.id == ctx.chat.id) {
 		await ctx.replyWithMarkdown(`📣📣📣 Hora do Pão! 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 	} else {
@@ -1330,39 +1316,174 @@ bot.command('msg', async ctx => {
 
 bot.command(['teste'], async ctx => {
 	
-	var testewp = await axios.get(`http://api.degraupublicidade.com.br/wp-json/wp/v2/pao/`);
-	console.log(testewp.data[0].acf.teste01);
+	pedido.dia_data = 1;
+	// var testewp = await axios.get(`http://api.degraupublicidade.com.br/wp-json/wp/v2/pao/`);
+	// console.log(testewp.data[0].acf.teste01);
+
+
+	// wp.getPosts({
+	// 	type: "cpt-pao"
+
+	// }, function( error, data ) {
+	//         conteudo = arguments;
+	//         conteudo = JSON.stringify(conteudo);
+	//         conteudo = conteudo[1];
+	//         console.log(conteudo);
+	        
+	// })
+
+	// await ctx.reply(`${conteudo}`)
+
 })
 
+wp.getPosts({
+	type: "cpt-pao"
+
+}, function( error, data ) {
+        conteudo = arguments;
+        conteudo = JSON.stringify(conteudo);
+        console.log(conteudo);
+})
+
+// wp.getPosts({
+// 		type: "cpt-pao"
+
+// 	}, function( error, data ) {
+// 	        conteudo = arguments;
+// 	        conteudo = JSON.stringify(conteudo);
+// 	        conteudo = conteudo[1];
+	        
+// 	})
+
+
+// wp.getPosts({
+// 	type: "cpt-pao"
+
+// }, function( error, data ) {
+//         conteudo = arguments;
+//         conteudo = JSON.stringify(conteudo);
+//         conteudo = conteudo[1];
+// })
+
+
+
+
 bot.command(['post'], async ctx => {
-	// axios.post(`http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content`, {}, {
-	// 	  auth: {
-	// 	    username: 'tiodopao',
-	// 	    password: 'mQAj*r)!Vxi4u3qUB(5vnaO6'
-	// 	  }
-	// 	}).then(function(response) {
-	// 	  console.log(response);
-	// 	}).catch(function(error) {
-	// 	  console.log(error);
-	// 	});
+
+	var dia_data_zero = "";
+	if (pedido.dia_data < 10) {
+		dia_data_zero = "0";
+	} else {
+		dia_data_zero = "";
+	}
+
+	var mes_data_zero = "";
+	if (pedido.mes_data < 10) {
+		mes_data_zero = "0";
+	} else {
+		mes_data_zero = "";
+	}
+
+	wp.newPost({
+	        title: "Pedido: "+pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
+	        status: "publish",
+	        type: "cpt-pao",
+	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
+	        "customFields": [
+		        {
+		          "key": "dia_data",
+		          "value": pedido.dia_data
+		        },
+		        {
+		          "key": "mes_data",
+		          "value": pedido.mes_data
+		        },
+		        {
+		          "key": "ano_data",
+		          "value": pedido.ano_data
+		        },
+		        {
+		          "key": "acoes",
+		          "value": pedido.acoes
+		        },
+		        {
+		          "key": "indisponibilidade",
+		          "value": pedido.indisponibilidade
+		        },
+		        {
+		          "key": "lista",
+		          "value": pedido.lista
+		        },
+		        {
+		          "key": "paofrances",
+		          "value": pedido.paofrances
+		        },
+		        {
+		          "key": "paodemilho",
+		          "value": pedido.paodemilho
+		        },
+		        {
+		          "key": "rosquinha",
+		          "value": pedido.rosquinha
+		        },
+		        {
+		          "key": "rosquinharecheio",
+		          "value": pedido.rosquinharecheio
+		        },
+		        {
+		          "key": "croissantpresunto",
+		          "value": pedido.croissantpresunto
+		        },
+		        {
+		          "key": "croissantfrango",
+		          "value": pedido.croissantfrango
+		        },
+		        {
+		          "key": "bisnaga",
+		          "value": pedido.bisnaga
+		        },
+		        {
+		          "key": "bisnagaacucar",
+		          "value": pedido.bisnagaacucar
+		        },
+		        {
+		          "key": "bisnagacreme",
+		          "value": pedido.bisnagacreme
+		        }
+		      ]
+	        
+
+	}, function( error, data ) {
+	        console.log( "Post enviado resposta como:\n" );
+	        console.log( arguments );
+	        console.log("\n");
+	});
 
 
 
-
-		axios.post('http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content', {
-		    auth: {
-			    username: 'tiodopao',
-			    password: 'mQAj*r)!Vxi4u3qUB(5vnaO6'
-			  }
-		})
-		  .then(function (response) {
-		    console.log(response);
-		})
-		  .catch(function (error) {
-		    console.log(error);
-		});
-
-
+// author
+// commentStatus
+// content
+// customFields
+// date
+// excerpt
+// format
+// id
+// link
+// modified
+// menuOrder
+// name
+// pageTemplate
+// parent
+// password
+// pingStatus
+// status
+// sticky
+// terms
+// termNames
+// thumbnail
+// title
+// type
 
 
 

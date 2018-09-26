@@ -32,6 +32,7 @@
     "firebase-admin": "^6.0.0",
     "moment": "2.20.1",
     "telegraf": "3.17.3",
+    "wordpress": "^1.4.1",
     "wpapi": "^1.1.2"
   }
 }
