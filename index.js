@@ -5,8 +5,8 @@ const Telegraf = require('telegraf');
 const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
-var WPAPI = require( 'wpapi' );
-var wp = new WPAPI({ endpoint: 'http://api.degraupublicidade.com.br/wp-json' });
+// https://github.com/WP-API/Basic-Auth/issues/35
+
 // https://github.com/WP-API/node-wpapi
 
 
@@ -1335,16 +1335,36 @@ bot.command(['teste'], async ctx => {
 })
 
 bot.command(['post'], async ctx => {
-	axios.post(`http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content`, {}, {
-		  auth: {
-		    username: 'tiodopao',
-		    password: 'mQAj*r)!Vxi4u3qUB(5vnaO6'
-		  }
-		}).then(function(response) {
-		  console.log(response);
-		}).catch(function(error) {
-		  console.log(error);
+	// axios.post(`http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content`, {}, {
+	// 	  auth: {
+	// 	    username: 'tiodopao',
+	// 	    password: 'mQAj*r)!Vxi4u3qUB(5vnaO6'
+	// 	  }
+	// 	}).then(function(response) {
+	// 	  console.log(response);
+	// 	}).catch(function(error) {
+	// 	  console.log(error);
+	// 	});
+
+
+
+
+		axios.post('http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content', {
+		    auth: {
+			    username: 'tiodopao',
+			    password: 'mQAj*r)!Vxi4u3qUB(5vnaO6'
+			  }
+		})
+		  .then(function (response) {
+		    console.log(response);
+		})
+		  .catch(function (error) {
+		    console.log(error);
 		});
+
+
+
+
 
 
 	// var testewp = await axios.post(`http://api.degraupublicidade.com.br/wp-json/wp/v2/posts?title=the+title&content=this+is+the+content`).catch(e => console.log(e));
