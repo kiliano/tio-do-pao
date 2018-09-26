@@ -27,12 +27,8 @@
   "homepage": "https://github.com/kiliano/tio-do-pao#readme",
   "dependencies": {
     "axios": "0.17.1",
-    "cloudflare": "^2.4.1",
-    "firebase": "^5.5.1",
-    "firebase-admin": "^6.0.0",
     "moment": "2.20.1",
     "telegraf": "3.17.3",
-    "wordpress": "^1.4.1",
-    "wpapi": "^1.1.2"
+    "wordpress": "^1.4.1"
   }
 }
