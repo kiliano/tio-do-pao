@@ -633,18 +633,19 @@ const tecladoBranco = Markup.keyboard([
 // botões fixos
 
 // Substituição de pão
-const tecladoFixoItensFalta = Extra.markup(Markup.inlineKeyboard([
-	Markup.callbackButton('Pão Francês', 'xpaofrances'),
-	Markup.callbackButton('Pão de Milho', 'xpaodemilho'),
-	Markup.callbackButton('Rosquinha Comum', 'xrosquinha'),
 
-	Markup.callbackButton('Rosquinha com Recheio', 'xrosquinharecheio'),
-	Markup.callbackButton('Croissant Presunto', 'xcroissantpresunto'),
-	Markup.callbackButton('Croissant Frango', 'xcroissantfrango'),
+ const tecladoFixoItensFalta = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('🍞 P. Francês', 'xpaofrances'),
+	Markup.callbackButton('🌽 P. Milho', 'xpaodemilho'),
+	Markup.callbackButton('🍩 R. Comum', 'xrosquinha'),
 
-	Markup.callbackButton('Bisnaga Comum', 'xbisnaga'),
-	Markup.callbackButton('Bisnaga com Açúcar', 'xbisnagaacucar'),
-	Markup.callbackButton('Bisnaga com Creme', 'xbisnagacreme'),
+	Markup.callbackButton('🍩 R. Recheio', 'xrosquinharecheio'),
+	Markup.callbackButton('🥐 C. Presunto', 'xcroissantpresunto'),
+	Markup.callbackButton('🥐 C. Frango', 'xcroissantfrango'),
+
+	Markup.callbackButton('🥖 B. Comum', 'xbisnaga'),
+	Markup.callbackButton('🥖 B. Açúcar', 'xbisnagaacucar'),
+	Markup.callbackButton('🥖 B. Creme', 'xbisnagacreme'),
 
 	Markup.callbackButton('Nenhum item em falta', 'xreiniciar')
 ], {columns: 3}))
