@@ -27,6 +27,7 @@ var acordado = true;
 var fimdodia = false;
 
 var conteudocarregado = false;
+var relatorioTempo = [];
 
 // Clima
 
@@ -431,7 +432,7 @@ const listar = () => {
 	
 }
 
-const atualizarData = () => {
+const atualizarData = (ctx, next) => {
 	datacompleta = new Date();
 	datahora = datacompleta.getHours();
 	datadia = datacompleta.getDate();
@@ -439,6 +440,8 @@ const atualizarData = () => {
 	dataano = datacompleta.getFullYear();
 	datadata = (datadia+'/'+datames+'/'+dataano);
 	dataai = dataano+'-'+datames+'-'+datadia;
+
+	next();
 }
 
 const checagempost = (ctx, next) => {
@@ -741,10 +744,10 @@ const liberandopost = (ctx, next) => {
 
 
 // Começando o dia
-const novodia = () => {
+const novodia = (ctx, next) => {
 
 	// Horário
-	atualizarData();
+	relatorioTempo = [1,datames,dataano];
 
 
 	// Zerando pedido do dia
@@ -770,10 +773,27 @@ const novodia = () => {
 		msg(`novodia()`, idKiliano)
 	}
 
-	// carregar();
+	next();
 
-	exec(ctx, carregarum, liberandopost)
+	// carregar();
 }
+	
+
+const relatoriopao = (ctx, next) => {
+	// relatorioTempo[0] número de meses
+	// relatorioTempo[1] mes referencia
+	// relatorioTempo[2] ano referencia
+
+
+
+	next();
+}
+
+
+
+
+
+
 
 // Teclados
 
@@ -851,10 +871,17 @@ const tecladoClima = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('Próximos 7 Dias', 'csetedias')
 ], {columns: 3}))
 
+// Relatório Pão
+const tecladoRelatorioPao = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('Mês Atual', 'choje'),
+	Markup.callbackButton('Mês passado', 'camanha'),
+	Markup.callbackButton('Especificar Mês', 'csetedias')
+], {columns: 3}))
+
 
 
 // Início do dia
-novodia();
+exec(ctx, atualizarData, novodia, carregarum, liberandopost)
 
 
 // Criação de comandos
@@ -1170,7 +1197,6 @@ bot.command(['bartira'], async ctx => {
 			msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idBartira)
 		}
 	}
-	
 })
 
 
@@ -1700,6 +1726,12 @@ bot.command('msg', async ctx => {
 
 
 // Testes
+
+bot.command(['teste'], async ctx => {
+	exec(ctx, atualizarData, carregartodos, relatoriopao)
+
+})
+
 
 bot.command(['post'], async ctx => {
 	if (ctx.chat.id == idKiliano) {
