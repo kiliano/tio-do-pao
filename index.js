@@ -186,18 +186,76 @@ const msg = (msg, id) => {
 // 	next()
 // }
 
-const carregar = (ctx, next) => {
+// const carregar = (ctx, next) => {
+// 	// Carregando conteúdo online
+// 	wp.getPosts({
+// 		type: "cpt-pao",
+// 		number: "999"
+// 	},["title","date", "customFields"],function( error, posts, data ) {
+// 	    conteudo = posts;
+// 	    conteudo = JSON.stringify(conteudo);
+// 	    if (conteudo.length > 0) {
+// 		    conteudo = JSON.parse(conteudo);
+// 		    conteudoprimeiro = conteudo[0];
+// 	    }
+// 	    console.log( "Carregando " + conteudo.length + " posts!" );
+// 	    console.log( "Último post:" );
+// 	    console.log(conteudoprimeiro);
+// 	    next()
+// 	});
+// }
+
+const carregarum = (ctx, next) => {
 	// Carregando conteúdo online
 	wp.getPosts({
 		type: "cpt-pao",
-	},["title","date", "customFields"],function( error, posts ) {
+		number: "1"
+	},["title","date", "customFields"],function( error, posts, data ) {
 	    conteudo = posts;
 	    conteudo = JSON.stringify(conteudo);
 	    if (conteudo.length > 0) {
 		    conteudo = JSON.parse(conteudo);
 		    conteudoprimeiro = conteudo[0];
 	    }
-	    console.log( "Carregando " + posts.length + " posts!" );
+	    console.log( "Carregando " + conteudo.length + " posts!" );
+	    console.log( "Último post:" );
+	    console.log(conteudoprimeiro);
+	    next()
+	});
+}
+
+const carregarsessenta = (ctx, next) => {
+	// Carregando conteúdo online
+	wp.getPosts({
+		type: "cpt-pao",
+		number: "60"
+	},["title","date", "customFields"],function( error, posts, data ) {
+	    conteudo = posts;
+	    conteudo = JSON.stringify(conteudo);
+	    if (conteudo.length > 0) {
+		    conteudo = JSON.parse(conteudo);
+		    conteudoprimeiro = conteudo[0];
+	    }
+	    console.log( "Carregando " + conteudo.length + " posts!" );
+	    console.log( "Último post:" );
+	    console.log(conteudoprimeiro);
+	    next()
+	});
+}
+
+const carregartodos = (ctx, next) => {
+	// Carregando conteúdo online
+	wp.getPosts({
+		type: "cpt-pao",
+		number: "9999"
+	},["title","date", "customFields"],function( error, posts, data ) {
+	    conteudo = posts;
+	    conteudo = JSON.stringify(conteudo);
+	    if (conteudo.length > 0) {
+		    conteudo = JSON.parse(conteudo);
+		    conteudoprimeiro = conteudo[0];
+	    }
+	    console.log( "Carregando " + conteudo.length + " posts!" );
 	    console.log( "Último post:" );
 	    console.log(conteudoprimeiro);
 	    next()
@@ -526,6 +584,155 @@ const novopost = (ctx, next) => {
 }
 
 
+const novopostdummy = (ctx, next) => {
+
+	var diasample = 1;
+	var messample = 1;
+	
+
+	for (var i = 0; i < 150; i++) {
+
+		var randomvar = [];
+
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+		randomvar.push(Math.floor(Math.random() * 6));
+
+
+		pedido = {
+			"dia_data": diasample,
+			"mes_data": messample,
+			"ano_data": 2018,
+			"acoes": ["Ação exemplo"],
+			"indisponibilidade": ["IndisponibilidadeExemplo"],
+			"lista": ["1 lista exemplo", "2 lista exemplo", "40 lista exemplo"],
+			"paofrances": parseInt(randomvar[0]),
+			"paodemilho": parseInt(randomvar[1]),
+			"rosquinha": parseInt(randomvar[2]),
+			"rosquinharecheio": parseInt(randomvar[3]),
+			"croissantpresunto": parseInt(randomvar[4]),
+			"croissantfrango": parseInt(randomvar[5]),
+			"bisnaga": parseInt(randomvar[6]),
+			"bisnagaacucar": parseInt(randomvar[7]),
+			"bisnagacreme": parseInt(randomvar[8])
+		};
+
+
+
+		var dia_data_zero = "";
+		if (pedido.dia_data < 10) {
+			dia_data_zero = "0";
+		} else {
+			dia_data_zero = "";
+		}
+
+		var mes_data_zero = "";
+		if (pedido.mes_data < 10) {
+			mes_data_zero = "0";
+		} else {
+			mes_data_zero = "";
+		}
+
+		wp.newPost({
+		        title: pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
+		        status: "publish",
+		        type: "cpt-pao",
+		        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
+		        termNames: {
+	                "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
+		        },
+		        customFields: [
+			        {
+			          "key": "dia_data",
+			          "value": pedido.dia_data
+			        },
+			        {
+			          "key": "mes_data",
+			          "value": pedido.mes_data
+			        },
+			        {
+			          "key": "ano_data",
+			          "value": pedido.ano_data
+			        },
+			        {
+			          "key": "acoes",
+			          "value": JSON.stringify(pedido.acoes)
+			        },
+			        {
+			          "key": "indisponibilidade",
+			          "value": JSON.stringify(pedido.indisponibilidade)
+			        },
+			        {
+			          "key": "lista",
+			          "value": JSON.stringify(pedido.lista)
+			        },
+			        {
+			          "key": "paofrances",
+			          "value": pedido.paofrances
+			        },
+			        {
+			          "key": "paodemilho",
+			          "value": pedido.paodemilho
+			        },
+			        {
+			          "key": "rosquinha",
+			          "value": pedido.rosquinha
+			        },
+			        {
+			          "key": "rosquinharecheio",
+			          "value": pedido.rosquinharecheio
+			        },
+			        {
+			          "key": "croissantpresunto",
+			          "value": pedido.croissantpresunto
+			        },
+			        {
+			          "key": "croissantfrango",
+			          "value": pedido.croissantfrango
+			        },
+			        {
+			          "key": "bisnaga",
+			          "value": pedido.bisnaga
+			        },
+			        {
+			          "key": "bisnagaacucar",
+			          "value": pedido.bisnagaacucar
+			        },
+			        {
+			          "key": "bisnagacreme",
+			          "value": pedido.bisnagacreme
+			        }
+			      ]
+		        
+
+		}, function( error, data ) {
+		        console.log( "Post enviado resposta como:\n" );
+		        console.log( arguments );
+		        console.log("\n");
+		});
+
+		diasample += 1;
+
+		if (diasample > 30 ) {
+
+			diasample = 1;
+			messample +=1;
+
+		}
+
+	}
+
+	
+	
+	
+}
+
 
 const liberandopost = (ctx, next) => {
 	conteudocarregado = true;
@@ -565,7 +772,7 @@ const novodia = () => {
 
 	// carregar();
 
-	exec(ctx, carregar, liberandopost)
+	exec(ctx, carregarum, liberandopost)
 }
 
 // Teclados
@@ -997,7 +1204,7 @@ bot.action('pconfirmar', async ctx => {
 	// Enviando post pro servidor
 	if (conteudocarregado == true)  {
 		conteudocarregado = false;
-		exec(ctx, carregar, checagempost)
+		exec(ctx, carregarum, checagempost)
 	} else {
 		console.log("nao carregado")
 	}
@@ -1498,15 +1705,13 @@ bot.command(['post'], async ctx => {
 	if (ctx.chat.id == idKiliano) {
 		if (conteudocarregado == true)  {
 			conteudocarregado = false;
-			exec(ctx, carregar, checagempost)
+			exec(ctx, carregarum, checagempost)
 		} else {
 			console.log("nao carregado")
 		}
 	}
 
 })
-
-
 
 
 // / Código
