@@ -91,11 +91,25 @@ const ctx = {}
 	// 				setTimeout(function(){
 	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
 	// 					console.log(datahora-3)
+					// if (ctx.chat.id == idKiliano) {
+					// 	if (conteudocarregado == true)  {
+					// 		conteudocarregado = false;
+					// 		exec(ctx, carregarum, checagemparanovopost)
+					// 	} else {
+					// 		console.log("nao carregado")
+					// 	}
+					// }
 	// 				 },750000);
 
 	// 				setTimeout(function(){
 	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
 	// 					console.log(datahora-3)
+					// 	if (conteudocarregado == true)  {
+					// 		conteudocarregado = false;
+					// 		exec(ctx, carregarum, checagemparanovopost)
+					// 	} else {
+					// 		console.log("nao carregado")
+					// 	}
 	// 				 },1350000);
 	// 			} else {
 
@@ -444,9 +458,10 @@ const atualizarData = (ctx, next) => {
 	next();
 }
 
-const checagempost = (ctx, next) => {
+const checagemparanovopost = (ctx, next) => {
 			var conteudodia = 0;
 			var conteudomes = 0;
+			var conteudoacoes = [];
 
 			if (conteudo.length > 0) {
 
@@ -459,13 +474,27 @@ const checagempost = (ctx, next) => {
 					if (conteudoprimeiro.customFields[i].key == "mes_data") {
 						conteudomes = conteudoprimeiro.customFields[i].value;
 					}
+
+					if (conteudoprimeiro.customFields[i].key == "acoes") {
+						conteudoacoes = conteudoprimeiro.customFields[i].value;
+					}
 				}
 
 
 
 				if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
-					console.log("Já existe um post nessa data. Apagando antigo e criando um novo.");
-					exec(ctx, deletarultimopost, novopost, liberandopost)
+					console.log("Já existe um post nessa data. Verificando se o post está atualizado:" + conteudoacoes + "" +JSON.stringify(pedido.acoes));
+
+					if (conteudoacoes == JSON.stringify(pedido.acoes)) {
+						console.log("A versão online já está atualizada. Nenhuma medida necessária.");
+						exec(ctx, liberandopost)
+
+					} else {
+						console.log("Online desatualizado. Atualizando post.");
+						exec(ctx, deletarultimopost, novopost, liberandopost)
+
+					}
+
 
 				} else {
 					console.log("Não existe um post nessa data");
@@ -777,6 +806,97 @@ const novodia = (ctx, next) => {
 
 	// carregar();
 }
+
+// Atualizar local com o online
+
+const atualizarlocal = (ctx, next) => {
+
+	var conteudoprimeirodia;
+	var conteudoprimeiromes;
+
+	for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
+		if (conteudoprimeiro.customFields[i].key == "dia_data") {
+			conteudoprimeirodia = conteudoprimeiro.customFields[i].value;
+		}
+
+		if (conteudoprimeiro.customFields[i].key == "mes_data") {
+			conteudoprimeiromes = conteudoprimeiro.customFields[i].value;
+		}
+	}
+
+
+	console.log("atualizar local. conteudoprimeiro.dia_data:"+conteudoprimeirodia+" == pedido.dia_data: "+pedido.dia_data);
+	console.log("atualizar local. conteudoprimeiro.dia_data:"+conteudoprimeiromes+" == pedido.mes_data: "+pedido.mes_data);
+
+	if (conteudoprimeirodia == pedido.dia_data && conteudoprimeiromes == pedido.mes_data) {
+
+		for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
+			if (conteudoprimeiro.customFields[i].key == "acoes") {
+				pedido.acoes = JSON.parse(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "indisponibilidade") {
+				pedido.indisponibilidade = JSON.parse(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "lista") {
+				pedido.lista = JSON.parse(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "paofrances") {
+				pedido.paofrances = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "paodemilho") {
+				pedido.paodemilho = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "rosquinha") {
+				pedido.rosquinha = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "rosquinharecheio") {
+				pedido.rosquinharecheio = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "croissantpresunto") {
+				pedido.croissantpresunto = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "croissantfrango") {
+				pedido.croissantfrango = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "bisnaga") {
+				pedido.bisnaga = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "bisnagaacucar") {
+				pedido.bisnagaacucar = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+			if (conteudoprimeiro.customFields[i].key == "bisnagacreme") {
+				pedido.bisnagacreme = parseInt(conteudoprimeiro.customFields[i].value);
+			}
+
+
+		}
+		
+
+		console.log("Puxando versão mais atualizada do servidor");
+
+		console.log(pedido);
+
+	} else {
+		console.log("Não existe uma versão online do dia de hoje");
+	}
+
+
+
+	next();
+
+	// carregar();
+}
 	
 
 const relatoriopao = (ctx, next) => {
@@ -784,9 +904,12 @@ const relatoriopao = (ctx, next) => {
 	// relatorioTempo[1] mes referencia
 	// relatorioTempo[2] ano referencia
 
+	if (conteudo.length > 0) {
+		for (var ic = 0; ic < conteudo.length; ic++) {
 
-
-	next();
+		}
+		next();
+    }
 }
 
 
@@ -881,7 +1004,7 @@ const tecladoRelatorioPao = Extra.markup(Markup.inlineKeyboard([
 
 
 // Início do dia
-exec(ctx, atualizarData, novodia, carregarum, liberandopost)
+exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
 
 
 // Criação de comandos
@@ -1230,7 +1353,7 @@ bot.action('pconfirmar', async ctx => {
 	// Enviando post pro servidor
 	if (conteudocarregado == true)  {
 		conteudocarregado = false;
-		exec(ctx, carregarum, checagempost)
+		exec(ctx, carregarum, checagemparanovopost)
 	} else {
 		console.log("nao carregado")
 	}
@@ -1728,7 +1851,7 @@ bot.command('msg', async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	exec(ctx, atualizarData, carregartodos, relatoriopao)
+	console.log(pedido)
 
 })
 
@@ -1737,7 +1860,7 @@ bot.command(['post'], async ctx => {
 	if (ctx.chat.id == idKiliano) {
 		if (conteudocarregado == true)  {
 			conteudocarregado = false;
-			exec(ctx, carregarum, checagempost)
+			exec(ctx, carregarum, checagemparanovopost)
 		} else {
 			console.log("nao carregado")
 		}
