@@ -42,27 +42,6 @@ const exec = (ctx, ...middlewares) => {
 	run(0)
 }
 const ctx = {}
-/*
-const mid1 = (ctx, next) => {
-	ctx.info1 = 'midi1'
-	console.log("1")
-	next()
-}
-
-const mid2 = (ctx, next) => {
-	ctx.info2 = 'midi2'
-	console.log("2")
-	next()
-}
-
-const mid3 = (ctx, next) => {
-	ctx.info3 = 'midi3'
-	console.log("3")
-}
-
-const ctx = {}
-exec(ctx, mid1, mid2, mid3)
-*/
 
 // Data de nascimento do bot: 17/09/2018
 
@@ -71,87 +50,87 @@ exec(ctx, mid1, mid2, mid3)
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/")
-				console.log(datahora-3)
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 			console.log(datahora-3)
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				var datacompleta = new Date();
-				let datahora = ((datacompleta.getHours()));
-				if (datahora < 19+3) {
+	// 		setInterval(function(){ 
+	// 			var datacompleta = new Date();
+	// 			let datahora = ((datacompleta.getHours()));
+	// 			if (datahora < 19+3) {
 
-					if (fimdodia == true) {
-						fimdodia = false;
-						novodia();
-					}
-
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
-					 },750000);
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
-					 },1350000);
-				} else {
-
-					if (fimdodia == false) {
-						fimdodia = true;
-					}
-
-				}
-			}, 2400000);
+	// 				if (fimdodia == true) {
+	// 					fimdodia = false;
+	// 					novodia();
+	// 				}
 
 
-	var port = (process.env.PORT || 5000)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log(datahora-3)
+	// 				 },750000);
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log(datahora-3)
+	// 				 },1350000);
+	// 			} else {
 
-	const token = process.env.token
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 				}
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// 			}
+	// 		}, 2400000);
 
-	const idTodos = process.env.idTodos
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// var port = (process.env.PORT || 5000)
 
-	const apiClimatempo = process.env.apiClimatempo
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const bot = new Telegraf(token)
+	// const token = process.env.token
+
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
+
+	// const idTodos = process.env.idTodos
+
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
 
 
 
