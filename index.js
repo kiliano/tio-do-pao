@@ -161,6 +161,7 @@ var trocasvalidas = [];
 var indisponiveltxt = [];
 
 var conteudo = {};
+var conteudoprimeiro = {};
 
 // Login WP
 var wp = wordpress.createClient({
@@ -209,10 +210,15 @@ const carregar = (ctx, next) => {
 	wp.getPosts({
 		type: "cpt-pao",
 	},["title","date", "customFields"],function( error, posts ) {
-	    console.log( "Carregando " + posts.length + " posts!" );
 	    conteudo = posts;
 	    conteudo = JSON.stringify(conteudo);
-	    console.log(conteudo);
+	    if (conteudo.length > 0) {
+		    conteudo = JSON.parse(conteudo);
+		    conteudoprimeiro = conteudo[0];
+	    }
+	    console.log( "Carregando " + posts.length + " posts!" );
+	    console.log( "Último post:" );
+	    console.log(conteudoprimeiro);
 	    next()
 	});
 }
@@ -397,33 +403,27 @@ const atualizarData = () => {
 }
 
 const checagempost = (ctx, next) => {
-	
-			var conteudoprimeiro = JSON.parse(conteudo);
 			var conteudodia = 0;
 			var conteudomes = 0;
 
-			if (conteudoprimeiro.length > 0) {
-				conteudoprimeiro = conteudoprimeiro[0].customFields;
+			if (conteudo.length > 0) {
 
-				conteudoprimeiro = JSON.stringify(conteudoprimeiro);
-				conteudoprimeiro = JSON.parse(conteudoprimeiro);
-				
-				for (var i = 0; i < conteudoprimeiro.length; i++) {
+				for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
 
-					if (conteudoprimeiro[i].key == "dia_data") {
-						conteudodia = conteudoprimeiro[i].value;
+					if (conteudoprimeiro.customFields[i].key == "dia_data") {
+						conteudodia = conteudoprimeiro.customFields[i].value;
 					}
 
-					if (conteudoprimeiro[i].key == "mes_data") {
-						conteudomes = conteudoprimeiro[i].value;
+					if (conteudoprimeiro.customFields[i].key == "mes_data") {
+						conteudomes = conteudoprimeiro.customFields[i].value;
 					}
 				}
 
 
 
 				if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
-					console.log("Já existe um post nessa data");
-					exec(ctx, liberandopost)
+					console.log("Já existe um post nessa data. Apagando antigo e criando um novo.");
+					exec(ctx, deletarultimopost, novopost, liberandopost)
 
 				} else {
 					console.log("Não existe um post nessa data");
@@ -433,6 +433,20 @@ const checagempost = (ctx, next) => {
 				exec(ctx, novopost, liberandopost)
 			}
 }
+
+const deletarultimopost = (ctx, next) => {
+	
+	console.log("deletando ultimo post");
+
+	wp.deletePost(conteudoprimeiro.id,function( error, data ) {
+		console.log("deletando post de id "+conteudoprimeiro.id)
+	        console.log( arguments );
+	        console.log("\n");
+	        next();
+	});
+}
+
+
 
 const novopost = (ctx, next) => {
 	
@@ -458,7 +472,7 @@ const novopost = (ctx, next) => {
 	        termNames: {
                 "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
 	        },
-	        "customFields": [
+	        customFields: [
 		        {
 		          "key": "dia_data",
 		          "value": pedido.dia_data
@@ -1488,7 +1502,7 @@ bot.command('msg', async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	
+	exec(ctx, carregar, deletarultimopost, liberandopost)
 	// wp.getPosts({
 	// 	type: "cpt-pao"
 
