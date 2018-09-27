@@ -79,6 +79,7 @@ exec(ctx, mid1, mid2, mid3)
 
 	const idKiliano = env.idKiliano;
 	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
 	const idChatDegrau = env.idChatDegrau;
 	const idChatFronts = env.idChatFronts;
 
@@ -138,6 +139,7 @@ exec(ctx, mid1, mid2, mid3)
 
 	// const idKiliano = process.env.idKiliano
 	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
 	// const idChatDegrau = process.env.idChatDegrau
 	// const idChatFronts = process.env.idChatFronts
 	// const wordpressPass = process.env.wordpressPass;
@@ -1013,7 +1015,14 @@ bot.action('pconfirmar', async ctx => {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
 	}	
 
-	await ctx.reply(`(Por enquanto isso não faz nada, mas futuramente vai ser 🔝)`)
+	// Enviando post pro servidor
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, carregar, checagempost)
+	} else {
+		console.log("nao carregado")
+	}
+
 	msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
 })
 
@@ -1277,6 +1286,9 @@ bot.command(['jandira'], async ctx => {
 	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`);
 	climaicon = "";
 
+	var jandira1 = "";
+	var jandira2 = "";
+
 	if (clima.data.data[0].rain.probability >= 90) {
 		climaicon = "☔";
 	} else {
@@ -1295,16 +1307,13 @@ bot.command(['jandira'], async ctx => {
 
 	}
 
-	await ctx.replyWithMarkdown(`☀ ☀ *Previsão para JANDIRA* ☀ ☀`);
+	jandira1 = `☀ ☀ Previsão para JANDIRA ☀ ☀
 
-	await ctx.reply(`HOJE (${clima.data.data[0].date_br})
-
+	HOJE (${clima.data.data[0].date_br})
 		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
 	 	${clima.data.data[0].text_icon.text.pt} ☀
 	 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
-	 	\n\n
-	 `);
-
+	 	`;
 
 	if (clima.data.data[1].rain.probability >= 90) {
 		climaicon = "☔";
@@ -1324,13 +1333,17 @@ bot.command(['jandira'], async ctx => {
 
 	}
 
-	await ctx.reply(` AMANHÃ (${clima.data.data[1].date_br})
+	jandira2 = `AMANHÃ (${clima.data.data[1].date_br})
 
 		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 	 	${clima.data.data[1].text_icon.text.pt} ☀
-	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
-	 	\n
-	 `);
+	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
+
+	if (ctx.chat.id != idRodrigo) {
+		await ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
+	}
+
+	msg(jandira1+jandira2, idRodrigo);
 
 
 
@@ -1502,63 +1515,14 @@ bot.command('msg', async ctx => {
 
 // Testes
 
-bot.command(['teste'], async ctx => {
-	exec(ctx, carregar, deletarultimopost, liberandopost)
-	// wp.getPosts({
-	// 	type: "cpt-pao"
-
-	// }, function( error, data ) {
-	//         conteudo = arguments;
-	//         conteudo = JSON.stringify(conteudo);
-	//         conteudo = conteudo[1];
-	//         console.log(conteudo);
-	        
-	// })
-
-	// await ctx.reply(`${conteudo}`)
-
-})
-
-// wp.getPosts({
-// 	type: "cpt-pao"
-
-// }, function( error, data ) {
-//         conteudo = arguments;
-//         conteudo = JSON.stringify(conteudo);
-//         console.log(conteudo);
-// })
-
-
-
-// wp.getPosts({
-// 		type: "cpt-pao"
-
-// 	}, function( error, data ) {
-// 	        conteudo = arguments;
-// 	        conteudo = JSON.stringify(conteudo);
-// 	        conteudo = conteudo[1];
-	        
-// 	})
-
-
-// wp.getPosts({
-// 	type: "cpt-pao"
-
-// }, function( error, data ) {
-//         conteudo = arguments;
-//         conteudo = JSON.stringify(conteudo);
-//         conteudo = conteudo[1];
-// })
-
-
-
-
 bot.command(['post'], async ctx => {
-	if (conteudocarregado == true)  {
-		conteudocarregado = false;
-		exec(ctx, carregar, checagempost)
-	} else {
-		console.log("nao carregado")
+	if (ctx.chat.id == idKiliano) {
+		if (conteudocarregado == true)  {
+			conteudocarregado = false;
+			exec(ctx, carregar, checagempost)
+		} else {
+			console.log("nao carregado")
+		}
 	}
 
 })
