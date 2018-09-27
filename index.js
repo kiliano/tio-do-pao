@@ -195,31 +195,6 @@ const msg = (msg, id) => {
 }
 
 
-// const mid1 = (ctx, next) => {
-// 	ctx.info1 = 'midi1'
-// 	console.log("1")
-// 	next()
-// }
-
-// const carregar = (ctx, next) => {
-// 	// Carregando conteúdo online
-// 	wp.getPosts({
-// 		type: "cpt-pao",
-// 		number: "999"
-// 	},["title","date", "customFields"],function( error, posts, data ) {
-// 	    conteudo = posts;
-// 	    conteudo = JSON.stringify(conteudo);
-// 	    if (conteudo.length > 0) {
-// 		    conteudo = JSON.parse(conteudo);
-// 		    conteudoprimeiro = conteudo[0];
-// 	    }
-// 	    console.log( "Carregando " + conteudo.length + " posts!" );
-// 	    console.log( "Último post:" );
-// 	    console.log(conteudoprimeiro);
-// 	    next()
-// 	});
-// }
-
 const carregarum = (ctx, next) => {
 	// Carregando conteúdo online
 	wp.getPosts({
@@ -899,15 +874,118 @@ const atualizarlocal = (ctx, next) => {
 }
 	
 
+var pedidosanalisados = [];
+
+
+
+
+
+
 const relatoriopao = (ctx, next) => {
-	// relatorioTempo[0] número de meses
+	// relatorioTempo[0] mensal ou anual (1 é mês, 2 é ano)
 	// relatorioTempo[1] mes referencia
 	// relatorioTempo[2] ano referencia
 
-	if (conteudo.length > 0) {
-		for (var ic = 0; ic < conteudo.length; ic++) {
 
+
+
+	if (conteudo.length > 0) {
+		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
+
+		for (var ic = 0; ic < conteudo.length; ic++) {
+			var pedidoanalisado = {
+				"dia_data": 0,
+				"mes_data": 0,
+				"ano_data": 0,
+				"acoes": [],
+				"indisponibilidade": [],
+				"lista": [],
+				"paofrances":0,
+				"paodemilho":0,
+				"rosquinha":0,
+				"rosquinharecheio":0,
+				"croissantpresunto":0,
+				"croissantfrango":0,
+				"bisnaga":0,
+				"bisnagaacucar":0,
+				"bisnagacreme":0
+			};
+
+			for (var id = 0; id < conteudo[ic].customFields.length; id++) {
+				if (conteudo[ic].customFields[id].key == "dia_data") {
+					pedidoanalisado.dia_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "mes_data") {
+					pedidoanalisado.mes_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "ano_data") {
+					pedidoanalisado.ano_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "acoes") {
+					pedidoanalisado.acoes = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "indisponibilidade") {
+					pedidoanalisado.indisponibilidade = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "lista") {
+					pedidoanalisado.lista = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "paofrances") {
+					pedidoanalisado.paofrances = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "paodemilho") {
+					pedidoanalisado.paodemilho = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "rosquinha") {
+					pedidoanalisado.rosquinha = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "rosquinharecheio") {
+					pedidoanalisado.rosquinharecheio = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "croissantpresunto") {
+					pedidoanalisado.croissantpresunto = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "croissantfrango") {
+					pedidoanalisado.croissantfrango = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnaga") {
+					pedidoanalisado.bisnaga = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnagaacucar") {
+					pedidoanalisado.bisnagaacucar = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnagacreme") {
+					pedidoanalisado.bisnagacreme = parseInt(conteudo[ic].customFields[id].value);
+				}
+			}
+
+			if (relatorioTempo[0] == 1) {
+				if (pedidoanalisado.ano_data == relatorioTempo[2] && pedidoanalisado.mes_data == relatorioTempo[1]) {
+					pedidosanalisados.push(pedidoanalisado);
+				}
+			}
+
+			if (relatorioTempo[0] == 2) {
+				if (pedidoanalisado.ano_data == relatorioTempo[2]) {
+					pedidosanalisados.push(pedidoanalisado);
+				}
+			}
 		}
+		console.log("Total de "+pedidosanalisados.length+" pedidos selecionados");
 		next();
     }
 }
@@ -1852,6 +1930,20 @@ bot.command('msg', async ctx => {
 
 bot.command(['teste'], async ctx => {
 	console.log(pedido)
+
+
+	if (ctx.chat.id == idKiliano) {
+
+		relatorioTempo = [1,4,2018];
+
+
+		if (conteudocarregado == true)  {
+			conteudocarregado = false;
+			exec(ctx, atualizarData, carregartodos, relatoriopao, liberandopost)
+		} else {
+			console.log("nao carregado")
+		}
+	}
 
 })
 
