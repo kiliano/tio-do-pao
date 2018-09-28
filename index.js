@@ -224,7 +224,7 @@ const carregarum = (ctx, next) => {
 	    console.log( "Carregando " + conteudo.length + " posts!" );
 	    console.log( "Último post:" );
 	    console.log(conteudoprimeiro);
-	    next()
+	    next();
 	});
 }
 
@@ -243,7 +243,7 @@ const carregarsessenta = (ctx, next) => {
 	    console.log( "Carregando " + conteudo.length + " posts!" );
 	    console.log( "Último post:" );
 	    console.log(conteudoprimeiro);
-	    next()
+	    next();
 	});
 }
 
@@ -452,6 +452,60 @@ const checagemparanovopost = (ctx, next) => {
 			var conteudomes = 0;
 			var conteudoacoes = [];
 
+			if(pedido.acoes[0] != undefined) {
+				if (conteudo.length > 0) {
+
+					for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
+
+						if (conteudoprimeiro.customFields[i].key == "dia_data") {
+							conteudodia = conteudoprimeiro.customFields[i].value;
+						}
+
+						if (conteudoprimeiro.customFields[i].key == "mes_data") {
+							conteudomes = conteudoprimeiro.customFields[i].value;
+						}
+
+						if (conteudoprimeiro.customFields[i].key == "acoes") {
+							conteudoacoes = conteudoprimeiro.customFields[i].value;
+						}
+					}
+
+
+
+					if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
+						console.log("Já existe um post nessa data. Verificando se o post está atualizado:" + conteudoacoes + "" +JSON.stringify(pedido.acoes));
+
+						if (conteudoacoes == JSON.stringify(pedido.acoes)) {
+							console.log("A versão online já está atualizada. Nenhuma medida necessária.");
+							exec(ctx, liberandopost)
+
+						} else {
+							console.log("Online desatualizado. Atualizando post.");
+							exec(ctx, deletarultimopost, novopost, liberandopost)
+
+						}
+
+
+					} else {
+						console.log("Não existe um post nessa data");
+						exec(ctx, novopost, liberandopost)
+					}
+				} else {
+					exec(ctx, novopost, liberandopost)
+				}
+			} else {
+				console.log("lista de ações vazia");
+				exec(ctx, liberandopost)
+			}
+
+			
+}
+
+const checagemparaapagar = (ctx, next) => {
+			var conteudodia = 0;
+			var conteudomes = 0;
+			var conteudoacoes = [];
+
 			if (conteudo.length > 0) {
 
 				for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
@@ -472,25 +526,15 @@ const checagemparanovopost = (ctx, next) => {
 
 
 				if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
-					console.log("Já existe um post nessa data. Verificando se o post está atualizado:" + conteudoacoes + "" +JSON.stringify(pedido.acoes));
-
-					if (conteudoacoes == JSON.stringify(pedido.acoes)) {
-						console.log("A versão online já está atualizada. Nenhuma medida necessária.");
-						exec(ctx, liberandopost)
-
-					} else {
-						console.log("Online desatualizado. Atualizando post.");
-						exec(ctx, deletarultimopost, novopost, liberandopost)
-
-					}
-
-
+					console.log("Já existe um post nessa data. Apagando post");
+					exec(ctx, deletarultimopost, liberandopost)
+		
 				} else {
 					console.log("Não existe um post nessa data");
-					exec(ctx, novopost, liberandopost)
+					exec(ctx, liberandopost)
 				}
 			} else {
-				exec(ctx, novopost, liberandopost)
+				exec(ctx, liberandopost)
 			}
 }
 
@@ -528,7 +572,7 @@ const novopost = (ctx, next) => {
 	        title: pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
 	        status: "publish",
 	        type: "cpt-pao",
-	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
+	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T03:00:00.000Z",
 	        termNames: {
                 "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
 	        },
@@ -600,7 +644,7 @@ const novopost = (ctx, next) => {
 	        console.log( "Post enviado resposta como:\n" );
 	        console.log( arguments );
 	        console.log("\n");
-	        next();
+	    next();
 	});
 }
 
@@ -906,7 +950,7 @@ const relatoriopao = (ctx, next) => {
 	if (conteudo.length > 0) {
 		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
 
-		 pedidosanalisadossoma = {
+		pedidosanalisadossoma = {
 			"lista": [],
 			"paofrances":0,
 			"paodemilho":0,
@@ -918,6 +962,8 @@ const relatoriopao = (ctx, next) => {
 			"bisnagaacucar":0,
 			"bisnagacreme":0
 		};
+
+		pedidosanalisados = [];
 
 		for (var ic = 0; ic < conteudo.length; ic++) {
 			var pedidoanalisado = {
@@ -1028,23 +1074,62 @@ const relatoriopao = (ctx, next) => {
 			pedidosanalisadossoma.bisnagacreme += pedidosanalisados[ip].bisnagacreme;
 		}
 
-		if (relatorioTempo[0] == 1) {
-			pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL: \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
-		}
+		if (pedidosanalisados.length > 0) {
+			if (relatorioTempo[0] == 1) {
+				pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+			}
 
-		if (relatorioTempo[0] == 2) {
-			pedidosanalisadossoma.lista.push("RELATÓRIO ANIAL: \n\nPedidos de "+relatorioTempo[2]);
-		}
+			if (relatorioTempo[0] == 2) {
+				pedidosanalisadossoma.lista.push("RELATÓRIO ANUAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[2]);
+			}
 
-		pedidosanalisadossoma.lista.push("\n \n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
-		pedidosanalisadossoma.lista.push("\n Pão de Milho ("+pedidosanalisadossoma.paodemilho+")");
-		pedidosanalisadossoma.lista.push("\n Rosquinha Comum ("+pedidosanalisadossoma.rosquinha+")");
-		pedidosanalisadossoma.lista.push("\n Rosquinha com Recheio ("+pedidosanalisadossoma.rosquinharecheio+")");
-		pedidosanalisadossoma.lista.push("\n Croissant de Presunto ("+pedidosanalisadossoma.croissantpresunto+")");
-		pedidosanalisadossoma.lista.push("\n Croissant de Frango ("+pedidosanalisadossoma.croissantfrango+")");
-		pedidosanalisadossoma.lista.push("\n Bisnaga Comum ("+pedidosanalisadossoma.bisnaga+")");
-		pedidosanalisadossoma.lista.push("\n Bisnaga com Açucar ("+pedidosanalisadossoma.bisnagaacucar+")");
-		pedidosanalisadossoma.lista.push("\n Bisnaga com Creme ("+pedidosanalisadossoma.bisnagacreme+")");
+			if (pedidosanalisadossoma.paofrances > 0) {
+				pedidosanalisadossoma.lista.push("\n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
+			}
+
+			if (pedidosanalisadossoma.paodemilho > 0) {
+				pedidosanalisadossoma.lista.push("\n Pão de Milho ("+pedidosanalisadossoma.paodemilho+")");
+			}
+
+			if (pedidosanalisadossoma.rosquinha > 0) {
+				pedidosanalisadossoma.lista.push("\n Rosquinha Comum ("+pedidosanalisadossoma.rosquinha+")");
+			}
+
+			if (pedidosanalisadossoma.rosquinharecheio > 0) {
+				pedidosanalisadossoma.lista.push("\n Rosquinha com Recheio ("+pedidosanalisadossoma.rosquinharecheio+")");
+			}
+
+			if (pedidosanalisadossoma.croissantpresunto > 0) {
+				pedidosanalisadossoma.lista.push("\n Croissant de Presunto ("+pedidosanalisadossoma.croissantpresunto+")");
+			}
+
+			if (pedidosanalisadossoma.croissantfrango > 0) {
+				pedidosanalisadossoma.lista.push("\n Croissant de Frango ("+pedidosanalisadossoma.croissantfrango+")");
+			}
+
+			if (pedidosanalisadossoma.bisnaga > 0) {
+				pedidosanalisadossoma.lista.push("\n Bisnaga Comum ("+pedidosanalisadossoma.bisnaga+")");
+			}
+
+			if (pedidosanalisadossoma.bisnagaacucar > 0) {
+				pedidosanalisadossoma.lista.push("\n Bisnaga com Açucar ("+pedidosanalisadossoma.bisnagaacucar+")");
+			}
+
+			if (pedidosanalisadossoma.bisnagacreme > 0) {
+				pedidosanalisadossoma.lista.push("\n Bisnaga com Creme ("+pedidosanalisadossoma.bisnagacreme+")");
+			}
+			
+		} else {
+			if (relatorioTempo[0] == 1) {
+				pedidosanalisadossoma.lista.push("Nenhum pedido cadastrado em "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+			}
+
+			if (relatorioTempo[0] == 2) {
+				pedidosanalisadossoma.lista.push("Nenhum pedido cadastrado no ano de "+relatorioTempo[2]);
+			}
+
+			
+		}
 		next();
     }
 }
@@ -1052,6 +1137,7 @@ const relatoriopao = (ctx, next) => {
 
 const relatoriopaoprint = (ctx, next) => {
 	ctx.reply(""+pedidosanalisadossoma.lista+"");
+	next();
 }
 
 
@@ -1126,8 +1212,14 @@ const tecladoBranco = Markup.keyboard([
 // Finalização de pedido
 const tecladoFixoItens = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('✔ Confirmar Pedido', 'pconfirmar'),
-	Markup.callbackButton('✖ Falta de Produto', 'pfalta')
-], {columns: 2}))
+	Markup.callbackButton('➖ Falta de Produto', 'pfalta'),
+	Markup.callbackButton('✖ Apagar Tudo', 'pcancelar')
+], {columns: 1}))
+
+const tecladoFixoItensCancelar = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('🔙 Voltar', 'pcancelarvoltar'),
+	Markup.callbackButton('✖✖ Apagar todos os itens do Pedido ✖✖', 'pcancelarapagar')
+], {columns: 1}))
 
 // Clima
 const tecladoClima = Extra.markup(Markup.inlineKeyboard([
@@ -1138,10 +1230,31 @@ const tecladoClima = Extra.markup(Markup.inlineKeyboard([
 
 // Relatório Pão
 const tecladoRelatorioPao = Extra.markup(Markup.inlineKeyboard([
-	Markup.callbackButton('Mês Atual', 'choje'),
-	Markup.callbackButton('Mês passado', 'camanha'),
-	Markup.callbackButton('Especificar Mês', 'csetedias')
-], {columns: 3}))
+	Markup.callbackButton('Mês Atual', 'rmesatual'),
+	Markup.callbackButton('Mês Passado', 'rmespassado'),
+	Markup.callbackButton('Ano Atual', 'ranoatual'),
+	Markup.callbackButton('Ano Passado', 'ranopassado'),
+	Markup.callbackButton('Especificar Data', 'respecificar')
+], {columns: 2}))
+
+const tecladoRelatorioPaoMes = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('01', 'rmes 1'),
+	Markup.callbackButton('02', 'rmes 2'),
+	Markup.callbackButton('03', 'rmes 3'),
+	Markup.callbackButton('04', 'rmes 4'),
+	Markup.callbackButton('05', 'rmes 5'),
+	Markup.callbackButton('06', 'rmes 6'),
+	Markup.callbackButton('07', 'rmes 7'),
+	Markup.callbackButton('08', 'rmes 8'),
+	Markup.callbackButton('09', 'rmes 9'),
+	Markup.callbackButton('10', 'rmes 10'),
+	Markup.callbackButton('11', 'rmes 11'),
+	Markup.callbackButton('12', 'rmes 12')
+], {columns: 6}))
+
+
+
+
 
 
 
@@ -1472,6 +1585,57 @@ bot.action('pfalta', async ctx => {
 	await ctx.editMessageText(`Qual item está em falta?`, tecladoFixoItensFalta)
 })
 
+bot.action('pcancelar', async ctx => {
+	await ctx.editMessageText(`Tem certeza que você quer apagar completamente o pedido?`, tecladoFixoItensCancelar)
+})
+
+bot.action('pcancelarvoltar', async ctx => {
+	await ctx.editMessageText(`---------------------`);
+
+	listar()
+
+	if (pedido.lista.length > 0) {
+
+		if (pedido.indisponibilidade.length > 0) {
+			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+		} else {
+			indisponiveltxt = ""
+		}
+
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+
+	} else {
+		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
+	}	
+})
+
+bot.action('pcancelarapagar', async ctx => {
+	await ctx.editMessageText(`Pedido apagado`);
+
+	pedido.acoes = [];
+	pedido.indisponibilidade = [];
+	pedido.lista = [];
+
+	pedido.paofrances = 0;
+	pedido.paodemilho = 0;
+	pedido.rosquinha = 0;
+	pedido.rosquinharecheio = 0;
+	pedido.croissantpresunto = 0;
+	pedido.croissantfrango = 0;
+	pedido.bisnaga = 0;
+	pedido.bisnagaacucar = 0;
+	pedido.bisnagacreme = 0;
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, carregarum, checagemparaapagar)
+	} else {
+		console.log("nao carregado")
+	}
+
+})
+
+
 bot.action('pconfirmar', async ctx => {
 	await ctx.editMessageText(`✅ Pedido gravado ✅`);
 
@@ -1726,6 +1890,121 @@ bot.action('xreiniciar', async ctx => {
 })
 
 
+
+
+
+// Relatórios
+
+// Actions
+bot.action('rmesatual', async ctx => {
+
+	relatorioTempo = [1,pedido.mes_data,pedido.ano_data];
+
+	console.log("buscando: "+relatorioTempo);
+
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+})
+
+bot.action('rmespassado', async ctx => {
+
+	if (pedido.mes_data == 1) {
+		relatorioTempo = [1,12,(pedido.ano_data-1)];
+	} else {
+		relatorioTempo = [1,(pedido.mes_data-1),pedido.ano_data];
+	}
+
+	console.log("buscando: "+relatorioTempo);
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+})
+
+bot.action('ranoatual', async ctx => {
+
+	relatorioTempo = [2,pedido.mes_data,pedido.ano_data];
+
+	console.log("buscando: "+relatorioTempo);
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+})
+
+bot.action('ranopassado', async ctx => {
+
+	relatorioTempo = [2,pedido.mes_data,(pedido.ano_data-1)];
+
+	console.log("buscando: "+relatorioTempo);
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+})
+
+bot.action('respecificar', async ctx => {
+	await ctx.editMessageText(`Selecionar Mês`, tecladoRelatorioPaoMes);
+	relatorioTempo[0] = 1;
+})
+
+bot.action(/rmes (\d+)/, async ctx => {
+
+	relatorioTempo[1] = parseInt(ctx.match[1]);
+	console.log("buscando: "+relatorioTempo);
+
+	const tecladoRelatorioPaoAno = Extra.markup(Markup.inlineKeyboard([
+		Markup.callbackButton(pedido.ano_data, 'rano '+pedido.ano_data),
+		Markup.callbackButton((pedido.ano_data-1), 'rano '+(pedido.ano_data-1)),
+		Markup.callbackButton((pedido.ano_data-2), 'rano '+(pedido.ano_data-2))
+	], {columns: 3}))
+
+	await ctx.editMessageText(`Selecionar Ano`, tecladoRelatorioPaoAno);
+})
+
+bot.action(/rano (\d+)/, async ctx => {
+
+	relatorioTempo[2] = parseInt(ctx.match[1]);
+
+	console.log("buscando: "+relatorioTempo);
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+	
+})
+
+
+
+// aaaaaaaaaaaaaaaaaaaaa
+
 // Start
 
 bot.start(async ctx => {
@@ -1935,14 +2214,16 @@ bot.command('wifi', async ctx => {
 	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
 })
 
-bot.command(['help', 'ajuda'], async ctx => {
+bot.command(['help', 'ajuda', 'tio'], async ctx => {
 	await ctx.reply(`
-		/pao para iniciar um pedido
-		/pedido para finalizar um pedido
-		/quem mostra quem pediu o que no último pedido
-		/cancelar para carregar o menu de subtração de itens
-		/lista para carregar a lista de itens pedidos no momento
-		/total para o tio falar quantos pedidos e pães já foram feitos desde a última vez que ele foi ligado
+		/pao - abre o menu para fazer o pedido do pão
+		/pedido - mostra os pedidos do dia do pão
+		/quem - mostra os pedidos separadamente de cada um
+
+		/relatorio - gera relatórios dos pedidos de pão
+
+		/clima - mostra a previsão do tempo
+		/wifi - mostra a senha da wifi do visitante
 		`)
 
 })
@@ -1988,26 +2269,28 @@ bot.command('msg', async ctx => {
 	}
 })
 
+bot.command(['relatorio'], async ctx => {
+	if (ctx.update.message.from.id == idKiliano || ctx.update.message.from.id == idBartira) {
+		if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira) {
+			await ctx.reply(` 📅 Selecione a data do relatório 📅`,tecladoRelatorioPao);
+		} else {
+			await ctx.reply(`Só envio os relatórios inbox 🙂 Me manda uma direct.`);
+		}
+	} else {
 
+	}
+})
 
 // Testes
 
 bot.command(['teste'], async ctx => {
-
-	if (ctx.chat.id == idKiliano) {
-
-		relatorioTempo = [1,4,2018];
-
-		await ctx.reply(`⏳ carregando ...`);
-
-		if (conteudocarregado == true)  {
-			conteudocarregado = false;
-			exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
-		} else {
-			console.log("nao carregado")
-		}
+	await ctx.reply(`testado`);
+	console.log(pedido.acoes);
+	if (pedido.acoes[0] != undefined) {
+		console.log("diferente");
+	} else {
+		console.log("igual");
 	}
-
 })
 
 
