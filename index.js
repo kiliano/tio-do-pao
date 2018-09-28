@@ -51,101 +51,101 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idRodrigo = env.idRodrigo;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idRodrigo = env.idRodrigo;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
 
-	const idTodos = env.idTodos;
+	// const idTodos = env.idTodos;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-	// 		setTimeout(function(){
-	// 			http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 			console.log(datahora-3)
-	// 		 },1350000);
+			setTimeout(function(){
+				http.get("http://shielded-peak-24448.herokuapp.com/")
+				console.log(datahora-3)
+			 },1350000);
 
-	// 		setInterval(function(){ 
-	// 			var datacompleta = new Date();
-	// 			let datahora = ((datacompleta.getHours()));
-	// 			if (datahora < 19+3) {
+			setInterval(function(){ 
+				var datacompleta = new Date();
+				let datahora = ((datacompleta.getHours()));
+				if (datahora < 19+3) {
 
-	// 				if (fimdodia == true) {
-	// 					fimdodia = false;
-	// 					novodia();
-	// 				}
-
-
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 					console.log(datahora-3)
-					// if (ctx.chat.id == idKiliano) {
-					// 	if (conteudocarregado == true)  {
-					// 		conteudocarregado = false;
-					// 		exec(ctx, carregarum, checagemparanovopost)
-					// 	} else {
-					// 		console.log("nao carregado")
-					// 	}
-					// }
-	// 				 },750000);
-
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 					console.log(datahora-3)
-					// 	if (conteudocarregado == true)  {
-					// 		conteudocarregado = false;
-					// 		exec(ctx, carregarum, checagemparanovopost)
-					// 	} else {
-					// 		console.log("nao carregado")
-					// 	}
-	// 				 },1350000);
-	// 			} else {
-
-	// 				if (fimdodia == false) {
-	// 					fimdodia = true;
-	// 				}
-
-	// 			}
-	// 		}, 2400000);
+					if (fimdodia == true) {
+						fimdodia = false;
+						novodia();
+					}
 
 
-	// var port = (process.env.PORT || 5000)
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log(datahora-3)
+					if (ctx.chat.id == idKiliano) {
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
+					}
+					 },750000);
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	// 	response.end();
-	// }).listen(port)
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log(datahora-3)
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
+					 },1350000);
+				} else {
 
-	// const token = process.env.token
+					if (fimdodia == false) {
+						fimdodia = true;
+					}
 
-	// const idKiliano = process.env.idKiliano
-	// const idBartira = process.env.idBartira
-	// const idRodrigo = process.env.idRodrigo;
-	// const idChatDegrau = process.env.idChatDegrau
-	// const idChatFronts = process.env.idChatFronts
-	// const wordpressPass = process.env.wordpressPass;
+				}
+			}, 2400000);
 
-	// const idTodos = process.env.idTodos
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	var port = (process.env.PORT || 5000)
 
-	// const apiClimatempo = process.env.apiClimatempo
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.end();
+	}).listen(port)
 
-	// const bot = new Telegraf(token)
+	const token = process.env.token
+
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idRodrigo = process.env.idRodrigo;
+	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
+	const wordpressPass = process.env.wordpressPass;
+
+	const idTodos = process.env.idTodos
+
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	const apiClimatempo = process.env.apiClimatempo
+
+	const bot = new Telegraf(token)
 
 
 
@@ -572,7 +572,7 @@ const novopost = (ctx, next) => {
 	        title: pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
 	        status: "publish",
 	        type: "cpt-pao",
-	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T03:00:00.000Z",
+	        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
 	        termNames: {
                 "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
 	        },
@@ -648,161 +648,9 @@ const novopost = (ctx, next) => {
 	});
 }
 
-
-const novopostdummy = (ctx, next) => {
-
-	var diasample = 1;
-	var messample = 1;
-	
-
-	for (var i = 0; i < 150; i++) {
-
-		var randomvar = [];
-
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-		randomvar.push(Math.floor(Math.random() * 6));
-
-
-		pedido = {
-			"dia_data": diasample,
-			"mes_data": messample,
-			"ano_data": 2018,
-			"acoes": ["Ação exemplo"],
-			"indisponibilidade": ["IndisponibilidadeExemplo"],
-			"lista": ["1 lista exemplo", "2 lista exemplo", "40 lista exemplo"],
-			"paofrances": parseInt(randomvar[0]),
-			"paodemilho": parseInt(randomvar[1]),
-			"rosquinha": parseInt(randomvar[2]),
-			"rosquinharecheio": parseInt(randomvar[3]),
-			"croissantpresunto": parseInt(randomvar[4]),
-			"croissantfrango": parseInt(randomvar[5]),
-			"bisnaga": parseInt(randomvar[6]),
-			"bisnagaacucar": parseInt(randomvar[7]),
-			"bisnagacreme": parseInt(randomvar[8])
-		};
-
-
-
-		var dia_data_zero = "";
-		if (pedido.dia_data < 10) {
-			dia_data_zero = "0";
-		} else {
-			dia_data_zero = "";
-		}
-
-		var mes_data_zero = "";
-		if (pedido.mes_data < 10) {
-			mes_data_zero = "0";
-		} else {
-			mes_data_zero = "";
-		}
-
-		wp.newPost({
-		        title: pedido.dia_data+"/"+pedido.mes_data+"/"+pedido.ano_data,
-		        status: "publish",
-		        type: "cpt-pao",
-		        date: pedido.ano_data+"-"+mes_data_zero+pedido.mes_data+"-"+dia_data_zero+pedido.dia_data+"T05:00:00.000Z",
-		        termNames: {
-	                "categoria": ["mes"+pedido.mes_data, "ano"+pedido.ano_data],
-		        },
-		        customFields: [
-			        {
-			          "key": "dia_data",
-			          "value": pedido.dia_data
-			        },
-			        {
-			          "key": "mes_data",
-			          "value": pedido.mes_data
-			        },
-			        {
-			          "key": "ano_data",
-			          "value": pedido.ano_data
-			        },
-			        {
-			          "key": "acoes",
-			          "value": JSON.stringify(pedido.acoes)
-			        },
-			        {
-			          "key": "indisponibilidade",
-			          "value": JSON.stringify(pedido.indisponibilidade)
-			        },
-			        {
-			          "key": "lista",
-			          "value": JSON.stringify(pedido.lista)
-			        },
-			        {
-			          "key": "paofrances",
-			          "value": pedido.paofrances
-			        },
-			        {
-			          "key": "paodemilho",
-			          "value": pedido.paodemilho
-			        },
-			        {
-			          "key": "rosquinha",
-			          "value": pedido.rosquinha
-			        },
-			        {
-			          "key": "rosquinharecheio",
-			          "value": pedido.rosquinharecheio
-			        },
-			        {
-			          "key": "croissantpresunto",
-			          "value": pedido.croissantpresunto
-			        },
-			        {
-			          "key": "croissantfrango",
-			          "value": pedido.croissantfrango
-			        },
-			        {
-			          "key": "bisnaga",
-			          "value": pedido.bisnaga
-			        },
-			        {
-			          "key": "bisnagaacucar",
-			          "value": pedido.bisnagaacucar
-			        },
-			        {
-			          "key": "bisnagacreme",
-			          "value": pedido.bisnagacreme
-			        }
-			      ]
-		        
-
-		}, function( error, data ) {
-		        console.log( "Post enviado resposta como:\n" );
-		        console.log( arguments );
-		        console.log("\n");
-		});
-
-		diasample += 1;
-
-		if (diasample > 30 ) {
-
-			diasample = 1;
-			messample +=1;
-
-		}
-
-	}
-
-	
-	
-	
-}
-
-
 const liberandopost = (ctx, next) => {
 	conteudocarregado = true;
 }
-
 
 
 // Começando o dia
