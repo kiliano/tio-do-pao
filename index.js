@@ -159,6 +159,20 @@ var indisponiveltxt = [];
 var conteudo = {};
 var conteudoprimeiro = {};
 
+var pedidosanalisados = [];
+var pedidosanalisadossoma = {
+	"lista": [],
+	"paofrances":0,
+	"paodemilho":0,
+	"rosquinha":0,
+	"rosquinharecheio":0,
+	"croissantpresunto":0,
+	"croissantfrango":0,
+	"bisnaga":0,
+	"bisnagaacucar":0,
+	"bisnagacreme":0
+};
+
 // Login WP
 var wp = wordpress.createClient({
     url: "http://api.degraupublicidade.com.br",
@@ -874,7 +888,7 @@ const atualizarlocal = (ctx, next) => {
 }
 	
 
-var pedidosanalisados = [];
+
 
 
 
@@ -891,6 +905,19 @@ const relatoriopao = (ctx, next) => {
 
 	if (conteudo.length > 0) {
 		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
+
+		 pedidosanalisadossoma = {
+			"lista": [],
+			"paofrances":0,
+			"paodemilho":0,
+			"rosquinha":0,
+			"rosquinharecheio":0,
+			"croissantpresunto":0,
+			"croissantfrango":0,
+			"bisnaga":0,
+			"bisnagaacucar":0,
+			"bisnagacreme":0
+		};
 
 		for (var ic = 0; ic < conteudo.length; ic++) {
 			var pedidoanalisado = {
@@ -974,20 +1001,57 @@ const relatoriopao = (ctx, next) => {
 			}
 
 			if (relatorioTempo[0] == 1) {
+				// Busca por mês
 				if (pedidoanalisado.ano_data == relatorioTempo[2] && pedidoanalisado.mes_data == relatorioTempo[1]) {
 					pedidosanalisados.push(pedidoanalisado);
 				}
 			}
 
 			if (relatorioTempo[0] == 2) {
+				// Busca por ano
 				if (pedidoanalisado.ano_data == relatorioTempo[2]) {
 					pedidosanalisados.push(pedidoanalisado);
 				}
 			}
 		}
 		console.log("Total de "+pedidosanalisados.length+" pedidos selecionados");
+
+		for (var ip = 0; ip < pedidosanalisados.length; ip++) {
+			pedidosanalisadossoma.paofrances += pedidosanalisados[ip].paofrances;
+			pedidosanalisadossoma.paodemilho += pedidosanalisados[ip].paodemilho;
+			pedidosanalisadossoma.rosquinha += pedidosanalisados[ip].rosquinha;
+			pedidosanalisadossoma.rosquinharecheio += pedidosanalisados[ip].rosquinharecheio;
+			pedidosanalisadossoma.croissantpresunto += pedidosanalisados[ip].croissantpresunto;
+			pedidosanalisadossoma.croissantfrango += pedidosanalisados[ip].croissantfrango;
+			pedidosanalisadossoma.bisnaga += pedidosanalisados[ip].bisnaga;
+			pedidosanalisadossoma.bisnagaacucar += pedidosanalisados[ip].bisnagaacucar;
+			pedidosanalisadossoma.bisnagacreme += pedidosanalisados[ip].bisnagacreme;
+		}
+
+		if (relatorioTempo[0] == 1) {
+			pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL: \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+		}
+
+		if (relatorioTempo[0] == 2) {
+			pedidosanalisadossoma.lista.push("RELATÓRIO ANIAL: \n\nPedidos de "+relatorioTempo[2]);
+		}
+
+		pedidosanalisadossoma.lista.push("\n \n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
+		pedidosanalisadossoma.lista.push("\n Pão de Milho ("+pedidosanalisadossoma.paodemilho+")");
+		pedidosanalisadossoma.lista.push("\n Rosquinha Comum ("+pedidosanalisadossoma.rosquinha+")");
+		pedidosanalisadossoma.lista.push("\n Rosquinha com Recheio ("+pedidosanalisadossoma.rosquinharecheio+")");
+		pedidosanalisadossoma.lista.push("\n Croissant de Presunto ("+pedidosanalisadossoma.croissantpresunto+")");
+		pedidosanalisadossoma.lista.push("\n Croissant de Frango ("+pedidosanalisadossoma.croissantfrango+")");
+		pedidosanalisadossoma.lista.push("\n Bisnaga Comum ("+pedidosanalisadossoma.bisnaga+")");
+		pedidosanalisadossoma.lista.push("\n Bisnaga com Açucar ("+pedidosanalisadossoma.bisnagaacucar+")");
+		pedidosanalisadossoma.lista.push("\n Bisnaga com Creme ("+pedidosanalisadossoma.bisnagacreme+")");
 		next();
     }
+}
+
+
+const relatoriopaoprint = (ctx, next) => {
+	ctx.reply(""+pedidosanalisadossoma.lista+"");
 }
 
 
@@ -1929,17 +1993,16 @@ bot.command('msg', async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	console.log(pedido)
-
 
 	if (ctx.chat.id == idKiliano) {
 
 		relatorioTempo = [1,4,2018];
 
+		await ctx.reply(`⏳ carregando ...`);
 
 		if (conteudocarregado == true)  {
 			conteudocarregado = false;
-			exec(ctx, atualizarData, carregartodos, relatoriopao, liberandopost)
+			exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
 		} else {
 			console.log("nao carregado")
 		}
