@@ -78,7 +78,7 @@ const ctx = {}
 			 },1350000);
 
 			setInterval(function(){ 
-				atualizarData();
+				exec(ctx,atualizarData)
 
 				if (datahora < 19+3) {
 
@@ -1850,7 +1850,7 @@ bot.action(/rano (\d+)/, async ctx => {
 // Start
 
 bot.start(async ctx => {
-	atualizarData();
+	exec(ctx,atualizarData)
 	if (ctx.update.message.from.id == ctx.chat.id) {
 		await ctx.replyWithMarkdown(`📣📣📣 Hora do Pão! 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 	} else {
