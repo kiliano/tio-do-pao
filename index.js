@@ -20,7 +20,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = false;
+var debug = true;
 
 var acordado = true;
 
@@ -51,104 +51,104 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 			console.log("Primeiro ping do dia "+(datahora-3));
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
+	// 		setInterval(function(){ 
+	// 			exec(ctx,atualizarData)
 
-				if (datahora < 19+3) {
+	// 			if (datahora < 19+3) {
 
-					if (fimdodia == true) {
-						fimdodia = false;
-						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-					}
-
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-
-					 },750000);
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
-
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
-
-				}
-			}, 2400000);
+	// 				if (fimdodia == true) {
+	// 					fimdodia = false;
+	// 					msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+	// 					exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+	// 				}
 
 
-	var port = (process.env.PORT || 5000)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 					console.log("Ping timeout 750000 "+(datahora-3));
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
 
-	const token = process.env.token
+	// 				 },750000);
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log("Ping timeout 1350000 "+(datahora-3));
 
-	const idTodos = process.env.idTodos
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
+	// 				 },1350000);
+	// 			} else {
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 					console.log("Fim do dia ligado. Boa noite :)")
+	// 				}
 
-	const apiClimatempo = process.env.apiClimatempo
+	// 			}
+	// 		}, 2400000);
 
-	const bot = new Telegraf(token)
+
+	// var port = (process.env.PORT || 5000)
+
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
+
+	// const token = process.env.token
+
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
+
+	// const idTodos = process.env.idTodos
+
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
 
 
 
@@ -2124,10 +2124,33 @@ bot.command(['relatorio'], async ctx => {
 })
 
 // Testes
-
+http://.la/
 bot.command(['teste'], async ctx => {
 	await ctx.reply("fimdodia=="+fimdodia);
 })
+
+
+
+// %E2%99%A3 paus 
+
+// %E2%99%A0 espadas
+
+// %E2%99%A5 copas 
+
+// %E2%99%A6 ouro
+
+
+// var testekey = JSON.stringify({"keyboard":[["opt 1","opt 2","opt 3"],["menu"]],"resize_keyboard":true})
+var testekey = JSON.stringify({"keyboard":[["7♦️ ","A♥️","Q♣️"],["truco!","jogar baixo"]],"resize_keyboard":true})
+console.log("------------------------------------");
+console.log(testekey);
+console.log("------------------------------------");
+
+
+if (debug == true) {
+	axios.get(`${apiUrl}/sendMessage?chat_id=${idKiliano}&text=${encodeURI('teste oioi oi oi')}&reply_markup=${testekey}`)
+		.catch(e => console.log(e))
+}
 
 
 bot.command(['post'], async ctx => {
