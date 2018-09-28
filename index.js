@@ -73,37 +73,38 @@ const ctx = {}
 
 // Chamadas para o Heroku
 			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/")
-				console.log(datahora-3)
+				http.get("http://shielded-peak-24448.herokuapp.com/");
+				console.log("Primeiro ping do dia "+(datahora-3));
 			 },1350000);
 
 			setInterval(function(){ 
-				var datacompleta = new Date();
-				let datahora = ((datacompleta.getHours()));
+				atualizarData();
+
 				if (datahora < 19+3) {
 
 					if (fimdodia == true) {
 						fimdodia = false;
-						novodia();
+						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
 					}
 
 
 					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
-					if (ctx.chat.id == idKiliano) {
+						http.get("http://shielded-peak-24448.herokuapp.com/");
+						console.log("Ping timeout 750000 "+(datahora-3));
+
 						if (conteudocarregado == true)  {
 							conteudocarregado = false;
 							exec(ctx, carregarum, checagemparanovopost)
 						} else {
 							console.log("nao carregado")
 						}
-					}
+
 					 },750000);
 
 					setTimeout(function(){
 						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log(datahora-3)
+						console.log("Ping timeout 1350000 "+(datahora-3));
+
 						if (conteudocarregado == true)  {
 							conteudocarregado = false;
 							exec(ctx, carregarum, checagemparanovopost)
@@ -115,6 +116,7 @@ const ctx = {}
 
 					if (fimdodia == false) {
 						fimdodia = true;
+						console.log("Fim do dia ligado. Boa noite :)")
 					}
 
 				}
@@ -501,57 +503,6 @@ const checagemparanovopost = (ctx, next) => {
 			
 }
 
-const checagemparaapagar = (ctx, next) => {
-			var conteudodia = 0;
-			var conteudomes = 0;
-			var conteudoacoes = [];
-
-			if (conteudo.length > 0) {
-
-				for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
-
-					if (conteudoprimeiro.customFields[i].key == "dia_data") {
-						conteudodia = conteudoprimeiro.customFields[i].value;
-					}
-
-					if (conteudoprimeiro.customFields[i].key == "mes_data") {
-						conteudomes = conteudoprimeiro.customFields[i].value;
-					}
-
-					if (conteudoprimeiro.customFields[i].key == "acoes") {
-						conteudoacoes = conteudoprimeiro.customFields[i].value;
-					}
-				}
-
-
-
-				if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
-					console.log("Já existe um post nessa data. Apagando post");
-					exec(ctx, deletarultimopost, liberandopost)
-		
-				} else {
-					console.log("Não existe um post nessa data");
-					exec(ctx, liberandopost)
-				}
-			} else {
-				exec(ctx, liberandopost)
-			}
-}
-
-const deletarultimopost = (ctx, next) => {
-	
-	console.log("deletando ultimo post");
-
-	wp.deletePost(conteudoprimeiro.id,function( error, data ) {
-		console.log("deletando post de id "+conteudoprimeiro.id)
-	        console.log( arguments );
-	        console.log("\n");
-	        next();
-	});
-}
-
-
-
 const novopost = (ctx, next) => {
 	
 	var dia_data_zero = "";
@@ -647,6 +598,57 @@ const novopost = (ctx, next) => {
 	    next();
 	});
 }
+
+
+const checagemparaapagar = (ctx, next) => {
+			var conteudodia = 0;
+			var conteudomes = 0;
+			var conteudoacoes = [];
+
+			if (conteudo.length > 0) {
+
+				for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
+
+					if (conteudoprimeiro.customFields[i].key == "dia_data") {
+						conteudodia = conteudoprimeiro.customFields[i].value;
+					}
+
+					if (conteudoprimeiro.customFields[i].key == "mes_data") {
+						conteudomes = conteudoprimeiro.customFields[i].value;
+					}
+
+					if (conteudoprimeiro.customFields[i].key == "acoes") {
+						conteudoacoes = conteudoprimeiro.customFields[i].value;
+					}
+				}
+
+
+
+				if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
+					console.log("Já existe um post nessa data. Apagando post");
+					exec(ctx, deletarultimopost, liberandopost)
+		
+				} else {
+					console.log("Não existe um post nessa data");
+					exec(ctx, liberandopost)
+				}
+			} else {
+				exec(ctx, liberandopost)
+			}
+}
+
+const deletarultimopost = (ctx, next) => {
+	
+	console.log("deletando ultimo post");
+
+	wp.deletePost(conteudoprimeiro.id,function( error, data ) {
+		console.log("deletando post de id "+conteudoprimeiro.id)
+	        console.log( arguments );
+	        console.log("\n");
+	        next();
+	});
+}
+
 
 const liberandopost = (ctx, next) => {
 	conteudocarregado = true;
