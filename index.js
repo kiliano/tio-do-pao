@@ -84,6 +84,7 @@ const ctx = {}
 
 					if (fimdodia == true) {
 						fimdodia = false;
+						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
 						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
 					}
 
@@ -682,7 +683,7 @@ const novodia = (ctx, next) => {
 	};
 
 	if (debug == false) {
-		msg(`novodia()`, idKiliano)
+		msg(`função novodia()`, idKiliano)
 	}
 
 	next();
@@ -1330,15 +1331,6 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 	
 })
 
-
-bot.command('novodia', async ctx => {
-	novodia();
-	await ctx.reply("Um novo dia começa")
-})
-
-bot.command('remover', async ctx => {
-	await ctx.reply("Escolha o que você quer remover da lista", tecladoRemover)
-})
 
 // Concluíndo pedido
 
@@ -2134,13 +2126,7 @@ bot.command(['relatorio'], async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	await ctx.reply(`testado`);
-	console.log(pedido.acoes);
-	if (pedido.acoes[0] != undefined) {
-		console.log("diferente");
-	} else {
-		console.log("igual");
-	}
+	await ctx.reply("fimdodia=="+fimdodia);
 })
 
 
