@@ -2162,7 +2162,7 @@ bot.command(['post'], async ctx => {
 var trucoLoading = false;
 
 var trucoJogadores = [];
-var trucoBaralhoTipo = 'limpo';
+var trucoBaralhoTipo = 'sujo';
 var trucoBaralho =[];
 var trucoComecou = false;
 var trucoPrimeiroRound = true;
@@ -2205,20 +2205,17 @@ var trucoMensagem = [];
 
 
 const trucozerar = (ctx, next) => {
+	trucoLoading = false;
+
 	trucoJogadores = [];
-	trucoBaralhoTipo = 'limpo';
+	trucoBaralhoTipo = 'sujo';
 	trucoBaralho =[];
 	trucoComecou = false;
 	trucoPrimeiroRound = true;
-	trucoManilhaValorDaMao = 1;
+	trucoValorDaMao = 1;
 
 	trucoQueimar = [];
 	trucoManilha = '';
-
-	trucoTurno = 0;
-	trucoTurnoId = 123;
-	trucoCartasNaMesa = [];
-
 	trucoManilhaValor = {
 		"zap": "",
 		"escopeta": "",
@@ -2238,13 +2235,22 @@ const trucozerar = (ctx, next) => {
 	}
 
 	trucoRodada = []
+	trucoTurno = 0;
+	trucoTurnoPrincipal = 0;
+	trucoTurnoId = 123;
+	trucoCartasNaMesa = [];
 
+	trucoCartaJogada = "";
+	trucoCartaJogadaReplace = "";
+	trucoMaiorValorVencedor = [];
 
 	next();
 }
 
+
 const trucocloading = (ctx, next) => {
 	console.log("trucocloading");
+	trucoMensagem = [];
 	trucoLoading = true;
 	next();
 }
@@ -2253,6 +2259,7 @@ const trucocloadingfim = (ctx, next) => {
 	console.log("trucocloadingfim");
 	trucoLoading = false;
 }
+
 
 const trucoadicionarjogador = (ctx, next) => {
 	console.log("trucoadicionarjogador");
@@ -2264,6 +2271,8 @@ const trucocomecar = (ctx, next) => {
 	trucoComecou = true;
 	next();
 }
+
+
 
 const trucobaralho = (ctx, next) => {
 	console.log("trucobaralho");
@@ -2328,12 +2337,6 @@ const trucomanilha = (ctx, next) => {
 	trucoBaralho.splice(0, 1)
 
 	console.log("Descarte manilha: "+trucoManilha);
-
-	console.log("Valores "+JSON.stringify(trucoManilhaValor));
-
-	console.log("----------------");
-
-	console.log("----------------");
 
 	if(trucoManilhaValor.valor1.includes(trucoManilha)){
 		trucoManilhaValor.zap = "5♣";
@@ -2400,14 +2403,21 @@ const trucomanilha = (ctx, next) => {
 	}
 
 	if(trucoManilhaValor.valor10.includes(trucoManilha)){
-		trucoManilhaValor.zap = "4♣";
-		trucoManilhaValor.escopeta = "4♥";
-		trucoManilhaValor.espadilha = "4♠";
-		trucoManilhaValor.picafumo = "4♦";
+		
+		(trucoBaralhoTipo == 'limpo') {
+			trucoManilhaValor.zap = "4♣";
+			trucoManilhaValor.escopeta = "4♥";
+			trucoManilhaValor.espadilha = "4♠";
+			trucoManilhaValor.picafumo = "4♦";
+
+		} else {
+			trucoManilhaValor.zap = "Q♣";
+			trucoManilhaValor.escopeta = "Q♥";
+			trucoManilhaValor.espadilha = "Q♠";
+			trucoManilhaValor.picafumo = "Q♦";
+		}
 	}
 
-
-	console.log("Valores "+JSON.stringify(trucoManilhaValor));
 
 	// includes
 
@@ -2441,6 +2451,32 @@ const trucoqueimar = (ctx, next) => {
 	next();
 }
 
+
+const trucolimparmesa = (ctx, next) => {
+
+	trucoValorDaMao = 1;
+
+	for (var i = 0; i < trucoJogadores.length; i++) {
+		trucoJogadores[i].mao =[];
+		trucoJogadores[i].donodascartas =[];
+	}
+
+	trucoQueimar = [];
+	trucoManilha = '';
+	
+	trucoRodada = [];
+	trucoCartasNaMesa = [];
+
+
+
+	trucoCartaJogada = "";
+	trucoCartaJogadaReplace = "";
+	trucoMaiorValorVencedor = [];
+
+	next();
+
+}
+
 const trucoiniciativa = (ctx, next) => {
 
 	console.log("trucoiniciativa");
@@ -2451,13 +2487,24 @@ const trucoiniciativa = (ctx, next) => {
 		console.log(trucoTurno);
 		trucoPrimeiroRound = false;
 		trucoTurnoPrincipal = trucoTurno;
-	}
+	} else {
+		trucoTurnoPrincipal = +1;
+		if (trucoTurnoPrincipal < 3) {
+			trucoTurnoPrincipal += 1;
+		} else {
+			trucoTurnoPrincipal = 0;
+		}
+		trucoTurno = trucoTurnoPrincipal;
 
-	trucoCartasNaMesa = [];
+	}
 	next();
+
+
 }
 
-const trucodistribuircarta = (ctx, next) => {
+
+
+const trucodistribuircarta = async (ctx, next) => {
 
 	console.log("trucodistribuircarta");
 
@@ -2474,7 +2521,7 @@ const trucodistribuircarta = (ctx, next) => {
 			trucoBaralho.splice(0, 1)
 		}
 
-		msg(`${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+		await msg(`${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
 
 			Manilhas: [ ${trucoManilhaValor.zap} ]  [ ${trucoManilhaValor.escopeta} ]  [ ${trucoManilhaValor.espadilha} ]  [ ${trucoManilhaValor.picafumo} ]
 
@@ -2496,19 +2543,19 @@ const trucomostrouteclado = (ctx, next) => {
 	console.log("trucomostrouteclado");
 
 	var trucoMaoReplace = trucoJogadores[trucoTurno].mao;
-	for (var i = 0; i < trucoMaoReplace.length; i++) {
-		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♣", "%E2%99%A3");
-		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♥", "%E2%99%A5");
-		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♠", "%E2%99%A0");
-		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♦", "%E2%99%A6");
-	}
+	// for (var i = 0; i < trucoMaoReplace.length; i++) {
+	// 	trucoMaoReplace[i] = trucoMaoReplace[i].replace("♣", "%E2%99%A3");
+	// 	trucoMaoReplace[i] = trucoMaoReplace[i].replace("♥", "%E2%99%A5");
+	// 	trucoMaoReplace[i] = trucoMaoReplace[i].replace("♠", "%E2%99%A0");
+	// 	trucoMaoReplace[i] = trucoMaoReplace[i].replace("♦", "%E2%99%A6");
+	// }
 
 
 	// var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,["TRUCO!!!"]],"resize_keyboard":true, "one_time_keyboard":true})
 
-	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,"resize_keyboard":true, "one_time_keyboard":true})
+	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace],"resize_keyboard":true, "one_time_keyboard":true})
 
-	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${tecladoTruco}`)
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${encodeURI(tecladoTruco)}`)
 		.catch(e => console.log(e))
 
 
@@ -2709,6 +2756,9 @@ const trucocalcularvitoriamao = (ctx, next) => {
 
 const trucoanalizarrodada = (ctx, next) => {
 
+	console.log("trucoRodada "+trucoRodada)
+
+
 	/*
 		trucoMaiorValorVencedor = [
 			{
@@ -2736,10 +2786,12 @@ const trucoanalizarrodada = (ctx, next) => {
 
 		console.log("trucoTurnoId "+trucoTurnoId)
 
-		trucoCartasNaMesa = [];
-		trucoMaiorValorVencedor = [];
+		
 
 		trucoMensagem.push(`\n\nSegunda rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
+
+		trucoCartasNaMesa = [];
+		trucoMaiorValorVencedor = [];
 		
 		exec(ctx,trucomostrouteclado)
 	}
@@ -2757,7 +2809,11 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 
@@ -2767,10 +2823,10 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoTurno = trucoMaiorValorVencedor[trucoMaiorValorVencedor.length-1].dononumero;
 				trucoTurnoId = trucoJogadores[trucoTurno].id;
 
-				trucoCartasNaMesa = [];
-				trucoMaiorValorVencedor = [];
 
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
 				exec(ctx,trucomostrouteclado)
 			}
 
@@ -2781,6 +2837,10 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
 				trucoMensagem.push(`\n\nComo ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 		}
@@ -2793,7 +2853,13 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
+
 				exec(ctx, trucoproximarodada);
 			}
 
@@ -2803,10 +2869,10 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoTurno = trucoMaiorValorVencedor[trucoMaiorValorVencedor.length-1].dononumero;
 				trucoTurnoId = trucoJogadores[trucoTurno].id;
 
-				trucoCartasNaMesa = [];
-				trucoMaiorValorVencedor = [];
 
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
 				exec(ctx,trucomostrouteclado)
 			}
 
@@ -2817,6 +2883,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
 				trucoMensagem.push(`\n\nComo ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
 				exec(ctx, trucoproximarodada);
 			}
 		}
@@ -2830,7 +2899,11 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 
@@ -2839,7 +2912,12 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
+
 				exec(ctx, trucoproximarodada);
 			}
 
@@ -2848,10 +2926,10 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoTurno = trucoMaiorValorVencedor[trucoMaiorValorVencedor.length-1].dononumero;
 				trucoTurnoId = trucoJogadores[trucoTurno].id;
 
-				trucoCartasNaMesa = [];
-				trucoMaiorValorVencedor = [];
 
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
 				exec(ctx,trucomostrouteclado)
 			}
 		}
@@ -2865,7 +2943,11 @@ const trucoanalizarrodada = (ctx, next) => {
 			trucoJogadores[0].pontos += trucoValorDaMao;
 			trucoJogadores[2].pontos += trucoValorDaMao;
 
-			trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+			trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+
+			trucoCartasNaMesa = [];
+			trucoMaiorValorVencedor = [];
+
 			exec(ctx, trucoproximarodada);
 		}
 
@@ -2874,7 +2956,9 @@ const trucoanalizarrodada = (ctx, next) => {
 			trucoJogadores[1].pontos += trucoValorDaMao;
 			trucoJogadores[3].pontos += trucoValorDaMao;
 
-			trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam essa rodada, somando ${trucoValorDaMao} na pontuação! 👍`);
+			trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+			trucoCartasNaMesa = [];
+			trucoMaiorValorVencedor = [];
 			exec(ctx, trucoproximarodada);
 		}
 
@@ -2887,7 +2971,10 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[1].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam essa rodada, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 
@@ -2895,12 +2982,18 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam essa rodada, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 
 			if (trucoRodada[0] == 3) {
 				trucoMensagem.push(`\n\nAs 3 rodadas empataram! Ninguém marca ponto! 👍`);
+				trucoCartasNaMesa = [];
+				trucoMaiorValorVencedor = [];
+
 				exec(ctx, trucoproximarodada);
 			}
 				
@@ -2916,17 +3009,38 @@ const trucoanalizarrodada = (ctx, next) => {
 
 const trucoproximarodada = (ctx, next) => {
 
-	// Rezando itens entre rodadas
+	if(trucoJogadores[0].pontos >= 12 ) {
+		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆`);
+		exec(ctx, trucozerar, trucofim);
+	}
 
-	console.log(trucoproximarodada);
+	if(trucoJogadores[1].pontos >= 12 ) {
+		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}! 🏆`);
+		exec(ctx, trucozerar, trucofim);
+	}
+
+	console.log(JSON.stringify(trucoJogadores))
+
+	console.log("pontos time1 "+trucoJogadores[0].pontos+"    pontos time2 "+trucoJogadores[2].pontos);
+	if (trucoJogadores[2].pontos < 12 && trucoJogadores[0].pontos < 12) {
+		exec(ctx, truconovarodada);
+	} else {
+		console.log("terminou")
+	}
+
+	trucoRodada = [];
+	
+	
+
+	// Rezando itens entre rodadas
 	next();
 }
 
 
-const trucomensagemgeral = (ctx, next) =>  {
+const trucomensagemgeral = async (ctx, next) =>  {
+	console.log(trucoMensagem)
 	for (var i = 0; i < trucoJogadores.length; i++) {
-		console.log(trucoMensagem)
-		msg(""+trucoMensagem+"",trucoJogadores[i].id);
+		await msg(""+trucoMensagem+"",trucoJogadores[i].id);
 	}
 
 	trucoMensagem = [];
@@ -2935,11 +3049,32 @@ const trucomensagemgeral = (ctx, next) =>  {
 }
 
 
+const truconovarodada = (ctx, next) => {
+	trucoMensagem.push(`\n---------------------`)
+	exec(trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado);
+	next();
+}
+
+
+
+const trucofim = (ctx, next) => {
+
+	// Só lembrando que ainda tem o loadingfim e o trucomensagemgeral depois desse cara
+
+	// Rezando itens entre rodadas
+
+	trucoComecou = false;
+
+	console.log("ACABOU A PARTIDA");
+	next();
+}
+
+
 
 
 bot.command(['truco'], async ctx => {
 	if (trucoLoading == false) {
-		exec(ctx, trucocloading, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+		exec(ctx, trucocloading, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
 	} else {
 		await ctx.reply(`Servidor ocupado, tente novamente.`);
 	}
@@ -2951,10 +3086,10 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 	
 	trucoCartaJogada = ctx.update.message.text;
 	trucoCartaJogadaReplace = trucoCartaJogada;
-	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♣", "%E2%99%A3");
-	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♥", "%E2%99%A5");
-	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♠", "%E2%99%A0");
-	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♦", "%E2%99%A6");
+	// trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♣", "%E2%99%A3");
+	// trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♥", "%E2%99%A5");
+	// trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♠", "%E2%99%A0");
+	// trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♦", "%E2%99%A6");
 
 	// msg direta
 	if (ctx.update.message.from.id == ctx.chat.id) {
