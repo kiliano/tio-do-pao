@@ -2159,45 +2159,91 @@ bot.command(['post'], async ctx => {
 // 		.catch(e => console.log(e))
 
 
-var trucoJogadores = [];
-var trucoBaralho =[];
-var trucoTurno = 0;
-var trucoTurnoCartasNaMesa = [];
-var trucoTurnoId = 123;
-var trucoBaralhoTipo = 'sujo';
-var trucoComecou = false;
 var trucoLoading = false;
+
+var trucoJogadores = [];
+var trucoBaralhoTipo = 'sujo';
+var trucoBaralho =[];
+var trucoComecou = false;
 var trucoPrimeiroRound = true;
-var trucoManilha = '';
+var trucoValorDaMao = 1;
+
 var trucoQueimar = [];
+var trucoManilha = '';
+
+var trucoTurno = 0;
+var trucoTurnoId = 123;
+var trucoCartasNaMesa = [];
+
+var trucoCartaJogada = "";
+var trucoCartaJogadaReplace = "";
+
+var trucoValor = {
+	"zap": "",
+	"escopeta": "",
+	"espadilha": "",
+	"picafumo": "",
+    "valor10": ["3♣","3♥","3♠","3♦"],
+    "valor9": ["2♣","2♥","2♠","2♦"],
+    "valor8": ["A♣","A♥","A♠","A♦"],
+    "valor7": ["K♣","K♥","K♠","K♦"],
+    "valor6": ["J♣","J♥","J♠","J♦"],
+    "valor5": ["Q♣","Q♥","Q♠","Q♦"],
+    "valor4": ["7♣","7♥","7♠","7♦"],
+    "valor3": ["6♣","6♥","6♠","6♦"],
+    "valor2": ["5♣","5♥","5♠","5♦"],
+    "valor1": ["4♣","4♥","4♠","4♦"],
+    "valor0": ["✖️"],
+}
 
 
 
 
 const trucozerar = (ctx, next) => {
 	trucoJogadores = [];
-	trucoBaralho =[];
-	trucoTurno = 0;
-	trucoTurnoCartasNaMesa = [];
-	trucoTurnoId = 123;
 	trucoBaralhoTipo = 'sujo';
+	trucoBaralho =[];
 	trucoComecou = false;
-	trucoLoading = false;
 	trucoPrimeiroRound = true;
-	trucoManilha = '';
+	trucoValorDaMao = 1;
+
 	trucoQueimar = [];
+	trucoManilha = '';
+
+	trucoTurno = 0;
+	trucoTurnoId = 123;
+	trucoCartasNaMesa = [];
+
+	trucoValor = {
+		"zap": "",
+		"escopeta": "",
+		"espadilha": "",
+		"picafumo": "",
+	    "valor10": ["3♣","3♥","3♠","3♦"],
+	    "valor9": ["2♣","2♥","2♠","2♦"],
+	    "valor8": ["A♣","A♥","A♠","A♦"],
+	    "valor7": ["K♣","K♥","K♠","K♦"],
+	    "valor6": ["J♣","J♥","J♠","J♦"],
+	    "valor5": ["Q♣","Q♥","Q♠","Q♦"],
+	    "valor4": ["7♣","7♥","7♠","7♦"],
+	    "valor3": ["6♣","6♥","6♠","6♦"],
+	    "valor2": ["5♣","5♥","5♠","5♦"],
+	    "valor1": ["4♣","4♥","4♠","4♦"],
+	    "valor0": ["✖️"],
+	}
+
 
 	next();
 }
 
-const trucoloading = (ctx, next) => {
-	console.log("trucoloading");
+const trucocloading = (ctx, next) => {
+	console.log("trucocloading");
 	trucoLoading = true;
 	next();
 }
 
-const trucoloadingfim = (ctx, next) => {
-	console.log("trucoloadingfim");
+const trucocloadingfim = (ctx, next) => {
+	console.log("trucocloadingfim");
 	trucoLoading = false;
 }
 
@@ -2243,6 +2289,26 @@ const trucoEmbaralhar = (ctx, next) => {
 		trucoBaralho[currentIndex] = trucoBaralho[randomIndex];
 		trucoBaralho[randomIndex] = temporaryValue;
 	}
+
+	trucoValor = {
+		"zap": "",
+		"escopeta": "",
+		"espadilha": "",
+		"picafumo": "",
+	    "valor10": ["3♣","3♥","3♠","3♦"],
+	    "valor9": ["2♣","2♥","2♠","2♦"],
+	    "valor8": ["A♣","A♥","A♠","A♦"],
+	    "valor7": ["K♣","K♥","K♠","K♦"],
+	    "valor6": ["J♣","J♥","J♠","J♦"],
+	    "valor5": ["Q♣","Q♥","Q♠","Q♦"],
+	    "valor4": ["7♣","7♥","7♠","7♦"],
+	    "valor3": ["6♣","6♥","6♠","6♦"],
+	    "valor2": ["5♣","5♥","5♠","5♦"],
+	    "valor1": ["4♣","4♥","4♠","4♦"],
+	    "valor0": ["✖️"],
+	}
+
+
 	// axios.get(`${apiUrl}/sendMessage?chat_id=${idKiliano}&text=${encodeURI(trucoBaralho)}`).catch(e => console.log(e))
 	next();
 }
@@ -2254,8 +2320,167 @@ const trucomanilha = (ctx, next) => {
 	trucoManilha = trucoBaralho[0];
 	trucoBaralho.splice(0, 1)
 
+	console.log("Descarte manilha: "+trucoManilha);
+
+	console.log("Valores "+JSON.stringify(trucoValor));
+
+	console.log("----------------");
+
+	console.log("----------------");
+
+	if(trucoValor.valor1.includes(trucoManilha)){
+		trucoValor.zap = "5♣";
+		trucoValor.escopeta = "5♥";
+		trucoValor.espadilha = "5♠";
+		trucoValor.picafumo = "5♦";
+	}
+
+
+	if(trucoValor.valor2.includes(trucoManilha)){
+		trucoValor.zap = "6♣";
+		trucoValor.escopeta = "6♥";
+		trucoValor.espadilha = "6♠";
+		trucoValor.picafumo = "6♦";
+	}
+
+	if(trucoValor.valor3.includes(trucoManilha)){
+		trucoValor.zap = "7♣";
+		trucoValor.escopeta = "7♥";
+		trucoValor.espadilha = "7♠";
+		trucoValor.picafumo = "7♦";
+	}
+
+	if(trucoValor.valor4.includes(trucoManilha)){
+		trucoValor.zap = "Q♣";
+		trucoValor.escopeta = "Q♥";
+		trucoValor.espadilha = "Q♠";
+		trucoValor.picafumo = "Q♦";
+	}
+
+	if(trucoValor.valor5.includes(trucoManilha)){
+		trucoValor.zap = "J♣";
+		trucoValor.escopeta = "J♥";
+		trucoValor.espadilha = "J♠";
+		trucoValor.picafumo = "J♦";
+	}
+
+	if(trucoValor.valor6.includes(trucoManilha)){
+		trucoValor.zap = "K♣";
+		trucoValor.escopeta = "K♥";
+		trucoValor.espadilha = "K♠";
+		trucoValor.picafumo = "K♦";
+	}
+
+	if(trucoValor.valor7.includes(trucoManilha)){
+		trucoValor.zap = "A♣";
+		trucoValor.escopeta = "A♥";
+		trucoValor.espadilha = "A♠";
+		trucoValor.picafumo = "A♦";
+	}
+
+	if(trucoValor.valor8.includes(trucoManilha)){
+		trucoValor.zap = "2♣";
+		trucoValor.escopeta = "2♥";
+		trucoValor.espadilha = "2♠";
+		trucoValor.picafumo = "2♦";
+	}
+
+	if(trucoValor.valor9.includes(trucoManilha)){
+		trucoValor.zap = "3♣";
+		trucoValor.escopeta = "3♥";
+		trucoValor.espadilha = "3♠";
+		trucoValor.picafumo = "3♦";
+	}
+
+	if(trucoValor.valor10.includes(trucoManilha)){
+		trucoValor.zap = "4♣";
+		trucoValor.escopeta = "4♥";
+		trucoValor.espadilha = "4♠";
+		trucoValor.picafumo = "4♦";
+	}
+
+
+
+	trucoValor.valor10.splice( trucoValor.valor10.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor9.splice( trucoValor.valor9.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor8.splice( trucoValor.valor8.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor7.splice( trucoValor.valor7.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor6.splice( trucoValor.valor6.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor5.splice( trucoValor.valor5.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor4.splice( trucoValor.valor4.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor3.splice( trucoValor.valor3.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor2.splice( trucoValor.valor2.indexOf(trucoValor.zap), 1 );
+	trucoValor.valor1.splice( trucoValor.valor1.indexOf(trucoValor.zap), 1 );
+
+	// trucoValor.valor10.splice( trucoValor.valor10.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor9.splice( trucoValor.valor9.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor8.splice( trucoValor.valor8.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor7.splice( trucoValor.valor7.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor6.splice( trucoValor.valor6.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor5.splice( trucoValor.valor5.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor4.splice( trucoValor.valor4.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor3.splice( trucoValor.valor3.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor2.splice( trucoValor.valor2.indexOf(trucoValor.escopeta), 1 );
+	// trucoValor.valor1.splice( trucoValor.valor1.indexOf(trucoValor.escopeta), 1 );
+
+	// trucoValor.valor10.splice( trucoValor.valor10.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor9.splice( trucoValor.valor9.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor8.splice( trucoValor.valor8.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor7.splice( trucoValor.valor7.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor6.splice( trucoValor.valor6.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor5.splice( trucoValor.valor5.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor4.splice( trucoValor.valor4.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor3.splice( trucoValor.valor3.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor2.splice( trucoValor.valor2.indexOf(trucoValor.espadilha), 1 );
+	// trucoValor.valor1.splice( trucoValor.valor1.indexOf(trucoValor.espadilha), 1 );
+
+	// trucoValor.valor10.splice( trucoValor.valor10.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor9.splice( trucoValor.valor9.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor8.splice( trucoValor.valor8.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor7.splice( trucoValor.valor7.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor6.splice( trucoValor.valor6.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor5.splice( trucoValor.valor5.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor4.splice( trucoValor.valor4.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor3.splice( trucoValor.valor3.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor2.splice( trucoValor.valor2.indexOf(trucoValor.picafumo), 1 );
+	// trucoValor.valor1.splice( trucoValor.valor1.indexOf(trucoValor.picafumo), 1 );
+
+
+	console.log("Valores "+JSON.stringify(trucoValor));
+
+	// includes
+
+	/*
+	trucoValor = {
+		"zap": "x♣",
+		"escopeta": "x♥",
+		"espadilha": "x♠",
+		"picafumo": "x♦",
+	    "valor10": ["3♣","3♥","3♠","3♦"],
+	    "valor9": ["2♣","2♥","2♠","2♦"],
+	    "valor8": ["A♣","A♥","A♠","A♦"],
+	    "valor7": ["K♣","K♥","K♠","K♦"],
+	    "valor6": ["J♣","J♥","J♠","J♦"],
+	    "valor5": ["Q♣","Q♥","Q♠","Q♦"],
+	    "valor4": ["7♣","7♥","7♠","7♦"],
+	    "valor3": ["6♣","6♥","6♠","6♦"],
+	    "valor2": ["5♣","5♥","5♠","5♦"],
+	    "valor1": ["4♣","4♥","4♠","4♦"],
+	    "valor0": ["✖️"],
+	}
+	*/
+
+	for (var i = 0; i < trucoJogadores[trucoTurno].mao.length; i++) {
+		if (trucoCartaJogadaReplace == trucoJogadores[trucoTurno].mao[i]) {
+			trucoJogadores[trucoTurno].mao.splice(i, 1)
+		}
+	}
+
+
 	next();
 }
+
+
 
 const trucoqueimar = (ctx, next) => {
 
@@ -2276,7 +2501,7 @@ const trucoiniciativa = (ctx, next) => {
 		trucoPrimeiroRound = false;
 	}
 
-	trucoTurnoCartasNaMesa = [];
+	trucoCartasNaMesa = [];
 	next();
 }
 
@@ -2327,7 +2552,7 @@ const trucomostrouteclado = (ctx, next) => {
 	}
 
 
-	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,["truco!","jogar baixo"]],"resize_keyboard":true, "one_time_keyboard":true})
+	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,["TRUCO!!!"]],"resize_keyboard":true, "one_time_keyboard":true})
 
 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${tecladoTruco}`)
 		.catch(e => console.log(e))
@@ -2337,24 +2562,58 @@ const trucomostrouteclado = (ctx, next) => {
 }
 
 
+
+const trucoproximajogada = (ctx, next) => {
+
+	if (trucoTurno < 3) {
+		trucoTurno += 1;
+	} else {
+		trucoTurno = 0;
+	}
+
+	trucoTurnoId = trucoJogadores[trucoTurno].id;
+
+	// \n[ 5♥ ] : Mimi', '\n[ 3♠ ] : Tavinho', '\n[ A♦ ] : Kiliano;
+
+	if(trucoCartasNaMesa.length < 4) {
+		// em jogo
+		exec(ctx, trucomostrouteclado);
+		console.log(trucoCartasNaMesa);
+	} else {
+		// jogo completo
+		exec(ctx, trucocalcularvitoriamao);
+	}
+
+
+	next();
+}
+
+const trucocalcularvitoriamao = (ctx, next) => {
+
+	
+
+	next();
+}
+
+
 bot.command(['truco'], async ctx => {
 	if (trucoLoading == false) {
-		exec(ctx, trucoloading, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucoloadingfim);
+		exec(ctx, trucocloading, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
 	} else {
 		await ctx.reply(`Servidor ocupado, tente novamente.`);
 	}
 	
 })
 
-// Ouvindo Jogadas
-
-bot.hears(["batata","3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"], async ctx => {
+// Ouvindo Jogadas jogadas na mesa
+bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"], async ctx => {
 	
-	var trucoCartaJogada = ctx.update.message.text;
-	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♣", "%E2%99%A3");
-	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♥", "%E2%99%A5");
-	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♠", "%E2%99%A0");
-	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♦", "%E2%99%A6");
+	trucoCartaJogada = ctx.update.message.text;
+	trucoCartaJogadaReplace = trucoCartaJogada;
+	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♣", "%E2%99%A3");
+	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♥", "%E2%99%A5");
+	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♠", "%E2%99%A0");
+	trucoCartaJogadaReplace = trucoCartaJogadaReplace.replace("♦", "%E2%99%A6");
 
 	// msg direta
 	if (ctx.update.message.from.id == ctx.chat.id) {
@@ -2367,18 +2626,26 @@ bot.hears(["batata","3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5�
 					// Se ele tem a carta na mão
 					if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaReplace) == true) {
 
-						trucoTurnoCartasNaMesa
+						trucoCartasNaMesa.push("\n[ "+trucoCartaJogada+" ] : "+trucoJogadores[trucoTurno].nome);
 
+						console.log(trucoJogadores[trucoTurno].mao);
 
-						await ctx.reply(`Show`);
+						trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaReplace), 1 );
 
+						console.log(trucoJogadores[trucoTurno].mao);
 
+						for (var i = 0; i < trucoJogadores.length; i++) {
+							msg(`Cartas na Mesa:
+								${trucoCartasNaMesa}
+								`,trucoJogadores[i].id);
+						}
 
-
-
+						exec(ctx, trucocloading, trucoproximajogada, trucocloadingfim);
 
 					} else {
 						await ctx.reply(`Você não tem essa carta na mão`);
+						console.log("trucoJogadores[trucoTurno].mao   "+trucoJogadores[trucoTurno].mao);
+						console.log("trucoCartaJogadaReplace   "+trucoCartaJogadaReplace)
 					}
 				} else {
 					await ctx.reply(`Não é sua vez`);
@@ -2421,6 +2688,7 @@ const trucodebug = (ctx, next) => {
 		"id": idKiliano,
 		"pontos":0,
 		"mao":[],
+		"donodascartas":[]
 	},
 
 	{
@@ -2428,6 +2696,7 @@ const trucodebug = (ctx, next) => {
 		"id": idKiliano,
 		"pontos":0,
 		"mao":[],
+		"donodascartas":[]
 	},
 
 	{
@@ -2435,6 +2704,7 @@ const trucodebug = (ctx, next) => {
 		"id": idKiliano,
 		"pontos":0,
 		"mao":[],
+		"donodascartas":[]
 	},
 
 	{
@@ -2442,6 +2712,7 @@ const trucodebug = (ctx, next) => {
 		"id": idKiliano,
 		"pontos":0,
 		"mao":[],
+		"donodascartas":[]
 	}
 	]
 	next();
