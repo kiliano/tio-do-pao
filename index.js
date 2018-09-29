@@ -51,104 +51,104 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 			console.log("Primeiro ping do dia "+(datahora-3));
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
+	// 		setInterval(function(){ 
+	// 			exec(ctx,atualizarData)
 
-				if (datahora < 19+3) {
+	// 			if (datahora < 19+3) {
 
-					if (fimdodia == true) {
-						fimdodia = false;
-						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-					}
-
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-
-					 },750000);
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
-
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
-
-				}
-			}, 2400000);
+	// 				if (fimdodia == true) {
+	// 					fimdodia = false;
+	// 					msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+	// 					exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+	// 				}
 
 
-	var port = (process.env.PORT || 5000)
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 					console.log("Ping timeout 750000 "+(datahora-3));
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
 
-	const token = process.env.token
+	// 				 },750000);
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log("Ping timeout 1350000 "+(datahora-3));
 
-	const idTodos = process.env.idTodos
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
+	// 				 },1350000);
+	// 			} else {
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 					console.log("Fim do dia ligado. Boa noite :)")
+	// 				}
 
-	const apiClimatempo = process.env.apiClimatempo
+	// 			}
+	// 		}, 2400000);
 
-	const bot = new Telegraf(token)
+
+	// var port = (process.env.PORT || 5000)
+
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
+
+	// const token = process.env.token
+
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
+
+	// const idTodos = process.env.idTodos
+
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
 
 
 
@@ -1115,7 +1115,7 @@ exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
 
 // Criação de comandos
 
-bot.command(['pao','Pao'], async ctx => {
+bot.command(['pao','Pao','pedir', 'cardapio'], async ctx => {
 
 	if (acordado == true) {
 		if (ctx.update.message.from.id == ctx.chat.id) {
@@ -1126,11 +1126,6 @@ bot.command(['pao','Pao'], async ctx => {
 	} else {
 		await ctx.reply("💤💤💤")
 	}
-})
-
-
-bot.command(['pedir', 'cardapio'], async ctx => {
-	await ctx.replyWithMarkdown(`Escolha seu pãozinho`, tecladoPao)
 })
 
 
@@ -2124,7 +2119,7 @@ bot.command(['relatorio'], async ctx => {
 })
 
 // Testes
-http://.la/
+
 bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
 })
@@ -2151,28 +2146,254 @@ bot.command(['post'], async ctx => {
 // ------------------------------- TRUCO ---------------------------------
 
 
-// %E2%99%A3 paus 
-
-// %E2%99%A0 espadas
-
-// %E2%99%A5 copas 
-
-// %E2%99%A6 ouro
-
+// %E2%99%A3 ♣ 
+// %E2%99%A0 ♠
+// %E2%99%A5 ♥ 
+// %E2%99%A6 ♦
 
 // var testekey = JSON.stringify({"keyboard":[["opt 1","opt 2","opt 3"],["menu"]],"resize_keyboard":true})
 
 
 // var testekey = JSON.stringify({"keyboard":[["7♦️ ","A♥️","Q♣️"],["truco!","jogar baixo"]],"resize_keyboard":true})
-// console.log("------------------------------------");
-// console.log(testekey);
-// console.log("------------------------------------");
-
-
-// if (debug == true) {
 // 	axios.get(`${apiUrl}/sendMessage?chat_id=${idKiliano}&text=${encodeURI('teste oioi oi oi')}&reply_markup=${testekey}`)
 // 		.catch(e => console.log(e))
-// }
+
+
+var trucoJogadores = [];
+var trucoBaralho =[];
+var trucoTurno = 0;
+var trucoTurnoCartasNaMesa = [];
+var trucoTurnoId = 123;
+var trucoBaralhoTipo = 'sujo';
+var trucoComecou = false;
+var trucoLoading = false;
+var trucoPrimeiroRound = true;
+var trucoManilha = '';
+var trucoQueimar = [];
+
+
+
+
+const trucozerar = (ctx, next) => {
+	trucoJogadores = [];
+	trucoBaralho =[];
+	trucoTurno = 0;
+	trucoTurnoCartasNaMesa = [];
+	trucoTurnoId = 123;
+	trucoBaralhoTipo = 'sujo';
+	trucoComecou = false;
+	trucoLoading = false;
+	trucoPrimeiroRound = true;
+	trucoManilha = '';
+	trucoQueimar = [];
+
+	next();
+}
+
+const trucoloading = (ctx, next) => {
+	console.log("trucoloading");
+	trucoLoading = true;
+	next();
+}
+
+const trucoloadingfim = (ctx, next) => {
+	console.log("trucoloadingfim");
+	trucoLoading = false;
+}
+
+const trucoadicionarjogador = (ctx, next) => {
+	console.log("trucoadicionarjogador");
+	next();
+}
+
+const trucocomecar = (ctx, next) => {
+	console.log("trucocomecar");
+	trucoComecou = true;
+	next();
+}
+
+const trucobaralho = (ctx, next) => {
+	console.log("trucobaralho");
+
+	if (trucoBaralhoTipo == 'limpo') {
+		trucoBaralho = ["3♣","2♣","A♣","K♣","J♣","Q♣","3♥","2♥","A♥","K♥","J♥","Q♥","3♠","2♠","A♠","K♠","J♠","Q♠","3♦","2♦","A♦","K♦","J♦","Q♦"];
+	} else {
+		trucoBaralho = ["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"];
+	}
+	
+	next();
+}
+
+
+const trucoEmbaralhar = (ctx, next) => {
+
+	console.log("trucoEmbaralhar");
+
+
+	var currentIndex = trucoBaralho.length, temporaryValue, randomIndex;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = trucoBaralho[currentIndex];
+		trucoBaralho[currentIndex] = trucoBaralho[randomIndex];
+		trucoBaralho[randomIndex] = temporaryValue;
+	}
+	// axios.get(`${apiUrl}/sendMessage?chat_id=${idKiliano}&text=${encodeURI(trucoBaralho)}`).catch(e => console.log(e))
+	next();
+}
+
+const trucomanilha = (ctx, next) => {
+
+	console.log("trucomanilha");
+
+	trucoManilha = trucoBaralho[0];
+	trucoBaralho.splice(0, 1)
+
+	next();
+}
+
+const trucoqueimar = (ctx, next) => {
+
+	console.log("trucoqueimar");
+
+
+	next();
+}
+
+const trucoiniciativa = (ctx, next) => {
+
+	console.log("trucoiniciativa");
+
+	if(trucoPrimeiroRound == true) {
+		trucoTurno = Math.floor(4*Math.random());
+		trucoTurnoId = trucoJogadores[trucoTurno].id;
+		console.log(trucoTurno);
+		trucoPrimeiroRound = false;
+	}
+
+	trucoTurnoCartasNaMesa = [];
+	next();
+}
+
+const trucodistribuircarta = (ctx, next) => {
+
+	console.log("trucodistribuircarta");
+
+
+	for(var i = 0; i < trucoJogadores.length; i++){
+
+		// zerar mão
+		trucoJogadores[i].mao = [];
+
+		// distribuir 3 cartas
+
+		for(var ic = 0; ic < 3; ic++) {
+			trucoJogadores[i].mao.push(trucoBaralho[0]);
+			trucoBaralho.splice(0, 1)
+		}
+
+		msg(`${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+
+			A carta de manilha queimada foi [ ${trucoManilha} ]
+
+			${trucoJogadores[i].nome}: Você recebeu sua mão:
+			[ ${trucoJogadores[i].mao[0]} ] [ ${trucoJogadores[i].mao[1]} ] [ ${trucoJogadores[i].mao[2]} ]
+
+			Agora é a vez de ${trucoJogadores[trucoTurno].nome}
+
+			`,trucoJogadores[i].id);
+	}
+
+
+	next();
+}
+
+
+const trucomostrouteclado = (ctx, next) => {
+
+	console.log("trucomostrouteclado");
+
+	var trucoMaoReplace = trucoJogadores[trucoTurno].mao;
+	for (var i = 0; i < trucoMaoReplace.length; i++) {
+		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♣", "%E2%99%A3");
+		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♥", "%E2%99%A5");
+		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♠", "%E2%99%A0");
+		trucoMaoReplace[i] = trucoMaoReplace[i].replace("♦", "%E2%99%A6");
+	}
+
+
+	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,["truco!","jogar baixo"]],"resize_keyboard":true, "one_time_keyboard":true})
+
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${tecladoTruco}`)
+		.catch(e => console.log(e))
+
+
+	next();
+}
+
+
+bot.command(['truco'], async ctx => {
+	if (trucoLoading == false) {
+		exec(ctx, trucoloading, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucoloadingfim);
+	} else {
+		await ctx.reply(`Servidor ocupado, tente novamente.`);
+	}
+	
+})
+
+// Ouvindo Jogadas
+
+bot.hears(["batata","3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"], async ctx => {
+	
+	var trucoCartaJogada = ctx.update.message.text;
+	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♣", "%E2%99%A3");
+	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♥", "%E2%99%A5");
+	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♠", "%E2%99%A0");
+	var trucoCartaJogadaReplace = trucoCartaJogada.replace("♦", "%E2%99%A6");
+
+	// msg direta
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		// loading
+		if (trucoLoading == false) {
+			// existe partida
+			if (trucoComecou == true) {
+				// se é o seu turno
+				if (trucoTurnoId == ctx.update.message.from.id) {
+					// Se ele tem a carta na mão
+					if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaReplace) == true) {
+
+						trucoTurnoCartasNaMesa
+
+
+						await ctx.reply(`Show`);
+
+
+
+
+
+
+					} else {
+						await ctx.reply(`Você não tem essa carta na mão`);
+					}
+				} else {
+					await ctx.reply(`Não é sua vez`);
+					console.log("trucoTurnoId: "+trucoTurnoId+" - seu id: "+ctx.update.message.from.id )
+				}
+			} else {
+				await ctx.reply(`Não existe uma jogada ativa`);
+			}
+		} else {
+			await ctx.reply(`Servidor ocupado, tente novamente.`);
+		}
+
+	}
+	
+})
 
 
 
@@ -2184,5 +2405,50 @@ bot.command(['post'], async ctx => {
 
 
 
+
+
+// DEBUG
+
+
+
+
+
+const trucodebug = (ctx, next) => {
+
+	trucoJogadores = [
+	{
+		"nome":"Kiliano",
+		"id": idKiliano,
+		"pontos":0,
+		"mao":[],
+	},
+
+	{
+		"nome":"Geovana",
+		"id": idKiliano,
+		"pontos":0,
+		"mao":[],
+	},
+
+	{
+		"nome":"Mimi",
+		"id": idKiliano,
+		"pontos":0,
+		"mao":[],
+	},
+
+	{
+		"nome":"Tavinho",
+		"id": idKiliano,
+		"pontos":0,
+		"mao":[],
+	}
+	]
+	next();
+}
+
+
+
+exec(ctx, trucodebug, trucocomecar);
 // Loop
 bot.startPolling()
