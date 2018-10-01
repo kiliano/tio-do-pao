@@ -2250,7 +2250,6 @@ const trucozerar = (ctx, next) => {
 
 const trucocloading = (ctx, next) => {
 	console.log("trucocloading");
-	trucoMensagem = [];
 	trucoLoading = true;
 	next();
 }
@@ -2452,8 +2451,9 @@ const trucoqueimar = (ctx, next) => {
 }
 
 const trucoprimeiramesa = (ctx, next) => {
+	console.log("trucoprimeiramesa");
 	trucoPrimeiroRound = true;
-	trucocomecar = true;
+	trucoComecou = true;
 	var trucoJogadoresOrdem1 = trucoJogadores[1];
 	var trucoJogadoresOrdem2 = trucoJogadores[2];
 	trucoJogadores[1] = trucoJogadoresOrdem2;
@@ -2463,7 +2463,7 @@ const trucoprimeiramesa = (ctx, next) => {
 
 
 const trucolimparmesa = (ctx, next) => {
-
+	console.log("trucolimparmesa");
 	trucoValorDaMao = 1;
 
 	for (var i = 0; i < trucoJogadores.length; i++) {
