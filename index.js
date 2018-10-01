@@ -2453,6 +2453,7 @@ const trucoqueimar = (ctx, next) => {
 
 const trucoprimeiramesa = (ctx, next) => {
 	trucoPrimeiroRound = true;
+	trucocomecar = true;
 	var trucoJogadoresOrdem1 = trucoJogadores[1];
 	var trucoJogadoresOrdem2 = trucoJogadores[2];
 	trucoJogadores[1] = trucoJogadoresOrdem2;
@@ -3099,8 +3100,14 @@ bot.command(['truco'], async ctx => {
 
 	if (debug == false) {
 
-		if (trucoJogadores.includes(ctx.update.message.from.id) == false) {
+		// if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaReplace) == true) {
+
+
+		
+			
 			// Primeiro Jogador entrar
+
+
 			if (trucoJogadores.length == 0) {
 				trucoJogadores.push({
 					"nome":ctx.update.message.from.first_name,
@@ -3114,88 +3121,98 @@ bot.command(['truco'], async ctx => {
 				msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
 
 					A próxima pessoa à entrar vai ser seu parceiro.`, trucoJogadores[0].id);
-				exec(ctx, trucomensagemgeral);
 
-			}
+			} else {
+				// Segundo jogador
+				if (trucoJogadores.length == 1 && trucoJogadores[0].id != ctx.update.message.from.id) {
 
+					trucoJogadores.push({
+						"nome":ctx.update.message.from.first_name,
+						"id": ctx.update.message.from.id,
+						"pontos":0,
+						"time" : 0,
+						"mao":[],
+						"donodascartas":[]
+					});
 
-			// Segundo jogador
-			if (trucoJogadores.length == 1) {
+					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
+					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
 
-				trucoJogadores.push({
-					"nome":ctx.update.message.from.first_name,
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 0,
-					"mao":[],
-					"donodascartas":[]
-				});
-
-				msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
-				msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
-
-			}
-
-			// terceiro jogador
-			if (trucoJogadores.length == 2) {
-
-				trucoJogadores.push({
-					"nome":ctx.update.message.from.first_name,
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 1,
-					"mao":[],
-					"donodascartas":[]
-				});
-
-				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
-				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
-				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
-				
-			}
-
-
-			// quarto jogador
-			if (trucoJogadores.length == 3) {
-
-				trucoJogadores.push({
-					"nome":ctx.update.message.from.first_name,
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 1,
-					"mao":[],
-					"donodascartas":[]
-				});
-
-
-				if (trucoLoading == false) {
-					exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
 				} else {
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+					// terceiro jogador
+					if (trucoJogadores.length == 2 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id) {
+
+						trucoJogadores.push({
+							"nome":ctx.update.message.from.first_name,
+							"id": ctx.update.message.from.id,
+							"pontos":0,
+							"time" : 1,
+							"mao":[],
+							"donodascartas":[]
+						});
+
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
+						
+					} else {
+						// quarto jogador
+						if (trucoJogadores.length == 3 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id && trucoJogadores[2].id != ctx.update.message.from.id) {
+
+							trucoJogadores.push({
+								"nome":ctx.update.message.from.first_name,
+								"id": ctx.update.message.from.id,
+								"pontos":0,
+								"time" : 1,
+								"mao":[],
+								"donodascartas":[]
+							});
+
+
+							if (trucoLoading == false) {
+								exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+							} else {
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+							}
+
+
+						} else {
+							// Quinto jogador
+
+							if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
+								await ctx.reply(`Você já está na sala. Para encerrar a mesa só escrever /trucosair`);
+							}
+							
+							if (trucoJogadores.length > 3) {
+
+								await ctx.reply(`A mesa está cheia:
+									${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+									`);
+							}
+
+						}
+					}
+
 				}
-
-
-			}
-
-			// Quinto jogador
-			if (trucoJogadores.length > 3) {
-
-				await ctx.reply(`A mesa está cheia:
-					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
-					`);
 			}
 
 
+			
+
+			
+
+			
+
+			
 
 
 
 
-		} else {
-			await ctx.reply(`Você já está na sala. Para encerrar a mesa só escrever /trucosair`);
-		}
+
+
 
 
 
@@ -3362,7 +3379,7 @@ const trucodebug = (ctx, next) => {
 }
 
 
-if (debug == true) {{
+if (debug == true) {
 	exec(ctx, trucodebug, trucocomecar);
 	
 }
