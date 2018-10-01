@@ -3,9 +3,10 @@
 
 ---- Checklist ----
 Pedir Truco, 6, 9 e 12
+/chat mensagem para geral
+
 mão de 11
 mão de ferro
-/chat mensagem para geral
 
 Colocar novodia pra reiniciar cada começo de dia (corrigindo problema de fuso horário, que reinicia antes da hora)
 
