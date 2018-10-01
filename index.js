@@ -2338,7 +2338,7 @@ const trucomanilha = (ctx, next) => {
 
 	console.log("Descarte manilha: "+trucoManilha);
 
-	if(trucoManilhaValor.valor1.includes(trucoManilha)){
+	if (trucoManilhaValor.valor1.includes(trucoManilha)){
 		trucoManilhaValor.zap = "5♣";
 		trucoManilhaValor.escopeta = "5♥";
 		trucoManilhaValor.espadilha = "5♠";
@@ -2346,65 +2346,65 @@ const trucomanilha = (ctx, next) => {
 	}
 
 
-	if(trucoManilhaValor.valor2.includes(trucoManilha)){
+	if (trucoManilhaValor.valor2.includes(trucoManilha)){
 		trucoManilhaValor.zap = "6♣";
 		trucoManilhaValor.escopeta = "6♥";
 		trucoManilhaValor.espadilha = "6♠";
 		trucoManilhaValor.picafumo = "6♦";
 	}
 
-	if(trucoManilhaValor.valor3.includes(trucoManilha)){
+	if (trucoManilhaValor.valor3.includes(trucoManilha)){
 		trucoManilhaValor.zap = "7♣";
 		trucoManilhaValor.escopeta = "7♥";
 		trucoManilhaValor.espadilha = "7♠";
 		trucoManilhaValor.picafumo = "7♦";
 	}
 
-	if(trucoManilhaValor.valor4.includes(trucoManilha)){
+	if (trucoManilhaValor.valor4.includes(trucoManilha)){
 		trucoManilhaValor.zap = "Q♣";
 		trucoManilhaValor.escopeta = "Q♥";
 		trucoManilhaValor.espadilha = "Q♠";
 		trucoManilhaValor.picafumo = "Q♦";
 	}
 
-	if(trucoManilhaValor.valor5.includes(trucoManilha)){
+	if (trucoManilhaValor.valor5.includes(trucoManilha)){
 		trucoManilhaValor.zap = "J♣";
 		trucoManilhaValor.escopeta = "J♥";
 		trucoManilhaValor.espadilha = "J♠";
 		trucoManilhaValor.picafumo = "J♦";
 	}
 
-	if(trucoManilhaValor.valor6.includes(trucoManilha)){
+	if (trucoManilhaValor.valor6.includes(trucoManilha)){
 		trucoManilhaValor.zap = "K♣";
 		trucoManilhaValor.escopeta = "K♥";
 		trucoManilhaValor.espadilha = "K♠";
 		trucoManilhaValor.picafumo = "K♦";
 	}
 
-	if(trucoManilhaValor.valor7.includes(trucoManilha)){
+	if (trucoManilhaValor.valor7.includes(trucoManilha)){
 		trucoManilhaValor.zap = "A♣";
 		trucoManilhaValor.escopeta = "A♥";
 		trucoManilhaValor.espadilha = "A♠";
 		trucoManilhaValor.picafumo = "A♦";
 	}
 
-	if(trucoManilhaValor.valor8.includes(trucoManilha)){
+	if (trucoManilhaValor.valor8.includes(trucoManilha)){
 		trucoManilhaValor.zap = "2♣";
 		trucoManilhaValor.escopeta = "2♥";
 		trucoManilhaValor.espadilha = "2♠";
 		trucoManilhaValor.picafumo = "2♦";
 	}
 
-	if(trucoManilhaValor.valor9.includes(trucoManilha)){
+	if (trucoManilhaValor.valor9.includes(trucoManilha)){
 		trucoManilhaValor.zap = "3♣";
 		trucoManilhaValor.escopeta = "3♥";
 		trucoManilhaValor.espadilha = "3♠";
 		trucoManilhaValor.picafumo = "3♦";
 	}
 
-	if(trucoManilhaValor.valor10.includes(trucoManilha)){
+	if (trucoManilhaValor.valor10.includes(trucoManilha)){
 		
-		(trucoBaralhoTipo == 'limpo') {
+		if (trucoBaralhoTipo == 'limpo') {
 			trucoManilhaValor.zap = "4♣";
 			trucoManilhaValor.escopeta = "4♥";
 			trucoManilhaValor.espadilha = "4♠";
@@ -2448,6 +2448,15 @@ const trucoqueimar = (ctx, next) => {
 	console.log("trucoqueimar");
 
 
+	next();
+}
+
+const trucoprimeiramesa = (ctx, next) => {
+	trucoPrimeiroRound = true;
+	var trucoJogadoresOrdem1 = trucoJogadores[1];
+	var trucoJogadoresOrdem2 = trucoJogadores[2];
+	trucoJogadores[1] = trucoJogadoresOrdem2;
+	trucoJogadores[2] = trucoJogadoresOrdem1;
 	next();
 }
 
@@ -3064,6 +3073,8 @@ const trucofim = (ctx, next) => {
 	// Rezando itens entre rodadas
 
 	trucoComecou = false;
+	trucoJogadores = []
+	trucoJogadores = []
 
 	console.log("ACABOU A PARTIDA");
 	next();
@@ -3073,10 +3084,127 @@ const trucofim = (ctx, next) => {
 
 
 bot.command(['truco'], async ctx => {
-	if (trucoLoading == false) {
-		exec(ctx, trucocloading, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+	// 	trucoJogadores = [
+	// {
+		// "nome":"Kiliano",
+		// "id": idKiliano,
+		// "pontos":0,
+		// "time" : 0,
+		// "mao":[],
+		// "donodascartas":[]
+	// }]
+
+
+
+
+	if (debug == false) {
+
+		if (trucoJogadores.includes(ctx.update.message.from.id) == false) {
+			// Primeiro Jogador entrar
+			if (trucoJogadores.length == 0) {
+				trucoJogadores.push({
+					"nome":ctx.update.message.from.first_name,
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 0,
+					"mao":[],
+					"donodascartas":[]
+				});
+
+				msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
+
+					A próxima pessoa à entrar vai ser seu parceiro.`, trucoJogadores[0].id);
+				exec(ctx, trucomensagemgeral);
+
+			}
+
+
+			// Segundo jogador
+			if (trucoJogadores.length == 1) {
+
+				trucoJogadores.push({
+					"nome":ctx.update.message.from.first_name,
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 0,
+					"mao":[],
+					"donodascartas":[]
+				});
+
+				msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
+				msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
+
+			}
+
+			// terceiro jogador
+			if (trucoJogadores.length == 2) {
+
+				trucoJogadores.push({
+					"nome":ctx.update.message.from.first_name,
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 1,
+					"mao":[],
+					"donodascartas":[]
+				});
+
+				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
+				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
+				msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
+				
+			}
+
+
+			// quarto jogador
+			if (trucoJogadores.length == 3) {
+
+				trucoJogadores.push({
+					"nome":ctx.update.message.from.first_name,
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 1,
+					"mao":[],
+					"donodascartas":[]
+				});
+
+
+				if (trucoLoading == false) {
+					exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+				} else {
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+				}
+
+
+			}
+
+			// Quinto jogador
+			if (trucoJogadores.length > 3) {
+
+				await ctx.reply(`A mesa está cheia:
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+					`);
+			}
+
+
+
+
+
+
+		} else {
+			await ctx.reply(`Você já está na sala. Para encerrar a mesa só escrever /trucosair`);
+		}
+
+
+
 	} else {
-		await ctx.reply(`Servidor ocupado, tente novamente.`);
+		if (trucoLoading == false) {
+			exec(ctx, trucocloading, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+		} else {
+			await ctx.reply(`Servidor ocupado, tente novamente.`);
+		}
 	}
 	
 })
@@ -3234,7 +3362,10 @@ const trucodebug = (ctx, next) => {
 }
 
 
+if (debug == true) {{
+	exec(ctx, trucodebug, trucocomecar);
+	
+}
 
-exec(ctx, trucodebug, trucocomecar);
 // Loop
 bot.startPolling()
