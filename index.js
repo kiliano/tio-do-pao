@@ -40,7 +40,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = true;
+var debug = false;
 
 var acordado = true;
 
@@ -71,104 +71,106 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idRodrigo = env.idRodrigo;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
 
-	const idTodos = env.idTodos;
+	// const idTodos = env.idTodos;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-	// 		setTimeout(function(){
-	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 			console.log("Primeiro ping do dia "+(datahora-3));
-	// 		 },1350000);
+			setTimeout(function(){
+				http.get("http://shielded-peak-24448.herokuapp.com/");
+				console.log("Primeiro ping do dia "+(datahora-3));
+			 },1350000);
 
-	// 		setInterval(function(){ 
-	// 			exec(ctx,atualizarData)
+			setInterval(function(){ 
+				exec(ctx,atualizarData)
 
-	// 			if (datahora < 19+3) {
+				if (datahora < 19+3) {
 
-	// 				if (fimdodia == true) {
-	// 					fimdodia = false;
-	// 					msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-	// 					exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-	// 				}
-
-
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 					console.log("Ping timeout 750000 "+(datahora-3));
-
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
-
-	// 				 },750000);
-
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 					console.log("Ping timeout 1350000 "+(datahora-3));
-
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
-	// 				 },1350000);
-	// 			} else {
-
-	// 				if (fimdodia == false) {
-	// 					fimdodia = true;
-	// 					console.log("Fim do dia ligado. Boa noite :)")
-	// 				}
-
-	// 			}
-	// 		}, 2400000);
+					if (fimdodia == true) {
+						fimdodia = false;
+						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+					}
 
 
-	// var port = (process.env.PORT || 5000)
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/");
+						console.log("Ping timeout 750000 "+(datahora-3));
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	// 	response.end();
-	// }).listen(port)
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
 
-	// const token = process.env.token
+					 },750000);
 
-	// const idKiliano = process.env.idKiliano
-	// const idBartira = process.env.idBartira
-	// const idRodrigo = process.env.idRodrigo;
-	// const idChatDegrau = process.env.idChatDegrau
-	// const idChatFronts = process.env.idChatFronts
-	// const wordpressPass = process.env.wordpressPass;
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log("Ping timeout 1350000 "+(datahora-3));
 
-	// const idTodos = process.env.idTodos
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
+					 },1350000);
+				} else {
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+					if (fimdodia == false) {
+						fimdodia = true;
+						console.log("Fim do dia ligado. Boa noite :)")
+					}
 
-	// const apiClimatempo = process.env.apiClimatempo
+				}
+			}, 2400000);
 
-	// const bot = new Telegraf(token)
+
+	var port = (process.env.PORT || 5000)
+
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.end();
+	}).listen(port)
+
+	const token = process.env.token
+
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idRodrigo = process.env.idRodrigo;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
+	const wordpressPass = process.env.wordpressPass;
+
+	const idTodos = process.env.idTodos
+
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+
+	const apiClimatempo = process.env.apiClimatempo
+
+	const bot = new Telegraf(token)
 
 
 
@@ -475,7 +477,7 @@ const checagemparanovopost = (ctx, next) => {
 			var conteudomes = 0;
 			var conteudoacoes = [];
 
-			if(pedido.acoes[0] != undefined) {
+			if(pedido.acoes[0] != undefined && debug == false) {
 				if (conteudo.length > 0) {
 
 					for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
@@ -1040,6 +1042,13 @@ const tecladoSegunda = Markup.keyboard([
 ]).resize().oneTime().extra()
 
 
+const tecladoSegundaAntes = Markup.keyboard([
+	['✅Quero uma segunda opção✅'],
+	['❌Não quero uma segunda opção❌']
+
+]).resize().oneTime().extra()
+
+
 
 const tecladoFinal = Markup.keyboard([
 	['👍 Tô satisfeito tio!'],
@@ -1152,7 +1161,7 @@ bot.command(['pao','Pao','pedir', 'cardapio'], async ctx => {
 // Ouvindo o pedido
 bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 com Recheio','🥐 Croissant Presunto', '🥐 Croissant Frango','🥖 Bisnaga','🥖 com Açúcar','🥖 com Creme'], async ctx => {
 	if (acordado == true) {
-		await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegunda)
+		await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegundaAntes)
 
 		var nome = ctx.update.message.from.first_name
 		nome.replace(":", " ")
@@ -1183,6 +1192,12 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 bot.hears(['❌Não quero uma segunda opção❌'], async ctx => {
 	await ctx.reply(`Beleza 😊. Anotei seu pedido. Quer mais algo? `, tecladoFinal)
+
+})
+
+
+bot.hears(['✅Quero uma segunda opção✅'], async ctx => {
+	await ctx.reply(`Escolha sua segunda opção `, tecladoSegunda)
 
 })
 
@@ -2129,7 +2144,7 @@ bot.command('msg', async ctx => {
 })
 
 bot.command(['relatorio'], async ctx => {
-	if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira) {
+	if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira || ctx.chat.id == idIsabel) {
 		await ctx.reply(` 📅 Selecione a data do relatório 📅`,tecladoRelatorioPao);
 	} else {
 		await ctx.reply(`Relatório só podem ser enviados inbox, através do Kiliano, Bartira ou Bel`);
