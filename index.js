@@ -39,7 +39,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = false;
+var debug = true;
 
 var acordado = true;
 
@@ -3117,9 +3117,6 @@ bot.command(['truco'], async ctx => {
 	if (debug == false) {
 
 		// if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaReplace) == true) {
-
-
-		
 			
 			// Primeiro Jogador entrar
 
@@ -3215,22 +3212,111 @@ bot.command(['truco'], async ctx => {
 				}
 			}
 
+	}
 
+
+
+
+
+
+
+
+	// Debug
+
+
+	if (debug == true) {
+
+		// if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaReplace) == true) {
 			
-
-			
-
-			
-
-			
+			// Primeiro Jogador entrar
 
 
+			if (trucoJogadores.length == 0) {
+				trucoJogadores.push({
+					"nome":"Rick",
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 0,
+					"mao":[],
+					"donodascartas":[]
+				});
+
+				msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
+
+					A próxima pessoa à entrar vai ser seu parceiro.`, trucoJogadores[0].id);
+
+			} else {
+				// Segundo jogador
+				if (trucoJogadores.length == 1) {
+
+					trucoJogadores.push({
+						"nome":"Urgan",
+						"id": ctx.update.message.from.id,
+						"pontos":0,
+						"time" : 0,
+						"mao":[],
+						"donodascartas":[]
+					});
+
+					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
+					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
+
+				} else {
+					// terceiro jogador
+					if (trucoJogadores.length == 2) {
+
+						trucoJogadores.push({
+							"nome":"Ana",
+							"id": ctx.update.message.from.id,
+							"pontos":0,
+							"time" : 1,
+							"mao":[],
+							"donodascartas":[]
+						});
+
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
+						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
+						
+					} else {
+						// quarto jogador
+						if (trucoJogadores.length == 3) {
+
+							trucoJogadores.push({
+								"nome":"Lifa",
+								"id": ctx.update.message.from.id,
+								"pontos":0,
+								"time" : 1,
+								"mao":[],
+								"donodascartas":[]
+							});
 
 
+							if (trucoLoading == false) {
+								exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+							} else {
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
+								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+							}
 
 
+						} else {
+							// Quinto jogador
 
+							if (trucoJogadores.length > 3) {
 
+								await ctx.reply(`A mesa está cheia:
+									${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+									`);
+							}
+
+						}
+					}
+
+				}
+			}
 
 	} else {
 		if (trucoLoading == false) {
@@ -3239,6 +3325,8 @@ bot.command(['truco'], async ctx => {
 			await ctx.reply(`Servidor ocupado, tente novamente.`);
 		}
 	}
+
+	// /Debug
 	
 })
 
@@ -3335,70 +3423,6 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-// DEBUG
-
-
-
-
-
-const trucodebug = (ctx, next) => {
-
-	trucoJogadores = [
-	{
-		"nome":"Kiliano",
-		"id": idKiliano,
-		"pontos":0,
-		"time" : 0,
-		"mao":[],
-		"donodascartas":[]
-	},
-
-	{
-		"nome":"Geovana",
-		"id": idKiliano,
-		"pontos":0,
-		"time" : 1,
-		"mao":[],
-		"donodascartas":[]
-	},
-
-	{
-		"nome":"Mimi",
-		"id": idKiliano,
-		"pontos":0,
-		"time" : 0,
-		"mao":[],
-		"donodascartas":[]
-	},
-
-	{
-		"nome":"Tavinho",
-		"id": idKiliano,
-		"pontos":0,
-		"time" : 1,
-		"mao":[],
-		"donodascartas":[]
-	}
-	]
-	next();
-}
-
-
-if (debug == true) {
-	exec(ctx, trucodebug, trucocomecar);
-	
-}
 
 // Loop
 bot.startPolling()
