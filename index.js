@@ -2107,13 +2107,10 @@ bot.command('msg', async ctx => {
 })
 
 bot.command(['relatorio'], async ctx => {
-	if (ctx.update.message.from.id == idKiliano || ctx.update.message.from.id == idBartira) {
-		if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira) {
-			await ctx.reply(` 📅 Selecione a data do relatório 📅`,tecladoRelatorioPao);
-		} else {
-			await ctx.reply(`Só envio os relatórios inbox 🙂 Me manda uma direct.`);
-		}
+	if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira) {
+		await ctx.reply(` 📅 Selecione a data do relatório 📅`,tecladoRelatorioPao);
 	} else {
+		await ctx.reply(`Relatório só podem ser enviados inbox, através do Kiliano, Bartira ou Bel`);
 
 	}
 })
