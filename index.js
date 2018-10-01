@@ -1893,68 +1893,70 @@ bot.command(['clima'], async ctx => {
 })
 
 bot.command(['jandira'], async ctx => {
-	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`);
-	climaicon = "";
+	if (ctx.update.message.from.first_name == idRodrigo) {
+		clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`);
+		climaicon = "";
 
-	var jandira1 = "";
-	var jandira2 = "";
+		var jandira1 = "";
+		var jandira2 = "";
 
-	if (clima.data.data[0].rain.probability >= 90) {
-		climaicon = "☔";
-	} else {
-
-		if (clima.data.data[0].rain.probability >= 70) {
-			climaicon = "☂";
+		if (clima.data.data[0].rain.probability >= 90) {
+			climaicon = "☔";
 		} else {
 
-			if (clima.data.data[0].rain.probability >= 50) {
-				climaicon = "🌂";
+			if (clima.data.data[0].rain.probability >= 70) {
+				climaicon = "☂";
 			} else {
-				climaicon = "🌤";
+
+				if (clima.data.data[0].rain.probability >= 50) {
+					climaicon = "🌂";
+				} else {
+					climaicon = "🌤";
+				}
+
 			}
 
 		}
 
-	}
+		jandira1 = `☀ ☀ Previsão para JANDIRA ☀ ☀
 
-	jandira1 = `☀ ☀ Previsão para JANDIRA ☀ ☀
+		HOJE (${clima.data.data[0].date_br})
+			Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
+		 	${clima.data.data[0].text_icon.text.pt} ☀
+		 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+		 	`;
 
-	HOJE (${clima.data.data[0].date_br})
-		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
-	 	${clima.data.data[0].text_icon.text.pt} ☀
-	 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
-	 	`;
-
-	if (clima.data.data[1].rain.probability >= 90) {
-		climaicon = "☔";
-	} else {
-
-		if (clima.data.data[1].rain.probability >= 70) {
-			climaicon = "☂";
+		if (clima.data.data[1].rain.probability >= 90) {
+			climaicon = "☔";
 		} else {
 
-			if (clima.data.data[1].rain.probability >= 50) {
-				climaicon = "🌂";
+			if (clima.data.data[1].rain.probability >= 70) {
+				climaicon = "☂";
 			} else {
-				climaicon = "🌤";
+
+				if (clima.data.data[1].rain.probability >= 50) {
+					climaicon = "🌂";
+				} else {
+					climaicon = "🌤";
+				}
+
 			}
 
 		}
 
+		jandira2 = `AMANHÃ (${clima.data.data[1].date_br})
+
+			Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+		 	${clima.data.data[1].text_icon.text.pt} ☀
+		 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
+
+		if (ctx.chat.id != idRodrigo) {
+			await ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
+		}
+
+		msg(jandira1+jandira2, idRodrigo);
+
 	}
-
-	jandira2 = `AMANHÃ (${clima.data.data[1].date_br})
-
-		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
-	 	${clima.data.data[1].text_icon.text.pt} ☀
-	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
-
-	if (ctx.chat.id != idRodrigo) {
-		await ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
-	}
-
-	msg(jandira1+jandira2, idRodrigo);
-
 
 
 
