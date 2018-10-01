@@ -2,8 +2,6 @@
 /*
 
 ---- Checklist ----
-Criar um debug para entrada de usuários, pra facilitar os testes.
-Colocar as mensagens de viranda da rodada na ordem correta (conclusão chega depois do novo jogo)
 Sistema para enviar cartas viradas pra baixo
 Pedir Truco, 6, 9 e 12
 mão de 11
@@ -2184,6 +2182,8 @@ var trucoComecou = false;
 var trucoPrimeiroRound = true;
 var trucoValorDaMao = 1;
 
+var trucoContinuar = false;
+
 var trucoQueimar = [];
 var trucoManilha = '';
 var trucoManilhaValor = {
@@ -2229,6 +2229,7 @@ const trucozerar = (ctx, next) => {
 	trucoComecou = false;
 	trucoPrimeiroRound = true;
 	trucoValorDaMao = 1;
+	trucoContinuar = false;
 
 	trucoQueimar = [];
 	trucoManilha = '';
@@ -3035,6 +3036,9 @@ const trucoanalizarrodada = (ctx, next) => {
 
 const trucoproximarodada = (ctx, next) => {
 
+	trucoRodada = [];
+
+	// Dando a vitória
 	if(trucoJogadores[0].pontos >= 12 ) {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆`);
 		exec(ctx, trucozerar, trucofim);
@@ -3048,14 +3052,14 @@ const trucoproximarodada = (ctx, next) => {
 	console.log(JSON.stringify(trucoJogadores))
 
 	console.log("pontos time1 "+trucoJogadores[0].pontos+"    pontos time2 "+trucoJogadores[2].pontos);
-	if (trucoJogadores[2].pontos < 12 && trucoJogadores[0].pontos < 12) {
-		exec(ctx, truconovarodada);
-	} else {
-		console.log("terminou")
-	}
 
-	trucoRodada = [];
-	
+
+	// Continuando o jogo
+	if (trucoJogadores[2].pontos < 12 && trucoJogadores[0].pontos < 12) {
+
+		// Iniciando uma nova rodada comum
+		exec(ctx, trucoiniciativa,trucocontinuarrodada, trucomensagemgeral);
+	}
 	
 
 	// Rezando itens entre rodadas
@@ -3074,12 +3078,28 @@ const trucomensagemgeral = async (ctx, next) =>  {
 	next();
 }
 
+const trucocontinuarrodada = (ctx, next) => {
 
-const truconovarodada = (ctx, next) => {
-	trucoMensagem.push(`\n---------------------`)
-	exec(trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado);
+	trucoContinuar = true;
+
+	var tecladoTrucoContinuar = JSON.stringify({"keyboard":[['▫◻ Continuar ◻▫']],"resize_keyboard":true, "one_time_keyboard":true})
+
+	trucoMensagem.push(`\n\n ---------------- \n\n Aguardando ${trucoJogadores[trucoTurno].nome} continuar a próxima rodada.`);
+
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Continue:')}&reply_markup=${encodeURI(tecladoTrucoContinuar)}`).catch(e => console.log(e))
+
+	console.log(trucoJogadores[trucoTurno].nome+" - "+trucoJogadores[trucoTurno].id)
+
+
 	next();
 }
+
+
+
+// const truconovarodada = (ctx, next) => {
+// 	exec(trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado);
+// 	next();
+// }
 
 
 
@@ -3318,13 +3338,7 @@ bot.command(['truco'], async ctx => {
 				}
 			}
 
-	} else {
-		if (trucoLoading == false) {
-			exec(ctx, trucocloading, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
-		} else {
-			await ctx.reply(`Servidor ocupado, tente novamente.`);
-		}
-	}
+	} 
 
 	// /Debug
 	
@@ -3420,6 +3434,41 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 
 	}
 	
+})
+
+
+bot.hears(["▫◻ Continuar ◻▫"], async ctx => {
+
+	if (trucoContinuar == true) {
+		// msg direta
+		if (ctx.update.message.from.id == ctx.chat.id) {
+
+			// Se o continuar veio do turno certo
+			if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
+
+				// loading
+				if (trucoLoading == false) {
+					// existe partida
+					if (trucoComecou == true) {
+
+						exec(ctx, trucocloading, trucolimparmesa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+						
+					} else {
+						await ctx.reply(`Não existe uma jogada ativa`);
+					}
+				} else {
+					await ctx.reply(`Servidor ocupado, tente novamente.`);
+				}
+
+			} else {
+				await ctx.reply(`Não é o seu turno.`);
+			}
+
+
+		}
+
+	}
+
 })
 
 
