@@ -2836,7 +2836,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
