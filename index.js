@@ -7,6 +7,9 @@ Pedir Truco, 6, 9 e 12
 mão de 11
 mão de ferro
 /chat mensagem para geral
+
+colocar um sub menu de segunda opção (quer segunda opção? sim ou não)
+
 /piscar piscar pro parceiro (50% de chance de perceberem)
 /chingar 
 /bater
