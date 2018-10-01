@@ -6,6 +6,8 @@ Criar um debug para entrada de usuários, pra facilitar os testes.
 Colocar as mensagens de viranda da rodada na ordem correta (conclusão chega depois do novo jogo)
 Sistema para enviar cartas viradas pra baixo
 Pedir Truco, 6, 9 e 12
+mão de 11
+mão de ferro
 /chat mensagem para geral
 /piscar piscar pro parceiro (50% de chance de perceberem)
 /chingar 
