@@ -3738,10 +3738,10 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 							if (debug == false) {
 								if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
-									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu nove!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
 								} else {
-									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu nove!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 								}
 							}
 
@@ -3801,10 +3801,10 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 								if (debug == false) {
 									if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
-										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu doze!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
 									} else {
-										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu doze!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 									}
 								}
 
