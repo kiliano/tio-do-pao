@@ -2156,7 +2156,19 @@ bot.command(['relatorio'], async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	await ctx.reply("Testado 🔽 3♣");
+	await ctx.reply("Testado");
+
+	console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
+	console.log("trucoTurno: "+trucoTurno)
+	console.log("trucoValorDaMao: "+trucoValorDaMao)
+	console.log("trucoContinuar: "+trucoContinuar)
+	console.log("trucoEmTruco: "+trucoEmTruco)
+	console.log("trucoAlvoTruco: "+trucoAlvoTruco)
+	console.log("trucoRodada: "+trucoRodada)
+	console.log("trucoTurnoId: "+trucoTurnoId)
+
+
+
 })
 
 bot.command(['post'], async ctx => {
@@ -2557,6 +2569,7 @@ const trucoiniciativa = (ctx, next) => {
 			trucoTurnoPrincipal = 0;
 		}
 		trucoTurno = trucoTurnoPrincipal;
+		trucoTurnoId = trucoJogadores[trucoTurno].id;
 
 	}
 	next();
@@ -3076,7 +3089,7 @@ const trucoproximarodada = (ctx, next) => {
 
 	console.log(JSON.stringify(trucoJogadores))
 
-	console.log("pontos time1 "+trucoJogadores[0].pontos+"    pontos time2 "+trucoJogadores[2].pontos);
+	console.log("pontos time1 "+trucoJogadores[0].pontos+"    pontos time2 "+trucoJogadores[1].pontos);
 
 
 	// Continuando o jogo
@@ -3371,7 +3384,7 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 			// existe partida
 			if (trucoComecou == true) {
 				// se é o seu turno
-				if (trucoTurnoId == ctx.update.message.from.id) {
+				if (trucoJogadores[trucoTurno].id == ctx.update.message.from.id) {
 					// Se ele tem a carta na mão
 					if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaVisual) == true) {
 
@@ -4043,6 +4056,19 @@ bot.command('chat', async ctx => {
 	}
 
 
+})
+
+
+bot.command('regras', async ctx => {
+
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		await ctx.replyWithMarkdown(`*Ordem de força:*
+
+			[Zap! ♣] [Escopeta ♥] [Espadilha ♠] [Pica-Fumo ♦]
+			[3] [2] [A] [K] [J] [Q] [7] [6] [5] [4]
+
+			`);
+	}
 })
 
 
