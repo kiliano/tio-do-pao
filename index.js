@@ -3804,13 +3804,39 @@ bot.hears(["Desce! ✔"], async ctx => {
 				// existe partida
 				if (trucoComecou == true) {
 
+					var trucoAlvoTrucoVeiodeDesce = 5;
+
+					if (ctx.update.message.from.id == trucoJogadores[0].id) {
+						trucoAlvoTrucoVeiodeDesce = 0;
+					}
+
+					if (ctx.update.message.from.id == trucoJogadores[1].id) {
+						trucoAlvoTrucoVeiodeDesce = 1;
+					}
+
+					if (ctx.update.message.from.id == trucoJogadores[2].id) {
+						trucoAlvoTrucoVeiodeDesce = 2;
+					}
+
+					if (ctx.update.message.from.id == trucoJogadores[3].id) {
+						trucoAlvoTrucoVeiodeDesce = 3;
+					}
+
+
 					// Se a pessoa foi alvo
 					if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id || ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[2]].id) {
 
 						trucoCorrer = 0;
-						
 
-						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+						var trucoAlvoTrucoVeiodeDesceParceiro = trucoAlvoTrucoVeiodeDesce-2;
+
+						if (trucoAlvoTrucoVeiodeDesceParceiro == -1) {
+							trucoAlvoTrucoVeiodeDesceParceiro = 3
+						}
+
+						if (trucoAlvoTrucoVeiodeDesceParceiro == -2) {
+							trucoAlvoTrucoVeiodeDesceParceiro = 2
+						
 
 						if(ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
 							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu pra descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
@@ -3836,6 +3862,9 @@ bot.hears(["Desce! ✔"], async ctx => {
 						}
 
 						trucoEmTruco = false;
+
+						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+						axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTrucoVeiodeDesceParceiro].id}&text=${encodeURI('Seu parceiro mandou descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
 						trucoMensagem.push(`${ctx.update.message.from.first_name} mandou descer!!!`);
 						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
