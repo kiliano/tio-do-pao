@@ -40,7 +40,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = true;
+var debug = false;
 
 var acordado = true;
 
@@ -3547,53 +3547,240 @@ bot.command(['continuar'], async ctx => {
 
 
 
-bot.hears(["É Truco ❗❗❗"], async ctx => {
+bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DOOOZEEEE ❗❗❗"], async ctx => {
 	// msg direta
 	if (ctx.update.message.from.id == ctx.chat.id) {
-
-		// Se o continuar veio do turno certo
-		if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
 
 			// loading
 			if (trucoLoading == false) {
 				// existe partida
 				if (trucoComecou == true) {
 
+			// Se o continuar veio do turno certo
 					if (trucoJogadores[trucoTurno].truco == "É Truco ❗❗❗") {
+
+						if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
+							trucoEmTruco = true;
+
+							if (trucoTurno == 0 || trucoTurno == 2) {
+
+								trucoJogadores[0].truco = "";
+								trucoJogadores[2].truco = "";
+
+								trucoJogadores[1].truco = "É SEIS ❗❗❗";
+								trucoJogadores[3].truco = "É SEIS ❗❗❗";
+
+								trucoAlvoTruco = [trucoTurno,1,3];
+							}
+
+							if (trucoTurno == 1 || trucoTurno == 3) {
+
+								trucoJogadores[1].truco = "";
+								trucoJogadores[3].truco = "";
+
+								trucoJogadores[0].truco = "É SEIS ❗❗❗";
+								trucoJogadores[2].truco = "É SEIS ❗❗❗";
+
+								trucoAlvoTruco = [trucoTurno,0,2];
+							}
+
+							trucoMensagem.push(`${trucoJogadores[trucoAlvoTruco[0]].nome} bateu na mesa e gritou! \n ❗❗❗ É TRUCO ❗❗❗`)
+
+
+							exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
+
+						} else {
+							await ctx.reply(`Não é seu turno pra pedir truco`);
+						}
+
+						
+
+
+
+
+					} else {
+						if (trucoJogadores[trucoAlvoTruco[2]].truco == "É SEIS ❗❗❗" || trucoJogadores[trucoAlvoTruco[1]].truco == "É SEIS ❗❗❗") {
 
 						trucoEmTruco = true;
 
-						if (trucoTurno == 0 || trucoTurno == 2) {
+						trucoValorDaMao = 3;
+
+						var trucoAlvoTrucoVeiode = 5;
+						if (ctx.update.message.from.id == trucoJogadores[0].id) {
+							trucoAlvoTrucoVeiode = 0;
+						}
+
+						if (ctx.update.message.from.id == trucoJogadores[1].id) {
+							trucoAlvoTrucoVeiode = 1;
+						}
+
+						if (ctx.update.message.from.id == trucoJogadores[2].id) {
+							trucoAlvoTrucoVeiode = 2;
+						}
+
+						if (ctx.update.message.from.id == trucoJogadores[3].id) {
+							trucoAlvoTrucoVeiode = 3;
+						}
+
+						trucoAlvoTruco = [trucoAlvoTrucoVeiode,trucoAlvoTruco[1]-1,trucoAlvoTruco[2]-1];
+
+						if (trucoAlvoTruco[1]<0) {
+							trucoAlvoTruco[1] = 3;
+						}
+
+
+						if (trucoAlvoTrucoVeiode == 0 || trucoAlvoTrucoVeiode == 2) {
 
 							trucoJogadores[0].truco = "";
 							trucoJogadores[2].truco = "";
 
-							trucoJogadores[1].truco = "É SEIS ❗❗❗";
-							trucoJogadores[3].truco = "É SEIS ❗❗❗";
-
-							trucoAlvoTruco = [trucoTurno,1,3];
+							trucoJogadores[1].truco = "É NOOOVE ❗❗❗";
+							trucoJogadores[3].truco = "É NOOOVE ❗❗❗";
 						}
 
-						if (trucoTurno == 1 || trucoTurno == 3) {
+						if (trucoAlvoTrucoVeiode == 1 || trucoAlvoTrucoVeiode == 3) {
 
 							trucoJogadores[1].truco = "";
 							trucoJogadores[3].truco = "";
 
-							trucoJogadores[0].truco = "É SEIS ❗❗❗";
-							trucoJogadores[2].truco = "É SEIS ❗❗❗";
+							trucoJogadores[0].truco = "É NOOOVE ❗❗❗";
+							trucoJogadores[2].truco = "É NOOOVE ❗❗❗";
 
-							trucoAlvoTruco = [trucoTurno,0,2];
 						}
 
-						trucoMensagem.push(`${trucoJogadores[trucoAlvoTruco[0]].nome} bateu na mesa e gritou! \n ❗❗❗ É TRUCO ❗❗❗`)
+						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 
+						// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+						// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
+						// } else {
+						// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+						// }
+
+						trucoMensagem.push(`${ctx.update.message.from.first_name} deu berro! \n ❗❗❗❗ É SEEEIIIIIS ❗❗❗❗`)
 						exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
 
-
 					} else {
-						await ctx.reply(`Você não pode pedir truco`);
+						if (trucoJogadores[trucoAlvoTruco[2]].truco == "É NOOOVE ❗❗❗" || trucoJogadores[trucoAlvoTruco[1]].truco == "É NOOOVE ❗❗❗") {
+
+							trucoEmTruco = true;
+
+							trucoValorDaMao = 6;
+
+							var trucoAlvoTrucoVeiode = 5;
+
+							if (ctx.update.message.from.id == trucoJogadores[0].id) {
+								trucoAlvoTrucoVeiode = 0;
+							}
+
+							if (ctx.update.message.from.id == trucoJogadores[1].id) {
+								trucoAlvoTrucoVeiode = 1;
+							}
+
+							if (ctx.update.message.from.id == trucoJogadores[2].id) {
+								trucoAlvoTrucoVeiode = 2;
+							}
+
+							if (ctx.update.message.from.id == trucoJogadores[3].id) {
+								trucoAlvoTrucoVeiode = 3;
+							}
+
+							trucoAlvoTruco = [trucoAlvoTrucoVeiode,trucoAlvoTruco[1]-1,trucoAlvoTruco[2]-1];
+
+							if (trucoAlvoTruco[1]<0) {
+								trucoAlvoTruco[1] = 3;
+							}
+
+
+							if (trucoAlvoTrucoVeiode == 0 || trucoAlvoTrucoVeiode == 2) {
+
+								trucoJogadores[0].truco = "";
+								trucoJogadores[2].truco = "";
+
+								trucoJogadores[1].truco = "DOOOZEEEE ❗❗❗";
+								trucoJogadores[3].truco = "DOOOZEEEE ❗❗❗";
+							}
+
+							if (trucoAlvoTrucoVeiode == 1 || trucoAlvoTrucoVeiode == 3) {
+
+								trucoJogadores[1].truco = "";
+								trucoJogadores[3].truco = "";
+
+								trucoJogadores[0].truco = "DOOOZEEEE ❗❗❗";
+								trucoJogadores[2].truco = "DOOOZEEEE ❗❗❗";
+
+							}
+
+							var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+
+							// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+							// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+
+							// } else {
+							// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+							// }
+
+							trucoMensagem.push(`${ctx.update.message.from.first_name} jogou a cadeira no chão! \n ❗❗❗❗❗ É NOOOOOVE ❗❗❗❗❗`)
+							exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
+
+						} else {
+							if (trucoJogadores[trucoAlvoTruco[2]].truco == "DOOOZEEEE ❗❗❗" || trucoJogadores[trucoAlvoTruco[1]].truco == "DOOOZEEEE ❗❗❗") {
+
+								trucoEmTruco = true;
+
+								trucoValorDaMao = 9;
+
+								var trucoAlvoTrucoVeiode = 5;
+
+								if (ctx.update.message.from.id == trucoJogadores[0].id) {
+									trucoAlvoTrucoVeiode = 0;
+								}
+
+								if (ctx.update.message.from.id == trucoJogadores[1].id) {
+									trucoAlvoTrucoVeiode = 1;
+								}
+
+								if (ctx.update.message.from.id == trucoJogadores[2].id) {
+									trucoAlvoTrucoVeiode = 2;
+								}
+
+								if (ctx.update.message.from.id == trucoJogadores[3].id) {
+									trucoAlvoTrucoVeiode = 3;
+								}
+
+								trucoAlvoTruco = [trucoAlvoTrucoVeiode,trucoAlvoTruco[1]-1,trucoAlvoTruco[2]-1];
+
+								if (trucoAlvoTruco[1]<0) {
+									trucoAlvoTruco[1] = 3;
+								}
+
+								trucoJogadores[0].truco = "";
+								trucoJogadores[2].truco = "";
+								trucoJogadores[1].truco = "";
+								trucoJogadores[3].truco = "";
+
+								var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+
+								// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+								// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+
+								// } else {
+								// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+								// }
+
+								trucoMensagem.push(`${ctx.update.message.from.first_name} derrubou a mesa!!! \n ❗❗❗❗❗❗ DOOOOOZZZZEEE LADRÃÃÃÃO ❗❗❗❗❗❗`)
+								exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
+
+							} 
+						}
 					}
+
+				}
+
+				
+
+				
+				
 
 
 					// seis abaixo
@@ -3607,9 +3794,7 @@ bot.hears(["É Truco ❗❗❗"], async ctx => {
 				await ctx.reply(`Servidor ocupado, tente novamente.`);
 			}
 
-		} else {
-			await ctx.reply(`Não é o seu turno.`);
-		}
+		
 	}
 
 
@@ -3661,7 +3846,7 @@ bot.hears(["Desce! ✔"], async ctx => {
 
 						trucoEmTruco = false;
 
-						trucoMensagem.push(`${ctx.update.message.from.first_name} mandou descer!`);
+						trucoMensagem.push(`${ctx.update.message.from.first_name} mandou descer!!!`);
 						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
 
 						
