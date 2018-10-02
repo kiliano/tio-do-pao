@@ -2202,6 +2202,10 @@ var trucoValorDaMao = 1;
 
 var trucoContinuar = false;
 
+var trucoCorrer = 0;
+var trucoEmTruco = false;
+var trucoAlvoTruco = [5,5,5];
+
 var trucoQueimar = [];
 var trucoManilha = '';
 var trucoManilhaValor = {
@@ -2247,6 +2251,10 @@ const trucozerar = (ctx, next) => {
 	trucoPrimeiroRound = true;
 	trucoValorDaMao = 1;
 	trucoContinuar = false;
+
+	trucoCorrer = 0;
+	trucoEmTruco = false;
+	trucoAlvoTruco = [5,5,5];
 
 	trucoQueimar = [];
 	trucoManilha = '';
@@ -2502,16 +2510,19 @@ const trucolimparmesa = (ctx, next) => {
 	for (var i = 0; i < trucoJogadores.length; i++) {
 		trucoJogadores[i].mao =[];
 		trucoJogadores[i].donodascartas =[];
+		trucoJogadores[i].truco = "É Truco ❗❗❗";
 	}
 
 	trucoQueimar = [];
 	trucoManilha = '';
+
 	
 	trucoRodada = [];
 	trucoCartasNaMesa = [];
 
-
-
+	trucoCorrer = 0;
+	trucoEmTruco = false;
+	trucoAlvoTruco = [5,5,5];
 	trucoCartaJogada = "";
 	trucoCartaJogada = "";
 	trucoMaiorValorVencedor = [];
@@ -2592,16 +2603,14 @@ const trucomostrouteclado = (ctx, next) => {
 		trucoMaoReplaceBaixo.push("🔽 "+trucoJogadores[trucoTurno].mao[i])
 	}
 
-	console.log(trucoJogadores[trucoTurno].mao);
-	console.log(trucoMaoReplaceBaixo);
+	var trucoTrucagem = [];
 
-	
+	trucoTrucagem.push(trucoJogadores[trucoTurno].truco);
 
-	// var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplace,["TRUCO!!!"]],"resize_keyboard":true, "one_time_keyboard":true})
 
-	var tecladoTruco = JSON.stringify({"keyboard":[trucoJogadores[trucoTurno].mao, trucoMaoReplaceBaixo],"resize_keyboard":true, "one_time_keyboard":true})
 
-	console.log(tecladoTruco);
+	var tecladoTruco = JSON.stringify({"keyboard":[trucoJogadores[trucoTurno].mao, trucoMaoReplaceBaixo, trucoTrucagem],"resize_keyboard":true, "one_time_keyboard":true})
+
 
 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${encodeURI(tecladoTruco)}`)
 		.catch(e => console.log(e))
@@ -2609,6 +2618,26 @@ const trucomostrouteclado = (ctx, next) => {
 
 	next();
 }
+
+const trucomostroutecladotruco = (ctx, next) => {
+
+
+
+	var trucoTrucagem = [];
+
+	trucoTrucagem.push(trucoJogadores[trucoAlvoTruco[1]].truco);
+
+	var tecladoTrucagem = JSON.stringify({"keyboard":[["Desce! ✔"],["Correr? ✖"],trucoTrucagem],"resize_keyboard":true, "one_time_keyboard":true})
+
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Resposta ao truco:')}&reply_markup=${encodeURI(tecladoTrucagem)}`)
+	.catch(e => console.log(e))
+
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Resposta ao truco:')}&reply_markup=${encodeURI(tecladoTrucagem)}`)
+	.catch(e => console.log(e))
+
+	next();
+}
+
 
 
 
@@ -3061,6 +3090,7 @@ const trucoproximarodada = (ctx, next) => {
 
 	trucoRodada = [];
 
+
 	// Dando a vitória
 	if(trucoJogadores[0].pontos >= 12 ) {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆`);
@@ -3171,6 +3201,7 @@ bot.command(['truco'], async ctx => {
 					"pontos":0,
 					"time" : 0,
 					"mao":[],
+					"truco" : "É Truco ❗❗❗",
 					"donodascartas":[]
 				});
 
@@ -3188,6 +3219,7 @@ bot.command(['truco'], async ctx => {
 						"pontos":0,
 						"time" : 0,
 						"mao":[],
+						"truco" : "É Truco ❗❗❗",
 						"donodascartas":[]
 					});
 
@@ -3204,6 +3236,7 @@ bot.command(['truco'], async ctx => {
 							"pontos":0,
 							"time" : 1,
 							"mao":[],
+							"truco" : "É Truco ❗❗❗",
 							"donodascartas":[]
 						});
 
@@ -3221,6 +3254,7 @@ bot.command(['truco'], async ctx => {
 								"pontos":0,
 								"time" : 1,
 								"mao":[],
+								"truco" : "É Truco ❗❗❗",
 								"donodascartas":[]
 							});
 
@@ -3281,6 +3315,7 @@ bot.command(['truco'], async ctx => {
 					"pontos":0,
 					"time" : 0,
 					"mao":[],
+					"truco" : "É Truco ❗❗❗",
 					"donodascartas":[]
 				});
 
@@ -3290,6 +3325,7 @@ bot.command(['truco'], async ctx => {
 						"pontos":0,
 						"time" : 0,
 						"mao":[],
+						"truco" : "É Truco ❗❗❗",
 						"donodascartas":[]
 					});
 
@@ -3299,6 +3335,7 @@ bot.command(['truco'], async ctx => {
 						"pontos":0,
 						"time" : 1,
 						"mao":[],
+						"truco" : "É Truco ❗❗❗",
 						"donodascartas":[]
 					});
 
@@ -3308,6 +3345,7 @@ bot.command(['truco'], async ctx => {
 								"pontos":0,
 								"time" : 1,
 								"mao":[],
+								"truco" : "É Truco ❗❗❗",
 								"donodascartas":[]
 							});
 
@@ -3332,16 +3370,7 @@ bot.command(['truco'], async ctx => {
 // Ouvindo Jogadas jogadas na mesa
 bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦", "🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"], async ctx => {
 	
-	var trucoCartaJogadaVisual = ctx.update.message.text.replace("🔽 ", "");
-
-	if (["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"].includes(ctx.update.message.text)) {
-		trucoCartaJogada = ctx.update.message.text;
-	}
-
-	if (["🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"].includes(ctx.update.message.text)) {
-		trucoCartaJogada = "✖️";
-	}
-
+	
 
 
 	// trucoCartaJogada = trucoCartaJogada.replace("♥", "%E2%99%A5");
@@ -3359,55 +3388,76 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 					// Se ele tem a carta na mão
 					if (trucoJogadores[trucoTurno].mao.includes(trucoCartaJogadaVisual) == true) {
 
-						// Definindo variável da jogada
-						
-						var trucoCartasNaMesaItemValor = 0;
-						var trucoCartasNaMesaItemValorNome = '';
 
-						if (trucoManilhaValor.valor0.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 0}
-						if (trucoManilhaValor.valor1.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 1}
-						if (trucoManilhaValor.valor2.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 2}
-						if (trucoManilhaValor.valor3.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 3}
-						if (trucoManilhaValor.valor4.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 4}
-						if (trucoManilhaValor.valor5.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 5}
-						if (trucoManilhaValor.valor6.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 6}
-						if (trucoManilhaValor.valor7.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 7}
-						if (trucoManilhaValor.valor8.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 8}
-						if (trucoManilhaValor.valor9.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 9}
-						if (trucoManilhaValor.valor10.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 10}
-						if (trucoManilhaValor.picafumo.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 11; trucoCartasNaMesaItemValorNome = 'Pica-Fumo '}
-						if (trucoManilhaValor.espadilha.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 12; trucoCartasNaMesaItemValorNome = 'Espadilha '}
-						if (trucoManilhaValor.escopeta.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 13; trucoCartasNaMesaItemValorNome = 'Escopeta '}
-						if (trucoManilhaValor.zap.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 14; trucoCartasNaMesaItemValorNome = 'Zap! '}
+						// Não está em truco
+						if (trucoEmTruco == false) {
 
+							var trucoCartaJogadaVisual = ctx.update.message.text.replace("🔽 ", "");
 
-						var trucoCartasNaMesaItem = {
-							"carta" : trucoCartaJogada,
-							"cartajogada" : "\n[ "+trucoCartaJogada+" "+trucoCartasNaMesaItemValorNome+"] : "+trucoJogadores[trucoTurno].nome,
-							"cartaprabaixo" : false,
-							"dono" : ctx.update.message.from.id,
-							"dononome" : ctx.update.message.from.first_name,
-							"dononumero" : trucoTurno,
-							"time" : trucoJogadores[trucoTurno].time,
-							"valor" : trucoCartasNaMesaItemValor
-						};
+							if (["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"].includes(ctx.update.message.text)) {
+								trucoCartaJogada = ctx.update.message.text;
+							}
+
+							if (["🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"].includes(ctx.update.message.text)) {
+								trucoCartaJogada = "✖️";
+							}
 
 
 
-						trucoCartasNaMesa.push(trucoCartasNaMesaItem);
+							// Definindo variável da jogada
+							
+							var trucoCartasNaMesaItemValor = 0;
+							var trucoCartasNaMesaItemValorNome = '';
 
-						trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaVisual), 1 );
+							if (trucoManilhaValor.valor0.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 0}
+							if (trucoManilhaValor.valor1.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 1}
+							if (trucoManilhaValor.valor2.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 2}
+							if (trucoManilhaValor.valor3.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 3}
+							if (trucoManilhaValor.valor4.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 4}
+							if (trucoManilhaValor.valor5.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 5}
+							if (trucoManilhaValor.valor6.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 6}
+							if (trucoManilhaValor.valor7.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 7}
+							if (trucoManilhaValor.valor8.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 8}
+							if (trucoManilhaValor.valor9.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 9}
+							if (trucoManilhaValor.valor10.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 10}
+							if (trucoManilhaValor.picafumo.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 11; trucoCartasNaMesaItemValorNome = 'Pica-Fumo '}
+							if (trucoManilhaValor.espadilha.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 12; trucoCartasNaMesaItemValorNome = 'Espadilha '}
+							if (trucoManilhaValor.escopeta.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 13; trucoCartasNaMesaItemValorNome = 'Escopeta '}
+							if (trucoManilhaValor.zap.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 14; trucoCartasNaMesaItemValorNome = 'Zap! '}
 
-						console.log(trucoCartasNaMesa);
 
-						var trucoCartasNaMesaVisual = [];
+							var trucoCartasNaMesaItem = {
+								"carta" : trucoCartaJogada,
+								"cartajogada" : "\n[ "+trucoCartaJogada+" "+trucoCartasNaMesaItemValorNome+"] : "+trucoJogadores[trucoTurno].nome,
+								"cartaprabaixo" : false,
+								"dono" : ctx.update.message.from.id,
+								"dononome" : ctx.update.message.from.first_name,
+								"dononumero" : trucoTurno,
+								"time" : trucoJogadores[trucoTurno].time,
+								"valor" : trucoCartasNaMesaItemValor
+							};
 
-						for (var i = 0; i < trucoCartasNaMesa.length; i++) {
-							trucoCartasNaMesaVisual.push(trucoCartasNaMesa[i].cartajogada);
+
+
+							trucoCartasNaMesa.push(trucoCartasNaMesaItem);
+
+							trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaVisual), 1 );
+
+							console.log(trucoCartasNaMesa);
+
+							var trucoCartasNaMesaVisual = [];
+
+							for (var i = 0; i < trucoCartasNaMesa.length; i++) {
+								trucoCartasNaMesaVisual.push(trucoCartasNaMesa[i].cartajogada);
+							}
+
+							trucoMensagem.push(`Cartas na Mesa:\n${trucoCartasNaMesaVisual}`)
+							exec(ctx, trucocloading, trucoproximajogada, trucomensagemgeral, trucocloadingfim);
+
+						} else {
+							await ctx.reply(`Espere seu adversário decidir o truco`);
 						}
 
-						trucoMensagem.push(`Cartas na Mesa:\n${trucoCartasNaMesaVisual}`)
-						exec(ctx, trucocloading, trucoproximajogada, trucomensagemgeral, trucocloadingfim);
 
 					} else {
 						await ctx.reply(`Você não tem essa carta na mão`);
@@ -3497,6 +3547,147 @@ bot.command(['continuar'], async ctx => {
 })
 
 
+
+bot.hears(["É Truco ❗❗❗"], async ctx => {
+	// msg direta
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		// Se o continuar veio do turno certo
+		if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
+
+			// loading
+			if (trucoLoading == false) {
+				// existe partida
+				if (trucoComecou == true) {
+
+					if (trucoJogadores[trucoTurno].truco == "É Truco ❗❗❗") {
+
+						trucoEmTruco = true;
+
+						if (trucoTurno == 0 || trucoTurno == 2) {
+
+							trucoJogadores[0].truco = "";
+							trucoJogadores[2].truco = "";
+
+							trucoJogadores[1].truco = "É SEIS ❗❗❗";
+							trucoJogadores[3].truco = "É SEIS ❗❗❗";
+
+							trucoAlvoTruco = [trucoTurno,1,3];
+						}
+
+						if (trucoTurno == 1 || trucoTurno == 3) {
+
+							trucoJogadores[1].truco = "";
+							trucoJogadores[3].truco = "";
+
+							trucoJogadores[0].truco = "É SEIS ❗❗❗";
+							trucoJogadores[2].truco = "É SEIS ❗❗❗";
+
+							trucoAlvoTruco = [trucoTurno,0,2];
+						}
+
+						trucoMensagem.push(`${trucoJogadores[trucoAlvoTruco[0]].nome} bateu na mesa e gritou! \n ❗❗❗ É TRUCO ❗❗❗`)
+
+
+						exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
+
+
+					} else {
+						await ctx.reply(`Você não pode pedir truco`);
+					}
+
+
+					// seis abaixo
+
+					
+					
+				} else {
+					await ctx.reply(`Não existe uma jogada ativa`);
+				}
+			} else {
+				await ctx.reply(`Servidor ocupado, tente novamente.`);
+			}
+
+		} else {
+			await ctx.reply(`Não é o seu turno.`);
+		}
+	}
+
+
+})
+
+
+
+
+bot.hears(["Desce! ✔"], async ctx => {
+	// msg direta
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		// Se o continuar veio do turno certo
+		if (trucoEmTruco == true) {
+
+			// loading
+			if (trucoLoading == false) {
+				// existe partida
+				if (trucoComecou == true) {
+
+					// Se a pessoa foi alvo
+					if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id || ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[2]].id) {
+						
+
+						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+
+						if(ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu pra descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+
+						} else {
+							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu pra descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+						}
+
+
+
+						trucoMensagem.push(`${ctx.update.message.from.nome} mandou descer!`);
+						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
+
+						trucoEmTruco = false;
+
+						if (trucoValorDaMao == 1) {
+							trucoValorDaMao = 3;
+						} else {
+							if (trucoValorDaMao == 3) {
+								trucoValorDaMao = 6;
+							} else {
+								if (trucoValorDaMao == 6) {
+									trucoValorDaMao = 9;
+								} else {
+									if (trucoValorDaMao == 9) {
+										trucoValorDaMao = 12;
+									}
+								}
+							}
+						}
+
+						
+					}
+					
+				} else {
+					await ctx.reply(`Não existe uma jogada ativa`);
+				}
+			} else {
+				await ctx.reply(`Servidor ocupado, tente novamente.`);
+			}
+
+		} else {
+			await ctx.reply(`Não é hora disso`);
+		}
+	}
+
+
+})
+
+
+
+// "Desce! ✔"],["Correr? ✖"
 
 // Loop
 bot.startPolling()
