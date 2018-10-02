@@ -2542,7 +2542,6 @@ const trucoiniciativa = (ctx, next) => {
 		trucoPrimeiroRound = false;
 		trucoTurnoPrincipal = trucoTurno;
 	} else {
-		trucoTurnoPrincipal = +1;
 		if (trucoTurnoPrincipal < 3) {
 			trucoTurnoPrincipal += 1;
 		} else {
@@ -3370,7 +3369,15 @@ bot.command(['truco'], async ctx => {
 // Ouvindo Jogadas jogadas na mesa
 bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦", "🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"], async ctx => {
 	
-	
+	var trucoCartaJogadaVisual = ctx.update.message.text.replace("🔽 ", "");
+
+	if (["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"].includes(ctx.update.message.text)) {
+		trucoCartaJogada = ctx.update.message.text;
+	}
+
+	if (["🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"].includes(ctx.update.message.text)) {
+		trucoCartaJogada = "✖️";
+	}
 
 
 	// trucoCartaJogada = trucoCartaJogada.replace("♥", "%E2%99%A5");
@@ -3392,15 +3399,7 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 						// Não está em truco
 						if (trucoEmTruco == false) {
 
-							var trucoCartaJogadaVisual = ctx.update.message.text.replace("🔽 ", "");
-
-							if (["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣","3♥","2♥","A♥","K♥","J♥","Q♥","7♥","6♥","5♥","4♥","3♠","2♠","A♠","K♠","J♠","Q♠","7♠","6♠","5♠","4♠","3♦","2♦","A♦","K♦","J♦","Q♦","7♦","6♦","5♦","4♦"].includes(ctx.update.message.text)) {
-								trucoCartaJogada = ctx.update.message.text;
-							}
-
-							if (["🔽 3♣","🔽 2♣","🔽 A♣","🔽 K♣","🔽 J♣","🔽 Q♣","🔽 7♣","🔽 6♣","🔽 5♣","🔽 4♣","🔽 3♥","🔽 2♥","🔽 A♥","🔽 K♥","🔽 J♥","🔽 Q♥","🔽 7♥","🔽 6♥","🔽 5♥","🔽 4♥","🔽 3♠","🔽 2♠","🔽 A♠","🔽 K♠","🔽 J♠","🔽 Q♠","🔽 7♠","🔽 6♠","🔽 5♠","🔽 4♠","🔽 3♦","🔽 2♦","🔽 A♦","🔽 K♦","🔽 J♦","🔽 Q♦","🔽 7♦","🔽 6♦","🔽 5♦","🔽 4♦"].includes(ctx.update.message.text)) {
-								trucoCartaJogada = "✖️";
-							}
+							
 
 
 
@@ -3643,14 +3642,7 @@ bot.hears(["Desce! ✔"], async ctx => {
 						} else {
 							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu pra descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 						}
-
-
-
-						trucoMensagem.push(`${ctx.update.message.from.nome} mandou descer!`);
-						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
-
-						trucoEmTruco = false;
-
+						
 						if (trucoValorDaMao == 1) {
 							trucoValorDaMao = 3;
 						} else {
@@ -3666,6 +3658,11 @@ bot.hears(["Desce! ✔"], async ctx => {
 								}
 							}
 						}
+
+						trucoEmTruco = false;
+
+						trucoMensagem.push(`${ctx.update.message.from.first_name} mandou descer!`);
+						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
 
 						
 					}
@@ -3686,6 +3683,41 @@ bot.hears(["Desce! ✔"], async ctx => {
 })
 
 
+
+bot.command(['mao'], async ctx => {
+	// msg direta
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		// Se o continuar veio do turno certo
+		if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
+
+			// loading
+			if (trucoLoading == false) {
+				// existe partida
+				if (trucoComecou == true) {
+					if (trucoEmTruco == false) {
+
+						exec(ctx, trucomostrouteclado)
+						
+					} else {
+						await ctx.reply(`Você não pode fazer isso enquanto estiver em truco`);
+					}
+
+				} else {
+					await ctx.reply(`Não existe uma jogada ativa`);
+				}
+			} else {
+				await ctx.reply(`Servidor ocupado, tente novamente.`);
+			}
+
+		} else {
+			await ctx.reply(`Não é o seu turno.`);
+		}
+
+
+	}
+
+})
 
 // "Desce! ✔"],["Correr? ✖"
 
