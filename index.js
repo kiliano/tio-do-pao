@@ -2,7 +2,7 @@
 /*
 
 ---- Checklist ----
-Pedir Truco, 6, 9 e 12
+testar: Pedir Truco, 6, 9 e 12
 /chat mensagem para geral
 
 mão de 11
@@ -2669,29 +2669,6 @@ const trucoproximajogada = (ctx, next) => {
 const trucocalcularvitoriamao = (ctx, next) => {
 
 	
-
-	/*trucoCartasNaMesa = [
-		{
-			"carta" : trucoCartaJogada,
-			"carta" : trucoCartaJogada,
-			"cartajogada" : "\n[ "+trucoCartaJogada+" "+trucoCartasNaMesaItemValorNome+"] : "+trucoJogadores[trucoTurno].nome,
-			"cartaprabaixo" : false,
-			"dono" : ctx.update.message.from.id,
-			"time" : 0,
-			"valor" : trucoCartasNaMesaItemValor
-		},
-		{
-			"carta" : trucoCartaJogada,
-			"carta" : trucoCartaJogada,
-			"cartajogada" : "\n[ "+trucoCartaJogada+" "+trucoCartasNaMesaItemValorNome+"] : "+trucoJogadores[trucoTurno].nome,
-			"cartaprabaixo" : false,
-			"dono" : ctx.update.message.from.id,
-			"valor" : trucoCartasNaMesaItemValor
-			"time" : 0,
-		}
-		]*/
-
-
 	var trucoMaiorValor = [];
 	var trucoMaiorValorVencedorTimeNome = '';
 
@@ -2727,18 +2704,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 	// Se só tiver 1 carta vencedora
 	if (trucoMaiorValorVencedor.length == 1) {
 
-		/*
-			trucoMaiorValorVencedor = [
-				{
-					"visual": "5♣",
-					"dono" : 1224,
-					"dononumero" : 1,
-					"dononome" : "Kiliano",
-					"time" : 0 
-				}
-			]
-		*/
-
 
 
 		if (trucoMaiorValorVencedor[0].time == 0) {
@@ -2762,24 +2727,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 	// Se só tiver 2 cartas vencedoras
 	if (trucoMaiorValorVencedor.length == 2) {
 
-		/*
-			trucoMaiorValorVencedor = [
-				{
-					"visual": "5♣",
-					"dono" : 123,
-					"dononumero" : 1,
-					"dononome" : "Kiliano",
-					"time" : 0 
-				},
-				{
-					"visual": "5♣",
-					"dono" : 123,
-					"dononumero" : 1,
-					"dononome" : "Kiliano",
-					"time" : 0 
-				}
-			]
-		*/
 
 		// Checar se são do mesmo time
 		if (trucoMaiorValorVencedor[0].time == trucoMaiorValorVencedor[1].time) {
@@ -2821,9 +2768,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 	}
 
 
-	// for (var i = 0; i < trucoJogadores.length; i++) {
-	// 	msg(`Fim da rodada`,trucoJogadores[i].id);
-	// }
 	
 
 	next();
@@ -2914,7 +2858,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\nComo ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\nComo ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
@@ -2931,7 +2877,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 
 				trucoCartasNaMesa = [];
@@ -2960,7 +2908,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\nComo ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\nComo ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} fizeram a primeira, eles ganham essa, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
@@ -2977,7 +2927,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[0].pontos += trucoValorDaMao;
 				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
@@ -2990,7 +2942,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
@@ -3021,7 +2975,9 @@ const trucoanalizarrodada = (ctx, next) => {
 			trucoJogadores[0].pontos += trucoValorDaMao;
 			trucoJogadores[2].pontos += trucoValorDaMao;
 
-			trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+			trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+				${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 
 			trucoCartasNaMesa = [];
 			trucoMaiorValorVencedor = [];
@@ -3034,7 +2990,9 @@ const trucoanalizarrodada = (ctx, next) => {
 			trucoJogadores[1].pontos += trucoValorDaMao;
 			trucoJogadores[3].pontos += trucoValorDaMao;
 
-			trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍`);
+			trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+				${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 			trucoCartasNaMesa = [];
 			trucoMaiorValorVencedor = [];
 			exec(ctx, trucoproximarodada);
@@ -3047,9 +3005,11 @@ const trucoanalizarrodada = (ctx, next) => {
 			// Se o time 0 ter feito a primeira
 			if (trucoRodada[0] == 0) {
 				trucoJogadores[0].pontos += trucoValorDaMao;
-				trucoJogadores[1].pontos += trucoValorDaMao;
+				trucoJogadores[2].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
 
@@ -3060,7 +3020,9 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoJogadores[1].pontos += trucoValorDaMao;
 				trucoJogadores[3].pontos += trucoValorDaMao;
 
-				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍`);
+				trucoMensagem.push(`\n\n${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ganharam esse jogo, por terem feito a primeira. Somando ${trucoValorDaMao} na pontuação! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
 
@@ -3068,7 +3030,9 @@ const trucoanalizarrodada = (ctx, next) => {
 			}
 
 			if (trucoRodada[0] == 3) {
-				trucoMensagem.push(`\n\nAs 3 rodadas empataram! Ninguém marca ponto! 👍`);
+				trucoMensagem.push(`\n\nAs 3 rodadas empataram! Ninguém marca ponto! 👍
+
+					${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
 
@@ -3093,12 +3057,12 @@ const trucoproximarodada = (ctx, next) => {
 	// Dando a vitória
 	if(trucoJogadores[0].pontos >= 12 ) {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆`);
-		exec(ctx, trucozerar, trucofim);
+		exec(ctx, trucomensagemgeral, trucofim);
 	}
 
 	if(trucoJogadores[1].pontos >= 12 ) {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}! 🏆`);
-		exec(ctx, trucozerar, trucofim);
+		exec(ctx, trucomensagemgeral, trucofim);
 	}
 
 	console.log(JSON.stringify(trucoJogadores))
@@ -3107,7 +3071,7 @@ const trucoproximarodada = (ctx, next) => {
 
 
 	// Continuando o jogo
-	if (trucoJogadores[2].pontos < 12 && trucoJogadores[0].pontos < 12) {
+	if (trucoJogadores[0].pontos < 12 && trucoJogadores[1].pontos < 12) {
 
 		// Iniciando uma nova rodada comum
 		exec(ctx, trucoiniciativa,trucocontinuarrodada, trucomensagemgeral);
@@ -3120,12 +3084,16 @@ const trucoproximarodada = (ctx, next) => {
 
 
 const trucomensagemgeral = async (ctx, next) =>  {
-	console.log(trucoMensagem)
-	for (var i = 0; i < trucoJogadores.length; i++) {
-		await msg(""+trucoMensagem+"",trucoJogadores[i].id);
-	}
 
-	trucoMensagem = [];
+	if (trucoJogadores.length > 0) {
+		console.log(trucoMensagem)
+		for (var i = 0; i < trucoJogadores.length; i++) {
+			await msg(""+trucoMensagem+"",trucoJogadores[i].id);
+		}
+
+		trucoMensagem = [];
+	}
+	
 
 	next();
 }
@@ -3162,7 +3130,6 @@ const trucofim = (ctx, next) => {
 	// Rezando itens entre rodadas
 
 	trucoComecou = false;
-	trucoJogadores = []
 	trucoJogadores = []
 
 	console.log("ACABOU A PARTIDA");
@@ -3561,6 +3528,7 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 						if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
 							trucoEmTruco = true;
+							trucoCorrer = 0;
 
 							if (trucoTurno == 0 || trucoTurno == 2) {
 
@@ -3602,6 +3570,7 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 						if (trucoJogadores[trucoAlvoTruco[2]].truco == "É SEIS ❗❗❗" || trucoJogadores[trucoAlvoTruco[1]].truco == "É SEIS ❗❗❗") {
 
 						trucoEmTruco = true;
+						trucoCorrer = 0;
 
 						trucoValorDaMao = 3;
 
@@ -3650,12 +3619,14 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 
-						// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
-						// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+						if (debug == false) {
+							if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
-						// } else {
-						// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
-						// }
+							} else {
+								axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+							}
+						}
 
 						trucoMensagem.push(`${ctx.update.message.from.first_name} deu berro! \n ❗❗❗❗ É SEEEIIIIIS ❗❗❗❗`)
 						exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
@@ -3666,6 +3637,7 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 							trucoEmTruco = true;
 
 							trucoValorDaMao = 6;
+							trucoCorrer = 0;
 
 							var trucoAlvoTrucoVeiode = 5;
 
@@ -3713,12 +3685,14 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 							var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 
-							// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
-							// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+							if (debug == false) {
+								if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
-							// } else {
-							// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
-							// }
+								} else {
+									axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+								}
+							}
 
 							trucoMensagem.push(`${ctx.update.message.from.first_name} jogou a cadeira no chão! \n ❗❗❗❗❗ É NOOOOOVE ❗❗❗❗❗`)
 							exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
@@ -3729,6 +3703,7 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 								trucoEmTruco = true;
 
 								trucoValorDaMao = 9;
+								trucoCorrer = 0;
 
 								var trucoAlvoTrucoVeiode = 5;
 
@@ -3761,12 +3736,14 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 								var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 
-								// if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
-								// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+								if (debug == false) {
+									if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
+										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[1]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
-								// } else {
-								// 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
-								// }
+									} else {
+										axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTruco[2]].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
+									}
+								}
 
 								trucoMensagem.push(`${ctx.update.message.from.first_name} derrubou a mesa!!! \n ❗❗❗❗❗❗ DOOOOOZZZZEEE LADRÃÃÃÃO ❗❗❗❗❗❗`)
 								exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
@@ -3817,6 +3794,8 @@ bot.hears(["Desce! ✔"], async ctx => {
 
 					// Se a pessoa foi alvo
 					if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id || ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[2]].id) {
+
+						trucoCorrer = 0;
 						
 
 						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
@@ -3867,6 +3846,74 @@ bot.hears(["Desce! ✔"], async ctx => {
 
 })
 
+bot.hears(["Correr? ✖"], async ctx => {
+	// msg direta
+	console.log("1")
+	if (ctx.update.message.from.id == ctx.chat.id) {
+console.log("2")
+		// Se o continuar veio do turno certo
+		if (trucoEmTruco == true) {
+			console.log("3")
+
+				// existe partida
+				if (trucoComecou == true) {
+					console.log("4")
+
+					// Se a pessoa foi alvo
+					if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id || ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[2]].id) {
+						console.log("5")
+						
+						
+						trucoCorrer += 1;
+						
+						if (trucoCorrer == 1) {
+							trucoMensagem.push(`${ctx.update.message.from.first_name} acha melhor correr...`);
+							exec(ctx, trucomensagemgeral);
+						}
+		
+						if (trucoCorrer >= 2) {
+							trucoEmTruco = false;
+
+							var trucoAlvoTrucoCorrer1 = trucoAlvoTruco[1]-1;
+							var trucoAlvoTrucoCorrer2 = trucoAlvoTruco[2]-1;
+
+							if (trucoAlvoTrucoCorrer1 < 0) {
+
+								trucoAlvoTrucoCorrer1 = 3;
+
+							}
+
+
+								trucoJogadores[trucoAlvoTrucoCorrer1].pontos += trucoValorDaMao;
+								trucoJogadores[trucoAlvoTrucoCorrer2].pontos += trucoValorDaMao;
+
+								trucoMensagem.push(`\n\n${trucoJogadores[trucoAlvoTruco[1]].nome} e ${trucoJogadores[trucoAlvoTruco[2]].nome} correram! 🐔🐔🐔
+
+									${trucoJogadores[trucoAlvoTrucoCorrer1].nome} e ${trucoJogadores[trucoAlvoTrucoCorrer2].nome} ganharam esse jogo, somando ${trucoValorDaMao} na pontuação! 👍
+
+									${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}`);
+
+								trucoCartasNaMesa = [];
+								trucoMaiorValorVencedor = [];
+
+								exec(ctx, trucoproximarodada);
+							}
+						
+					}
+					
+				} else {
+					await ctx.reply(`Não existe uma jogada ativa`);
+				}
+			
+
+		} else {
+			await ctx.reply(`Não é hora disso`);
+		}
+	}
+
+
+})
+
 
 
 bot.command(['mao'], async ctx => {
@@ -3898,13 +3945,42 @@ bot.command(['mao'], async ctx => {
 		} else {
 			await ctx.reply(`Não é o seu turno.`);
 		}
-
-
 	}
 
 })
 
-// "Desce! ✔"],["Correr? ✖"
+bot.command('chat', async ctx => {
+
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		// Se o continuar veio do turno certo
+		if (trucoJogadores.length > 1) {
+
+			if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
+
+				var mimic = ctx.update.message.text
+
+				var mimic = mimic.replace("/chat", "");
+				
+				for (var i = 0; i < trucoJogadores.length; i++) {
+					if (trucoJogadores[i].id != ctx.update.message.from.id) {
+						await msg(ctx.update.message.from.first_name+" disse: "+mimic,trucoJogadores[i].id);
+					}
+				}
+				
+
+			} else {
+				await ctx.reply(`Não existe uma jogada ativa`);
+			}
+
+		} else {
+			await ctx.reply(`Não é o seu turno.`);
+		}
+	}
+
+
+})
+
 
 // Loop
 bot.startPolling()
