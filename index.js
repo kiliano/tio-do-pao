@@ -103,11 +103,14 @@ const ctx = {}
 
 	// 			if (datahora < 19+3) {
 
-	// 				if (fimdodia == true) {
-	// 					fimdodia = false;
-	// 					msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-	// 					exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-	// 				}
+					// if (datahora > 1+3) {
+					// 	if (fimdodia == true) {
+					// 		fimdodia = false;
+					// 		msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+					// 		exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+					// 	}
+					// }
+	
 
 
 	// 				setTimeout(function(){
