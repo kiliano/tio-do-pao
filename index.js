@@ -4437,7 +4437,7 @@ bot.command('trucosair', async ctx => {
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
 
-		if (trucoJogadores.length > 1) {
+		if (trucoJogadores.length > 0) {
 
 			if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
 
@@ -4456,7 +4456,7 @@ bot.command('trucosair', async ctx => {
 				
 
 			} else {
-				await ctx.reply(`Você precisa estar jogando truco pra mandar mensagem pra galera`);
+				await ctx.reply(`Você precisa estar dentro de uma partida, para sair`);
 			}
 
 		} else {
