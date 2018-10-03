@@ -2,13 +2,6 @@
 /*
 
 ---- Checklist ----
-testar: Pedir Truco, 6, 9 e 12
-/chat mensagem para geral
-
-mão de 11
-mão de ferro
-
-Colocar novodia pra reiniciar cada começo de dia (corrigindo problema de fuso horário, que reinicia antes da hora)
 
 /piscar piscar pro parceiro (50% de chance de perceberem)
 /chingar 
@@ -2160,6 +2153,9 @@ bot.command(['teste'], async ctx => {
 
 	if (debug == true) {
 		trucoJogadores[0].pontos = 10;
+		trucoJogadores[1].pontos = 11;
+		trucoJogadores[2].pontos = 10;
+		trucoJogadores[3].pontos = 11;
 	}
 
 	console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
@@ -2671,6 +2667,9 @@ const trucomostroutecladomaodeferro = (ctx, next) => {
 	next();
 }
 
+
+	
+
 const trucomostroutecladotruco = (ctx, next) => {
 
 
@@ -2871,7 +2870,11 @@ const trucoanalizarrodada = (ctx, next) => {
 		trucoCartasNaMesa = [];
 		trucoMaiorValorVencedor = [];
 		
-		exec(ctx,trucomostrouteclado)
+		if (trucoMaodeFerro == false) {
+			exec(ctx,trucomostrouteclado)
+		} else {
+			exec(ctx,trucomostroutecladomaodeferro)
+		}
 	}
 
 
@@ -2907,7 +2910,11 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
-				exec(ctx,trucomostrouteclado)
+				if (trucoMaodeFerro == false) {
+					exec(ctx,trucomostrouteclado)
+				} else {
+					exec(ctx,trucomostroutecladomaodeferro)
+				}
 			}
 
 
@@ -2957,7 +2964,11 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
-				exec(ctx,trucomostrouteclado)
+				if (trucoMaodeFerro == false) {
+					exec(ctx,trucomostrouteclado)
+				} else {
+					exec(ctx,trucomostroutecladomaodeferro)
+				}
 			}
 
 
@@ -3020,7 +3031,11 @@ const trucoanalizarrodada = (ctx, next) => {
 				trucoMensagem.push(`\n\nÚltima rodada: ${trucoJogadores[trucoTurno].nome} vai fazer a volta`);
 				trucoCartasNaMesa = [];
 				trucoMaiorValorVencedor = [];
-				exec(ctx,trucomostrouteclado)
+				if (trucoMaodeFerro == false) {
+					exec(ctx,trucomostrouteclado)
+				} else {
+					exec(ctx,trucomostroutecladomaodeferro)
+				}
 			}
 		}
 	}
@@ -3191,8 +3206,60 @@ const trucofim = (ctx, next) => {
 
 	// Rezando itens entre rodadas
 
+
+
+	var tecladoTruco = JSON.stringify({"remove_keyboard":true})
+	for (var i = 0; i < trucoJogadores.length; i++) {
+		axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[i].id}&text=${encodeURI('Saindo da partida...')}&reply_markup=${encodeURI(tecladoTruco)}`)
+		.catch(e => console.log(e))
+	}
+
+
 	trucoComecou = false;
 	trucoJogadores = []
+	trucoBaralhoTipo = 'sujo';
+	trucoBaralho =[];
+	trucoPrimeiroRound = true;
+	trucoValorDaMao = 1;
+
+	trucoContinuar = false;
+	trucoMaodeFerro = false;
+
+	trucoCorrer = 0;
+	trucoEmTruco = false;
+	trucoAlvoTruco = [5,5,5];
+
+	trucoQueimar = [];
+	trucoManilha = '';
+	trucoManilhaValor = {
+		"zap": "",
+		"escopeta": "",
+		"espadilha": "",
+		"picafumo": "",
+	    "valor10": ["3♣","3♥","3♠","3♦"],
+	    "valor9": ["2♣","2♥","2♠","2♦"],
+	    "valor8": ["A♣","A♥","A♠","A♦"],
+	    "valor7": ["K♣","K♥","K♠","K♦"],
+	    "valor6": ["J♣","J♥","J♠","J♦"],
+	    "valor5": ["Q♣","Q♥","Q♠","Q♦"],
+	    "valor4": ["7♣","7♥","7♠","7♦"],
+	    "valor3": ["6♣","6♥","6♠","6♦"],
+	    "valor2": ["5♣","5♥","5♠","5♦"],
+	    "valor1": ["4♣","4♥","4♠","4♦"],
+	    "valor0": ["✖️"]
+	}
+
+	trucoRodada = []
+	trucoTurno = 0;
+	trucoTurnoPrincipal = 0;
+	trucoTurnoId = 123;
+	trucoCartasNaMesa = [];
+
+	trucoCartaJogada = "";
+	trucoMaiorValorVencedor = [];
+
+	trucoMensagem = [];
+
 
 	console.log("ACABOU A PARTIDA");
 	next();
@@ -3208,7 +3275,7 @@ const trucomaodeonze = (ctx, next) => {
 
 		trucoMaodeFerro = true;
 
-		exec(ctx, trucomensagemgeral, trucomostroutecladomaodeferro)
+		exec(ctx, trucomostroutecladomaodeferro)
 		// Mão de ferro
 
 	} else {
@@ -4242,9 +4309,9 @@ bot.command('chat', async ctx => {
 				var mimic = mimic.replace("/chat", "");
 				
 				for (var i = 0; i < trucoJogadores.length; i++) {
-					// if (trucoJogadores[i].id != ctx.update.message.from.id) {
-					await msg(ctx.update.message.from.first_name+" disse: "+mimic,trucoJogadores[i].id);
-					// }
+					if (trucoJogadores[i].id != ctx.update.message.from.id) {
+						await msg(ctx.update.message.from.first_name+" disse: "+mimic,trucoJogadores[i].id);
+					}
 				}
 				
 
@@ -4270,6 +4337,38 @@ bot.command('regras', async ctx => {
 			[3] [2] [A] [K] [J] [Q] [7] [6] [5] [4]
 
 			`);
+	}
+})
+
+bot.command('trucosair', async ctx => {
+
+	if (ctx.update.message.from.id == ctx.chat.id) {
+
+		if (trucoJogadores.length > 1) {
+
+			if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
+
+				
+				
+
+				if (trucoLoading == false) {
+					for (var i = 0; i < trucoJogadores.length; i++) {
+						await msg(ctx.update.message.from.first_name+" abandonou a partida :(", trucoJogadores[i].id);
+					}
+
+
+					exec(ctx, trucocloading, trucofim, trucocloadingfim);
+
+				}
+				
+
+			} else {
+				await ctx.reply(`Você precisa estar jogando truco pra mandar mensagem pra galera`);
+			}
+
+		} else {
+			await ctx.reply(`Ninguém está jogando truco agora`);
+		}
 	}
 })
 
