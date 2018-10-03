@@ -33,7 +33,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = true;
+var debug = false;
 
 var acordado = true;
 
@@ -64,109 +64,109 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
 
-	const idTodos = env.idTodos;
+	// const idTodos = env.idTodos;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-	// 		setTimeout(function(){
-	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 			console.log("Primeiro ping do dia "+(datahora-3));
-	// 		 },1350000);
+			setTimeout(function(){
+				http.get("http://shielded-peak-24448.herokuapp.com/");
+				console.log("Primeiro ping do dia "+(datahora-3));
+			 },1350000);
 
-	// 		setInterval(function(){ 
-	// 			exec(ctx,atualizarData)
+			setInterval(function(){ 
+				exec(ctx,atualizarData)
 
-	// 			if (datahora < 19+3) {
+				if (datahora < 19+3) {
 
-					// if (datahora > 1+3) {
-					// 	if (fimdodia == true) {
-					// 		fimdodia = false;
-					// 		msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-					// 		exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-					// 	}
-					// }
+					if (datahora > 1+3) {
+						if (fimdodia == true) {
+							fimdodia = false;
+							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+							exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+						}
+					}
 	
 
 
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 					console.log("Ping timeout 750000 "+(datahora-3));
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/");
+						console.log("Ping timeout 750000 "+(datahora-3));
 
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
 
-	// 				 },750000);
+					 },750000);
 
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 					console.log("Ping timeout 1350000 "+(datahora-3));
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log("Ping timeout 1350000 "+(datahora-3));
 
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
-	// 				 },1350000);
-	// 			} else {
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
+					 },1350000);
+				} else {
 
-	// 				if (fimdodia == false) {
-	// 					fimdodia = true;
-	// 					console.log("Fim do dia ligado. Boa noite :)")
-	// 				}
+					if (fimdodia == false) {
+						fimdodia = true;
+						console.log("Fim do dia ligado. Boa noite :)")
+					}
 
-	// 			}
-	// 		}, 2400000);
+				}
+			}, 2400000);
 
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano
-	// const idBartira = process.env.idBartira
-	// const idRodrigo = process.env.idRodrigo;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau
-	// const idChatFronts = process.env.idChatFronts
-	// const wordpressPass = process.env.wordpressPass;
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idRodrigo = process.env.idRodrigo;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
+	const wordpressPass = process.env.wordpressPass;
 
-	// const idTodos = process.env.idTodos
+	const idTodos = process.env.idTodos
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
+	const bot = new Telegraf(token)
 
 
 
@@ -2262,7 +2262,7 @@ const trucozerar = (ctx, next) => {
 	trucoLoading = false;
 
 	trucoJogadores = [];
-	trucoBaralhoTipo = 'sujo';
+	// trucoBaralhoTipo = 'sujo';
 	trucoBaralho =[];
 	trucoComecou = false;
 	trucoPrimeiroRound = true;
@@ -2367,6 +2367,8 @@ const trucoEmbaralhar = (ctx, next) => {
 		trucoBaralho[randomIndex] = temporaryValue;
 	}
 
+	console.log(trucoBaralho);
+
 	trucoManilhaValor = {
 		"zap": "",
 		"escopeta": "",
@@ -2466,16 +2468,17 @@ const trucomanilha = (ctx, next) => {
 	if (trucoManilhaValor.valor10.includes(trucoManilha)){
 		
 		if (trucoBaralhoTipo == 'limpo') {
-			trucoManilhaValor.zap = "4♣";
-			trucoManilhaValor.escopeta = "4♥";
-			trucoManilhaValor.espadilha = "4♠";
-			trucoManilhaValor.picafumo = "4♦";
-
-		} else {
 			trucoManilhaValor.zap = "Q♣";
 			trucoManilhaValor.escopeta = "Q♥";
 			trucoManilhaValor.espadilha = "Q♠";
 			trucoManilhaValor.picafumo = "Q♦";
+
+		} else {
+			trucoManilhaValor.zap = "4♣";
+			trucoManilhaValor.escopeta = "4♥";
+			trucoManilhaValor.espadilha = "4♠";
+			trucoManilhaValor.picafumo = "4♦";
+			
 		}
 	}
 
@@ -2626,9 +2629,14 @@ const trucomostrouteclado = (ctx, next) => {
 
 	var trucoMaoReplaceBaixo = [];
 
-	for ( var i = 0; i < trucoJogadores[trucoTurno].mao.length; i++) {
-		trucoMaoReplaceBaixo.push("🔽 "+trucoJogadores[trucoTurno].mao[i])
+	if (trucoRodada.length == 0 && trucoCartasNaMesa.length == 0) {
+		
+	} else {
+		for ( var i = 0; i < trucoJogadores[trucoTurno].mao.length; i++) {
+			trucoMaoReplaceBaixo.push("🔽 "+trucoJogadores[trucoTurno].mao[i])
+		}
 	}
+	
 
 	var trucoTrucagem = [];
 
@@ -3217,7 +3225,7 @@ const trucofim = (ctx, next) => {
 
 	trucoComecou = false;
 	trucoJogadores = []
-	trucoBaralhoTipo = 'sujo';
+	// trucoBaralhoTipo = 'sujo';
 	trucoBaralho =[];
 	trucoPrimeiroRound = true;
 	trucoValorDaMao = 1;
@@ -3304,7 +3312,7 @@ const trucomaodeonze = (ctx, next) => {
 				msg(`Mão do seu parceiro ${trucoJogadores[2].nome} : ${trucoJogadores[2].mao} `,trucoJogadores[0].id);
 				msg(`Mão do seu parceiro ${trucoJogadores[0].nome} : ${trucoJogadores[0].mao} `,trucoJogadores[2].id);
 
-				exec(ctx, trucomensagemgeral, trucomostroutecladotruco);
+				exec(ctx, trucomostroutecladotruco);
 
 			} else {
 				console.log("quem tem 11 NÃO é o time 0");
@@ -3334,7 +3342,7 @@ const trucomaodeonze = (ctx, next) => {
 				} else {
 					console.log("quem tem 11 NÃO é o time 1");
 					
-					exec(ctx, trucomensagemgeral, trucomostrouteclado)
+					exec(ctx, trucomostrouteclado)
 				}
 			}
 
@@ -3348,40 +3356,19 @@ const trucomaodeonze = (ctx, next) => {
 
 
 
-bot.command(['truco'], async ctx => {
+bot.command(['trucoentrar'], async ctx => {
 
-	console.log("/truco "+ctx.update.message.from.first_name);
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		console.log("/trucoentrar "+ctx.update.message.from.first_name);
 
 
-	if (debug == false) {
+		if (debug == false) {
 
-			// Primeiro Jogador entrar
+				// Primeiro Jogador entrar
 
-			if (trucoJogadores.length == 0) {
+				if (trucoJogadores.length == 0) {
 
-				console.log("Adicionando1");
-				trucoJogadores.push({
-					"nome":ctx.update.message.from.first_name,
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 0,
-					"mao":[],
-					"truco" : "É Truco ❗❗❗",
-					"donodascartas":[]
-				});
-
-				console.log(JSON.stringify(trucoJogadores[0]));
-
-				msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
-
-					A próxima pessoa à entrar vai ser seu parceiro.`, trucoJogadores[0].id);
-
-			} else {
-				// Segundo jogador
-				if (trucoJogadores.length == 1 && trucoJogadores[0].id != ctx.update.message.from.id) {
-
-					console.log("add2");
-
+					console.log("Adicionando1");
 					trucoJogadores.push({
 						"nome":ctx.update.message.from.first_name,
 						"id": ctx.update.message.from.id,
@@ -3392,38 +3379,38 @@ bot.command(['truco'], async ctx => {
 						"donodascartas":[]
 					});
 
-					console.log(JSON.stringify(trucoJogadores[1]));
+					console.log(JSON.stringify(trucoJogadores[0]));
 
-					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
-					msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
+					msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
+
+						A próxima pessoa à entrar vai ser seu parceiro.`, trucoJogadores[0].id);
 
 				} else {
-					// terceiro jogador
-					if (trucoJogadores.length == 2 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id) {
+					// Segundo jogador
+					if (trucoJogadores.length == 1 && trucoJogadores[0].id != ctx.update.message.from.id) {
 
-						console.log("Add 3");
+						console.log("add2");
 
 						trucoJogadores.push({
 							"nome":ctx.update.message.from.first_name,
 							"id": ctx.update.message.from.id,
 							"pontos":0,
-							"time" : 1,
+							"time" : 0,
 							"mao":[],
 							"truco" : "É Truco ❗❗❗",
 							"donodascartas":[]
 						});
 
-						console.log(JSON.stringify(trucoJogadores[2]));
+						console.log(JSON.stringify(trucoJogadores[1]));
 
-						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
-						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
-						msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
-						
+						msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
+						msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
+
 					} else {
-						// quarto jogador
-						if (trucoJogadores.length == 3 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id && trucoJogadores[2].id != ctx.update.message.from.id) {
+						// terceiro jogador
+						if (trucoJogadores.length == 2 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id) {
 
-							console.log("add 4");
+							console.log("Add 3");
 
 							trucoJogadores.push({
 								"nome":ctx.update.message.from.first_name,
@@ -3435,115 +3422,221 @@ bot.command(['truco'], async ctx => {
 								"donodascartas":[]
 							});
 
-							console.log(JSON.stringify(trucoJogadores[3]));
+							console.log(JSON.stringify(trucoJogadores[2]));
 
-
-							if (trucoLoading == false) {
-								exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
-							} else {
-								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
-								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
-								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
-								msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
-							}
-
-
-						} else {
-							// Quinto jogador
-
-							if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
-								await ctx.reply(`Você já está na sala. Para encerrar a mesa só escrever /trucosair`);
-							}
+							msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
+							msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
+							msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[2].id);
 							
-							if (trucoJogadores.length > 3) {
+						} else {
+							// quarto jogador
+							if (trucoJogadores.length == 3 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id && trucoJogadores[2].id != ctx.update.message.from.id) {
 
-								await ctx.reply(`A mesa está cheia:
-									${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
-									`);
+								console.log("add 4");
+
+								trucoJogadores.push({
+									"nome":ctx.update.message.from.first_name,
+									"id": ctx.update.message.from.id,
+									"pontos":0,
+									"time" : 1,
+									"mao":[],
+									"truco" : "É Truco ❗❗❗",
+									"donodascartas":[]
+								});
+
+								console.log(JSON.stringify(trucoJogadores[3]));
+
+
+								if (trucoLoading == false) {
+									exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+								} else {
+									msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
+									msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
+									msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
+									msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+								}
+
+
+							} else {
+								// Quinto jogador
+
+								if (trucoJogadores[0].id == ctx.update.message.from.id || trucoJogadores[1].id == ctx.update.message.from.id || trucoJogadores[2].id == ctx.update.message.from.id || trucoJogadores[3].id == ctx.update.message.from.id) {
+									await ctx.reply(`Você já está na sala. Para encerrar a mesa só escrever /trucosair`);
+								}
+								
+								if (trucoJogadores.length > 3) {
+
+									await ctx.reply(`A mesa está cheia:
+										${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
+										`);
+								}
+
 							}
-
 						}
-					}
 
+					}
+				}
+
+		}
+
+
+		// Debug
+
+
+		if (debug == true) {
+
+			// Primeiro Jogador entrar
+
+			if (trucoJogadores.length == 0) {
+
+				trucoJogadores.push({
+					"nome":"Rick",
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 0,
+					"mao":[],
+					"truco" : "É Truco ❗❗❗",
+					"donodascartas":[]
+				});
+
+				trucoJogadores.push({
+					"nome":"Urgan",
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 0,
+					"mao":[],
+					"truco" : "É Truco ❗❗❗",
+					"donodascartas":[]
+				});
+
+				trucoJogadores.push({
+					"nome":"Ana",
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 1,
+					"mao":[],
+					"truco" : "É Truco ❗❗❗",
+					"donodascartas":[]
+				});
+
+				trucoJogadores.push({
+					"nome":"Lifa",
+					"id": ctx.update.message.from.id,
+					"pontos":0,
+					"time" : 1,
+					"mao":[],
+					"truco" : "É Truco ❗❗❗",
+					"donodascartas":[]
+				});
+
+				if (trucoLoading == false) {
+					console.log("DEBUUUGGG")
+					exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+				} else {
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
+					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+				}
+			
+			} 
+
+
+		}
+
+
+		// /Debug
+	} else {
+		await ctx.reply(`Não é possível jogar truco dentro de um grupo. Me manda uma mensagem direta.`);
+	}
+	
+})
+
+
+
+bot.command(['truco'], async ctx => {
+
+	var trucomensagemtruco = [];
+
+
+	trucomensagemtruco.push(`♠♥♦♣ Bem-vindos à mesa de truco do Horácio ♠♥♦♣`);
+	trucomensagemtruco.push(`
+
+		/trucoentrar para entrar em uma mesa e começar a jogar`);
+	trucomensagemtruco.push(`
+
+		/trucoregras a ordem das cartas do truco`);
+	trucomensagemtruco.push(`
+		/trucolimpo para jogar com baralho limpo`);
+	trucomensagemtruco.push(`
+		/trucosujo para jogar com baralho sujo`);
+	trucomensagemtruco.push(`
+		/trucosair para abandonar uma partida`);
+	trucomensagemtruco.push(`
+
+	Escreva /chat + uma mensagem, para enviar um mensagem na mesa de truco`);
+
+
+	if (trucoJogadores.length > 0) {
+		var trucomensagemtrucoquem = []
+
+		for (var i = 0; i < trucoJogadores.length; i++) {
+			trucomensagemtrucoquem.push(trucoJogadores[0].nome);
+		}
+		trucomensagemtruco.push(`${trucomensagemtruco} estão na mesa de truco no momento.`);
+	}
+
+
+	await ctx.reply(""+trucomensagemtruco+"");
+})
+
+
+bot.command(['trucolimpo'], async ctx => {
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		if (trucoComecou == false) {
+			trucoBaralhoTipo = 'limpo';
+
+			await ctx.reply("Você trocou o tipo de baralho para LIMPO");
+
+			if (trucoJogadores.length > 0) {
+				for (var i = 0; i < trucoJogadores.length; i++) {
+					if (trucoJogadores[i].id != ctx.update.message.from.id) {
+						await msg(ctx.update.message.from.first_name+" trocou o tipo de baralho para LIMPO ");
+					}
 				}
 			}
-
+			
+		} else {
+			await ctx.reply(`Já tem uma partida em andamento`);
+		}
+	} else {
+		await ctx.reply(`Não é possível jogar truco dentro de um grupo. Me manda uma mensagem direta.`);
 	}
 
+})
 
+bot.command(['trucosujo'], async ctx => {
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		if (trucoComecou == false) {
+			trucoBaralhoTipo = 'sujo';
 
+			await ctx.reply("Você trocou o tipo de baralho para SUJO");
 
-
-
-
-
-	// Debug
-
-
-	if (debug == true) {
-
-		// Primeiro Jogador entrar
-
-		if (trucoJogadores.length == 0) {
-
-			trucoJogadores.push({
-				"nome":"Rick",
-				"id": ctx.update.message.from.id,
-				"pontos":0,
-				"time" : 0,
-				"mao":[],
-				"truco" : "É Truco ❗❗❗",
-				"donodascartas":[]
-			});
-
-			trucoJogadores.push({
-				"nome":"Urgan",
-				"id": ctx.update.message.from.id,
-				"pontos":0,
-				"time" : 0,
-				"mao":[],
-				"truco" : "É Truco ❗❗❗",
-				"donodascartas":[]
-			});
-
-			trucoJogadores.push({
-				"nome":"Ana",
-				"id": ctx.update.message.from.id,
-				"pontos":0,
-				"time" : 1,
-				"mao":[],
-				"truco" : "É Truco ❗❗❗",
-				"donodascartas":[]
-			});
-
-			trucoJogadores.push({
-				"nome":"Lifa",
-				"id": ctx.update.message.from.id,
-				"pontos":0,
-				"time" : 1,
-				"mao":[],
-				"truco" : "É Truco ❗❗❗",
-				"donodascartas":[]
-			});
-
-			if (trucoLoading == false) {
-				console.log("DEBUUUGGG")
-				exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
-			} else {
-				msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
-				msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
-				msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
-				msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
+			if (trucoJogadores.length > 0) {
+				for (var i = 0; i < trucoJogadores.length; i++) {
+					if (trucoJogadores[i].id != ctx.update.message.from.id) {
+						await msg(ctx.update.message.from.first_name+" trocou o tipo de baralho para SUJO ");
+					}
+				}
 			}
-		
-		} 
-
-
+			
+		} else {
+			await ctx.reply(`Já tem uma partida em andamento`);
+		}
+	} else {
+		await ctx.reply(`Não é possível jogar truco dentro de um grupo. Me manda uma mensagem direta.`);
 	}
 
-
-	// /Debug
-	
 })
 
 // Ouvindo Jogadas jogadas na mesa
@@ -4328,10 +4421,10 @@ bot.command('chat', async ctx => {
 })
 
 
-bot.command('regras', async ctx => {
+bot.command('trucoregras', async ctx => {
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
-		await ctx.replyWithMarkdown(`*Ordem de força:*
+		await ctx.reply(`Ordem de força:
 
 			[Zap! ♣] [Escopeta ♥] [Espadilha ♠] [Pica-Fumo ♦]
 			[3] [2] [A] [K] [J] [Q] [7] [6] [5] [4]
