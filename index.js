@@ -40,7 +40,7 @@ var dataano;
 var datadata;
 var dataai;
 
-var debug = false;
+var debug = true;
 
 var acordado = true;
 
@@ -2158,6 +2158,10 @@ bot.command(['relatorio'], async ctx => {
 bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
 
+	if (debug == true) {
+		trucoJogadores[0].pontos = 10;
+	}
+
 	console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
 	console.log("trucoTurno: "+trucoTurno)
 	console.log("trucoValorDaMao: "+trucoValorDaMao)
@@ -2216,6 +2220,7 @@ var trucoPrimeiroRound = true;
 var trucoValorDaMao = 1;
 
 var trucoContinuar = false;
+var trucoMaodeFerro = false;
 
 var trucoCorrer = 0;
 var trucoEmTruco = false;
@@ -2257,6 +2262,7 @@ var trucoMensagem = [];
 
 
 const trucozerar = (ctx, next) => {
+
 	trucoLoading = false;
 
 	trucoJogadores = [];
@@ -2265,7 +2271,9 @@ const trucozerar = (ctx, next) => {
 	trucoComecou = false;
 	trucoPrimeiroRound = true;
 	trucoValorDaMao = 1;
+
 	trucoContinuar = false;
+	trucoMaodeFerro = false;
 
 	trucoCorrer = 0;
 	trucoEmTruco = false;
@@ -2299,6 +2307,8 @@ const trucozerar = (ctx, next) => {
 
 	trucoCartaJogada = "";
 	trucoMaiorValorVencedor = [];
+
+	trucoMensagem = [];
 
 	next();
 }
@@ -2640,6 +2650,27 @@ const trucomostrouteclado = (ctx, next) => {
 	next();
 }
 
+const trucomostroutecladomaodeferro = (ctx, next) => {
+
+	console.log("trucomostroutecladomaodeferro");
+
+
+	var trucoMaoReplaceMaodeFerro = [];
+
+	for ( var i = 0; i < trucoJogadores[trucoTurno].mao.length; i++) {
+		trucoMaoReplaceMaodeFerro.push("▫❓▫")
+	}
+
+	var tecladoTruco = JSON.stringify({"keyboard":[trucoMaoReplaceMaodeFerro],"resize_keyboard":true, "one_time_keyboard":true})
+
+
+	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Jogada:')}&reply_markup=${encodeURI(tecladoTruco)}`)
+		.catch(e => console.log(e))
+
+
+	next();
+}
+
 const trucomostroutecladotruco = (ctx, next) => {
 
 
@@ -2676,7 +2707,12 @@ const trucoproximajogada = (ctx, next) => {
 
 	if(trucoCartasNaMesa.length < 4) {
 		// em jogo
-		exec(ctx, trucomostrouteclado);
+
+		if (trucoMaodeFerro == false) {
+			exec(ctx, trucomostrouteclado);
+		} else {
+			exec(ctx, trucomostroutecladomaodeferro);
+		}
 		trucoMensagem.push(`\n\nAgora é a vez de ${trucoJogadores[trucoTurno].nome}`)
 
 	} else {
@@ -3078,12 +3114,16 @@ const trucoproximarodada = (ctx, next) => {
 
 	// Dando a vitória
 	if(trucoJogadores[0].pontos >= 12 ) {
-		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆`);
+		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆
+
+			Escreva /truco pra entrar em um novo jogo`);
 		exec(ctx, trucomensagemgeral, trucofim);
 	}
 
 	if(trucoJogadores[1].pontos >= 12 ) {
-		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}! 🏆`);
+		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}! 🏆
+
+			Escreva /truco pra entrar em um novo jogo`);
 		exec(ctx, trucomensagemgeral, trucofim);
 	}
 
@@ -3158,6 +3198,86 @@ const trucofim = (ctx, next) => {
 	next();
 }
 
+
+const trucomaodeonze = (ctx, next) => {
+	console.log("trucomaodeonze");
+
+	// Continuando o jogo
+	if (trucoJogadores[0].pontos == 11 && trucoJogadores[1].pontos == 11) {
+		console.log("mão de ferro");
+
+		trucoMaodeFerro = true;
+
+		exec(ctx, trucomensagemgeral, trucomostroutecladomaodeferro)
+		// Mão de ferro
+
+	} else {
+		console.log("não é mão de ferro");
+
+			if (trucoJogadores[0].pontos == 11) {
+				console.log("quem tem 11 é o time 0");
+
+
+				// Ninguém pode trucar
+				trucoJogadores[0].truco = "";
+				trucoJogadores[1].truco = "";
+				trucoJogadores[2].truco = "";
+				trucoJogadores[3].truco = "";
+
+				trucoEmTruco = true;
+				trucoCorrer = 0;
+				
+
+
+				trucoAlvoTruco = [5,0,2];
+
+				trucoMensagem.push(`Mão de 11? 
+					❗❗❗ É TRUCO AUTOMÁTICO em cima de ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} ❗❗❗`)
+
+				msg(`Mão do seu parceiro ${trucoJogadores[2].nome} : ${trucoJogadores[2].mao} `,trucoJogadores[0].id);
+				msg(`Mão do seu parceiro ${trucoJogadores[0].nome} : ${trucoJogadores[0].mao} `,trucoJogadores[2].id);
+
+				exec(ctx, trucomensagemgeral, trucomostroutecladotruco);
+
+			} else {
+				console.log("quem tem 11 NÃO é o time 0");
+
+				if (trucoJogadores[1].pontos == 11) {
+					console.log("quem tem 11 é o time 1");
+
+					// Ninguém pode trucar
+					trucoJogadores[0].truco = "";
+					trucoJogadores[1].truco = "";
+					trucoJogadores[2].truco = "";
+					trucoJogadores[3].truco = "";
+
+					trucoEmTruco = true;
+					trucoCorrer = 0;
+
+					trucoAlvoTruco = [5,1,3];
+
+					trucoMensagem.push(`Mão de 11? 
+						❗❗❗ É TRUCO AUTOMÁTICO em cima de ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome} ❗❗❗`)
+
+					msg(`Mão do seu parceiro ${trucoJogadores[1].nome} : ${trucoJogadores[1].mao} `,trucoJogadores[3].id);
+					msg(`Mão do seu parceiro ${trucoJogadores[3].nome} : ${trucoJogadores[3].mao} `,trucoJogadores[1].id);
+
+					exec(ctx, trucomensagemgeral, trucomostroutecladotruco);
+
+				} else {
+					console.log("quem tem 11 NÃO é o time 1");
+					
+					exec(ctx, trucomensagemgeral, trucomostrouteclado)
+				}
+			}
+
+
+
+
+	}
+
+	next();
+}
 
 
 
@@ -3472,6 +3592,107 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 })
 
 
+bot.hears(["▫❓▫"], async ctx => {
+
+	var trucoRandom = Math.floor((Math.random() * trucoJogadores[trucoTurno].mao.length))
+
+	trucoCartaJogada = trucoJogadores[trucoTurno].mao[trucoRandom];
+	var trucoCartaJogadaVisual = trucoCartaJogada;
+
+	// msg direta
+	if (ctx.update.message.from.id == ctx.chat.id) {
+		// loading
+		if (trucoLoading == false) {
+			// existe partida
+			if (trucoComecou == true) {
+				// se é o seu turno
+				if (trucoJogadores[trucoTurno].id == ctx.update.message.from.id) {
+					// Se ele tem a carta na mão
+					if (trucoJogadores[0].pontos == 11 && trucoJogadores[1].pontos == 11) {
+
+
+						// Não está em truco
+						if (trucoEmTruco == false) {
+							
+
+
+							// Definindo variável da jogada
+							
+							var trucoCartasNaMesaItemValor = 0;
+							var trucoCartasNaMesaItemValorNome = '';
+
+							if (trucoManilhaValor.valor0.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 0}
+							if (trucoManilhaValor.valor1.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 1}
+							if (trucoManilhaValor.valor2.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 2}
+							if (trucoManilhaValor.valor3.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 3}
+							if (trucoManilhaValor.valor4.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 4}
+							if (trucoManilhaValor.valor5.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 5}
+							if (trucoManilhaValor.valor6.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 6}
+							if (trucoManilhaValor.valor7.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 7}
+							if (trucoManilhaValor.valor8.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 8}
+							if (trucoManilhaValor.valor9.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 9}
+							if (trucoManilhaValor.valor10.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 10}
+							if (trucoManilhaValor.picafumo.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 11; trucoCartasNaMesaItemValorNome = 'Pica-Fumo '}
+							if (trucoManilhaValor.espadilha.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 12; trucoCartasNaMesaItemValorNome = 'Espadilha '}
+							if (trucoManilhaValor.escopeta.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 13; trucoCartasNaMesaItemValorNome = 'Escopeta '}
+							if (trucoManilhaValor.zap.includes(trucoCartaJogada)) {trucoCartasNaMesaItemValor = 14; trucoCartasNaMesaItemValorNome = 'Zap! '}
+
+
+							var trucoCartasNaMesaItem = {
+								"carta" : trucoCartaJogada,
+								"cartajogada" : "\n[ "+trucoCartaJogada+" "+trucoCartasNaMesaItemValorNome+"] : "+trucoJogadores[trucoTurno].nome,
+								"cartaprabaixo" : false,
+								"dono" : ctx.update.message.from.id,
+								"dononome" : ctx.update.message.from.first_name,
+								"dononumero" : trucoTurno,
+								"time" : trucoJogadores[trucoTurno].time,
+								"valor" : trucoCartasNaMesaItemValor
+							};
+
+
+
+							trucoCartasNaMesa.push(trucoCartasNaMesaItem);
+
+							trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaVisual), 1 );
+
+							console.log(trucoCartasNaMesa);
+
+							var trucoCartasNaMesaVisual = [];
+
+							for (var i = 0; i < trucoCartasNaMesa.length; i++) {
+								trucoCartasNaMesaVisual.push(trucoCartasNaMesa[i].cartajogada);
+							}
+
+							trucoMensagem.push(`Cartas na Mesa:\n${trucoCartasNaMesaVisual}`)
+							exec(ctx, trucocloading, trucoproximajogada, trucomensagemgeral, trucocloadingfim);
+
+						} else {
+							await ctx.reply(`Espere seu adversário decidir o truco`);
+						}
+
+
+					} else {
+						await ctx.reply(`Não é mão de ferro`);
+					}
+				} else {
+					await ctx.reply(`Não é sua vez`);
+					console.log("trucoTurnoId: "+trucoTurnoId+" - seu id: "+ctx.update.message.from.id )
+				}
+			} else {
+				await ctx.reply(`Não existe uma jogada ativa`);
+			}
+		} else {
+			await ctx.reply(`Servidor ocupado, tente novamente.`);
+		}
+
+	}
+	
+})
+
+
+
+
+
 bot.hears(["▫◻ Continuar ◻▫"], async ctx => {
 
 	if (trucoContinuar == true) {
@@ -3486,7 +3707,7 @@ bot.hears(["▫◻ Continuar ◻▫"], async ctx => {
 					// existe partida
 					if (trucoComecou == true) {
 
-						exec(ctx, trucocloading, trucolimparmesa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+						exec(ctx, trucocloading, trucolimparmesa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomaodeonze, trucocloadingfim);
 						
 					} else {
 						await ctx.reply(`Não existe uma jogada ativa`);
@@ -3519,7 +3740,7 @@ bot.command(['continuar'], async ctx => {
 					// existe partida
 					if (trucoComecou == true) {
 
-						exec(ctx, trucocloading, trucolimparmesa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
+						exec(ctx, trucocloading, trucolimparmesa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar, trucodistribuircarta, trucomaodeonze, trucocloadingfim);
 						
 					} else {
 						await ctx.reply(`Não existe uma jogada ativa`);
@@ -3836,6 +4057,7 @@ bot.hears(["Desce! ✔"], async ctx => {
 
 						if (trucoAlvoTrucoVeiodeDesceParceiro == -2) {
 							trucoAlvoTrucoVeiodeDesceParceiro = 2
+						}
 						
 
 						if(ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id) {
@@ -3866,8 +4088,18 @@ bot.hears(["Desce! ✔"], async ctx => {
 						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 						axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTrucoVeiodeDesceParceiro].id}&text=${encodeURI('Seu parceiro mandou descer!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
 
-						trucoMensagem.push(`${ctx.update.message.from.first_name} mandou descer!!!`);
-						exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
+						if (ctx.update.message.from.id == trucoJogadores[trucoTurno].id) {
+							trucoMensagem.push(`${ctx.update.message.from.first_name} disse que vai descer!!!`);
+						} else {
+							trucoMensagem.push(`${ctx.update.message.from.first_name} mandou ${trucoJogadores[trucoTurno].nome} descer!!!`);
+						}
+
+						if (trucoMaodeFerro == false) {
+							exec(ctx, trucocloading, trucomensagemgeral, trucomostrouteclado, trucocloadingfim);
+
+						} else {
+							exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladomaodeferro, trucocloadingfim);
+						}
 
 						
 					}
@@ -3971,7 +4203,12 @@ bot.command(['mao'], async ctx => {
 					if (trucoComecou == true) {
 						if (trucoEmTruco == false) {
 
-							exec(ctx, trucomostrouteclado)
+							if (trucoMaodeFerro == false) {
+								exec(ctx, trucomostrouteclado)	
+							} else {
+								exec(ctx, trucomostroutecladomaodeferro)
+							}
+							
 							
 						} else {
 							await ctx.reply(`Você não pode fazer isso enquanto estiver em truco`);
