@@ -2158,25 +2158,36 @@ bot.command(['relatorio'], async ctx => {
 bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
 
-	if (debug == true) {
-		trucoJogadores[0].pontos = 10;
-		trucoJogadores[1].pontos = 11;
-		trucoJogadores[2].pontos = 10;
-		trucoJogadores[3].pontos = 11;
-	}
+	
 
-	console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
-	console.log("trucoTurno: "+trucoTurno)
-	console.log("trucoValorDaMao: "+trucoValorDaMao)
-	console.log("trucoContinuar: "+trucoContinuar)
-	console.log("trucoEmTruco: "+trucoEmTruco)
-	console.log("trucoAlvoTruco: "+trucoAlvoTruco)
-	console.log("trucoRodada: "+trucoRodada)
-	console.log("trucoTurnoId: "+trucoTurnoId)
+	// if (debug == true) {
+	// 	trucoJogadores[0].pontos = 10;
+	// 	trucoJogadores[1].pontos = 11;
+	// 	trucoJogadores[2].pontos = 10;
+	// 	trucoJogadores[3].pontos = 11;
+	// }
+
+	// console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
+	// console.log("trucoTurno: "+trucoTurno)
+	// console.log("trucoValorDaMao: "+trucoValorDaMao)
+	// console.log("trucoContinuar: "+trucoContinuar)
+	// console.log("trucoEmTruco: "+trucoEmTruco)
+	// console.log("trucoAlvoTruco: "+trucoAlvoTruco)
+	// console.log("trucoRodada: "+trucoRodada)
+	// console.log("trucoTurnoId: "+trucoTurnoId)
 
 
 
 })
+
+bot.command(['tiny'], async ctx => {
+	await ctx.reply("Testado");
+	var source = tinify.fromFile("sample-png-images-download-4.png");
+	source.toFile("optimized.png");
+})
+
+
+
 
 bot.command(['post'], async ctx => {
 	if (ctx.chat.id == idKiliano) {
