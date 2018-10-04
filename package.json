@@ -29,6 +29,7 @@
     "axios": "0.17.1",
     "moment": "2.20.1",
     "telegraf": "3.17.3",
+    "tinify": "^1.6.0-beta.2",
     "wordpress": "^1.4.1"
   }
 }

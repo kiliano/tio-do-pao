@@ -19,6 +19,7 @@ const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
 var wordpress = require( "wordpress" );
+var tinify = require("tinify");
 
 
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
@@ -64,109 +65,113 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
+	
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 			console.log("Primeiro ping do dia "+(datahora-3));
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
+	// 		setInterval(function(){ 
+	// 			exec(ctx,atualizarData)
 
-				if (datahora < 19+3) {
+	// 			if (datahora < 19+3) {
 
-					if (datahora > 1+3) {
-						if (fimdodia == true) {
-							fimdodia = false;
-							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-							exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-						}
-					}
+	// 				if (datahora > 1+3) {
+	// 					if (fimdodia == true) {
+	// 						fimdodia = false;
+	// 						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+	// 						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+	// 					}
+	// 				}
 	
 
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 					console.log("Ping timeout 750000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
 
-					 },750000);
+	// 				 },750000);
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log("Ping timeout 1350000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
+	// 				 },1350000);
+	// 			} else {
 
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 					console.log("Fim do dia ligado. Boa noite :)")
+	// 				}
 
-				}
-			}, 2400000);
+	// 			}
+	// 		}, 2400000);
 
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
 
-	const idTodos = process.env.idTodos
+	// const apiTinypng = process.env.apiTinypng;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const idTodos = process.env.idTodos
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const bot = new Telegraf(token)
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
 
 
 
@@ -193,6 +198,8 @@ var pedidosanalisadossoma = {
 	"bisnagaacucar":0,
 	"bisnagacreme":0
 };
+
+tinify.key = apiTinypng;
 
 // Login WP
 var wp = wordpress.createClient({
