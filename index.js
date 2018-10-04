@@ -62,113 +62,113 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 			console.log("Primeiro ping do dia "+(datahora-3));
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
+	// 		setInterval(function(){ 
+	// 			exec(ctx,atualizarData)
 
-				if (datahora < 19+3) {
+	// 			if (datahora < 19+3) {
 
-					if (datahora > 1+3) {
-						if (fimdodia == true) {
-							fimdodia = false;
-							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-							exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-						}
-					}
+	// 				if (datahora > 1+3) {
+	// 					if (fimdodia == true) {
+	// 						fimdodia = false;
+	// 						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+	// 						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+	// 					}
+	// 				}
 	
 
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 					console.log("Ping timeout 750000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
 
-					 },750000);
+	// 				 },750000);
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log("Ping timeout 1350000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
+	// 				 },1350000);
+	// 			} else {
 
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 					console.log("Fim do dia ligado. Boa noite :)")
+	// 				}
 
-				}
-			}, 2400000);
+	// 			}
+	// 		}, 2400000);
 
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos
+	// const idTodos = process.env.idTodos
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
+	// const bot = new Telegraf(token)
 
 
 
@@ -225,6 +225,8 @@ var pedido = {
 		"bisnagacreme":0
 	};
 
+var pedidolista = [];
+var pedidolistasubstituto = [];
 // Variáveis do pedido
 
 // mensagem
@@ -298,6 +300,12 @@ const listar = () => {
 
 	trocasvalidas = [];
 	pedido.lista =[]
+	pedidolista = [];
+	pedidolistasubstituto = [];
+
+
+//  -------- Gerando lista VISUAL ----------
+
 
 	pedido.paofrances = 0
 	pedido.paodemilho = 0
@@ -326,7 +334,7 @@ const listar = () => {
 	}
 
 
-	// Itens Indisponíveis
+	// Apagando itens Indisponíveis
 
 	if (pedido.indisponibilidade.length > 0) {
 		for (var i = 0; i < pedido.acoes.length; i++) {
@@ -339,6 +347,271 @@ const listar = () => {
 			}
 		}
 	}
+
+	if (trocasvalidas.length > 0 ) {
+
+		for (var ij = 0; ij < pedido.indisponibilidade.length; ij++) {
+
+			if ( pedido.indisponibilidade[ij] == 'Pão Francês') pedido.paofrances = 0 
+			if ( pedido.indisponibilidade[ij] == 'Pão de Milho') pedido.paodemilho = 0 
+			if ( pedido.indisponibilidade[ij] == 'Rosquinha Comum') pedido.rosquinha = 0 
+			if ( pedido.indisponibilidade[ij] == 'Rosquinha com Recheio') pedido.rosquinharecheio = 0 
+			if ( pedido.indisponibilidade[ij] == 'Croissant Presunto') pedido.croissantpresunto = 0 
+			if ( pedido.indisponibilidade[ij] == 'Croissant Frango') pedido.croissantfrango = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga Comum') pedido.bisnaga = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga com Açúcar') pedido.bisnagaacucar = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga com Creme') pedido.bisnagacreme = 0 
+
+		}
+
+	}
+
+
+	if (pedido.paofrances == 1) {
+		pedidolista.push(' \n '+pedido.paofrances+' Pão Francês')
+	}
+
+	if (pedido.paofrances > 1) {
+		pedidolista.push(' \n '+pedido.paofrances+' Pães Franceses')
+	}
+
+	if (pedido.paodemilho == 1) {
+		pedidolista.push(' \n '+pedido.paodemilho+' Pão de Milho')
+	}
+
+	if (pedido.paodemilho > 1) {
+		pedidolista.push(' \n '+pedido.paodemilho+' Pães de Milho')
+	}
+
+	if (pedido.rosquinha == 1) {
+		pedidolista.push(' \n '+pedido.rosquinha+' Rosquinha Comum')
+	}
+
+	if (pedido.rosquinha > 1) {
+		pedidolista.push(' \n '+pedido.rosquinha+' Rosquinhas Comuns')
+	}
+
+	if (pedido.rosquinharecheio == 1) {
+		pedidolista.push(' \n '+pedido.rosquinharecheio+' Rosquinha com Recheio')
+	}
+
+	if (pedido.rosquinharecheio > 1) {
+		pedidolista.push(' \n '+pedido.rosquinharecheio+' Rosquinhas com Recheio')
+	}
+
+	if (pedido.croissantpresunto == 1) {
+		pedidolista.push(' \n '+pedido.croissantpresunto+' Croissant de Presunto')
+	}
+
+	if (pedido.croissantpresunto > 1) {
+		pedidolista.push(' \n '+pedido.croissantpresunto+' Croissants de Presunto')
+	}
+
+	if (pedido.croissantfrango == 1) {
+		pedidolista.push(' \n '+pedido.croissantfrango+' Croissant de Frango')
+	}
+
+	if (pedido.croissantfrango > 1) {
+		pedidolista.push(' \n '+pedido.croissantfrango+' Croissants de Frango')
+	}
+
+	if (pedido.bisnaga == 1) {
+		pedidolista.push(' \n '+pedido.bisnaga+' Bisnaga Comum')
+	}
+
+	if (pedido.bisnaga > 1) {
+		pedidolista.push(' \n '+pedido.bisnaga+' Bisnagas Comuns')
+	}
+
+	if (pedido.bisnagaacucar == 1) {
+		pedidolista.push(' \n '+pedido.bisnagaacucar+' Bisnaga com Açúcar')
+	}
+
+	if (pedido.bisnagaacucar > 1) {
+		pedidolista.push(' \n '+pedido.bisnagaacucar+' Bisnagas com Açúcar')
+	}
+
+	if (pedido.bisnagacreme == 1) {
+		pedidolista.push(' \n '+pedido.bisnagacreme+' Bisnaga com Creme')
+	}
+
+	if (pedido.bisnagacreme > 1) {
+		pedidolista.push(' \n '+pedido.bisnagacreme+' Bisnagas com Creme')
+	}
+
+
+
+
+//  --------Gerando lista de produtos substituidos ---------
+
+	if (trocasvalidas.length > 0 ) {
+
+		pedido.paofrances = 0
+		pedido.paodemilho = 0
+		pedido.rosquinha = 0
+		pedido.rosquinharecheio = 0
+		pedido.croissantpresunto = 0
+		pedido.croissantfrango = 0
+		pedido.bisnaga = 0
+		pedido.bisnagaacucar = 0
+		pedido.bisnagacreme = 0
+
+
+		for (var i = 0; i < pedido.indisponibilidade.length; i++) {
+
+			for (var it = 0; it < trocasvalidas.length; it++) {
+
+				var acaoatual = trocasvalidas[it].split(' : ');
+
+				if (pedido.indisponibilidade[i] == acaoatual[3] ) {
+					if ( acaoatual[5] == 'Pão Francês') pedido.paofrances +=1 
+					if ( acaoatual[5] == 'Pão de Milho') pedido.paodemilho +=1 
+					if ( acaoatual[5] == 'Rosquinha Comum') pedido.rosquinha +=1 
+					if ( acaoatual[5] == 'Rosquinha com Recheio') pedido.rosquinharecheio +=1 
+					if ( acaoatual[5] == 'Croissant Presunto') pedido.croissantpresunto +=1 
+					if ( acaoatual[5] == 'Croissant Frango') pedido.croissantfrango +=1 
+					if ( acaoatual[5] == 'Bisnaga Comum') pedido.bisnaga +=1 
+					if ( acaoatual[5] == 'Bisnaga com Açúcar') pedido.bisnagaacucar +=1 
+					if ( acaoatual[5] == 'Bisnaga com Creme') pedido.bisnagacreme +=1 
+				}
+
+			}
+
+		}
+
+
+		for (var ij = 0; ij < pedido.indisponibilidade.length; ij++) {
+
+			if ( pedido.indisponibilidade[ij] == 'Pão Francês') pedido.paofrances = 0 
+			if ( pedido.indisponibilidade[ij] == 'Pão de Milho') pedido.paodemilho = 0 
+			if ( pedido.indisponibilidade[ij] == 'Rosquinha Comum') pedido.rosquinha = 0 
+			if ( pedido.indisponibilidade[ij] == 'Rosquinha com Recheio') pedido.rosquinharecheio = 0 
+			if ( pedido.indisponibilidade[ij] == 'Croissant Presunto') pedido.croissantpresunto = 0 
+			if ( pedido.indisponibilidade[ij] == 'Croissant Frango') pedido.croissantfrango = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga Comum') pedido.bisnaga = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga com Açúcar') pedido.bisnagaacucar = 0 
+			if ( pedido.indisponibilidade[ij] == 'Bisnaga com Creme') pedido.bisnagacreme = 0 
+
+		}
+
+
+		if (pedido.paofrances == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.paofrances+' Pão Francês')
+		}
+
+		if (pedido.paofrances > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.paofrances+' Pães Franceses')
+		}
+
+		if (pedido.paodemilho == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.paodemilho+' Pão de Milho')
+		}
+
+		if (pedido.paodemilho > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.paodemilho+' Pães de Milho')
+		}
+
+		if (pedido.rosquinha == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.rosquinha+' Rosquinha Comum')
+		}
+
+		if (pedido.rosquinha > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.rosquinha+' Rosquinhas Comuns')
+		}
+
+		if (pedido.rosquinharecheio == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.rosquinharecheio+' Rosquinha com Recheio')
+		}
+
+		if (pedido.rosquinharecheio > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.rosquinharecheio+' Rosquinhas com Recheio')
+		}
+
+		if (pedido.croissantpresunto == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.croissantpresunto+' Croissant de Presunto')
+		}
+
+		if (pedido.croissantpresunto > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.croissantpresunto+' Croissants de Presunto')
+		}
+
+		if (pedido.croissantfrango == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.croissantfrango+' Croissant de Frango')
+		}
+
+		if (pedido.croissantfrango > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.croissantfrango+' Croissants de Frango')
+		}
+
+		if (pedido.bisnaga == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnaga+' Bisnaga Comum')
+		}
+
+		if (pedido.bisnaga > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnaga+' Bisnagas Comuns')
+		}
+
+		if (pedido.bisnagaacucar == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnagaacucar+' Bisnaga com Açúcar')
+		}
+
+		if (pedido.bisnagaacucar > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnagaacucar+' Bisnagas com Açúcar')
+		}
+
+		if (pedido.bisnagacreme == 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnagacreme+' Bisnaga com Creme')
+		}
+
+		if (pedido.bisnagacreme > 1) {
+			pedidolistasubstituto.push(' \n '+pedido.bisnagacreme+' Bisnagas com Creme')
+		}
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+	// ------ Gerando lista RELEVANTE para o sistema ---------
+
+
+	pedido.paofrances = 0
+	pedido.paodemilho = 0
+	pedido.rosquinha = 0
+	pedido.rosquinharecheio = 0
+	pedido.croissantpresunto = 0
+	pedido.croissantfrango = 0
+	pedido.bisnaga = 0
+	pedido.bisnagaacucar = 0
+	pedido.bisnagacreme = 0
+
+	// Quantidades simples, baseada nos pedidos
+	for (var i = 0; i < pedido.acoes.length; i++) {
+		var acaoatual = pedido.acoes[i].split(' : ');
+		if (acaoatual[2] == 'pediu') {
+			if ( acaoatual[3] == 'Pão Francês') pedido.paofrances +=1 
+			if ( acaoatual[3] == 'Pão de Milho') pedido.paodemilho +=1 
+			if ( acaoatual[3] == 'Rosquinha Comum') pedido.rosquinha +=1 
+			if ( acaoatual[3] == 'Rosquinha com Recheio') pedido.rosquinharecheio +=1 
+			if ( acaoatual[3] == 'Croissant Presunto') pedido.croissantpresunto +=1 
+			if ( acaoatual[3] == 'Croissant Frango') pedido.croissantfrango +=1 
+			if ( acaoatual[3] == 'Bisnaga Comum') pedido.bisnaga +=1 
+			if ( acaoatual[3] == 'Bisnaga com Açúcar') pedido.bisnagaacucar +=1 
+			if ( acaoatual[3] == 'Bisnaga com Creme') pedido.bisnagacreme +=1 
+		}
+	}
+
+
+
+	// Se não tiver algo, gerar substiuições
 
 	if (trocasvalidas.length > 0 ) {
 
@@ -383,8 +656,7 @@ const listar = () => {
 
 	
 
-
-	// Gerando lista de nomes
+	
 	if (pedido.paofrances == 1) {
 		pedido.lista.push(' \n '+pedido.paofrances+' Pão Francês')
 	}
@@ -476,6 +748,8 @@ const checagemparanovopost = (ctx, next) => {
 			var conteudodia = 0;
 			var conteudomes = 0;
 			var conteudoacoes = [];
+			var conteudoindisponiveis = [];
+
 
 			if(pedido.acoes[0] != undefined && debug == false) {
 				if (conteudo.length > 0) {
@@ -493,6 +767,10 @@ const checagemparanovopost = (ctx, next) => {
 						if (conteudoprimeiro.customFields[i].key == "acoes") {
 							conteudoacoes = conteudoprimeiro.customFields[i].value;
 						}
+
+						if (conteudoprimeiro.customFields[i].key == "indisponiveis") {
+							conteudoindisponiveis = conteudoprimeiro.customFields[i].value;
+						}
 					}
 
 
@@ -500,7 +778,7 @@ const checagemparanovopost = (ctx, next) => {
 					if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
 						console.log("Já existe um post nessa data. Verificando se o post está atualizado:" + conteudoacoes + "" +JSON.stringify(pedido.acoes));
 
-						if (conteudoacoes == JSON.stringify(pedido.acoes)) {
+						if (conteudoacoes == JSON.stringify(pedido.acoes) && conteudoindisponiveis == JSON.stringify(pedido.indisponiveis)) {
 							console.log("A versão online já está atualizada. Nenhuma medida necessária.");
 							exec(ctx, liberandopost)
 
@@ -703,6 +981,9 @@ const novodia = (ctx, next) => {
 		"bisnagaacucar":0,
 		"bisnagacreme":0
 	};
+
+	pedidolista = [];
+	pedidolistasubstituto = [];
 
 	msg(`função novodia()`, idKiliano)
 
@@ -1365,7 +1646,6 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 
-	// Deixar esse comando habilitado em grupos
 	listar();
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
@@ -1395,12 +1675,19 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 		if (pedido.lista.length > 0) {
 
 			if (pedido.indisponibilidade.length > 0) {
-				indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+				
+				indisponiveltxt = `
+				_Os seguintes itens estavam em falta: ${pedido.indisponibilidade}. Trazer os substitutos:_
+				*${pedidolistasubstituto}*
+				`
 			} else {
 				indisponiveltxt = ""
 			}
 
-			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`, tecladoFixoItens)
+			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+				Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
+				*${pedidolista}*
+				${indisponiveltxt}`, tecladoFixoItens)
 			console.log(pedido.lista);
 
 		} else {
@@ -2644,7 +2931,7 @@ const trucodistribuircarta = async (ctx, next) => {
 			trucoBaralho.splice(0, 1)
 		}
 
-		trucoMaodeFerro == false {
+		if (trucoMaodeFerro == false) {
 			await msg(`${trucoJogadores[0].nome} e ${trucoJogadores[2].nome} (${trucoJogadores[0].pontos}) X (${trucoJogadores[1].pontos}) ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}
 
 			Manilhas: [ ${trucoManilhaValor.zap} ]  [ ${trucoManilhaValor.escopeta} ]  [ ${trucoManilhaValor.espadilha} ]  [ ${trucoManilhaValor.picafumo} ]
