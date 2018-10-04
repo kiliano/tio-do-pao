@@ -2970,7 +2970,7 @@ const trucomostrouteclado = (ctx, next) => {
 
 	var trucoMaoReplaceBaixo = [];
 
-	if (trucoRodada.length == 0 && trucoCartasNaMesa.length == 0) {
+	if (trucoRodada.length == 0) {
 		
 	} else {
 		for ( var i = 0; i < trucoJogadores[trucoTurno].mao.length; i++) {
