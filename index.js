@@ -3481,14 +3481,14 @@ const trucoproximarodada = (ctx, next) => {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[0].nome} e ${trucoJogadores[2].nome}! 🏆
 
 			Escreva /truco pra entrar em um novo jogo`);
-		exec(ctx, trucomensagemgeral, trucofim);
+		exec(ctx, trucofim);
 	}
 
 	if(trucoJogadores[1].pontos >= 12 ) {
 		trucoMensagem.push(`\n\n 🏆 Vitória da dupla ${trucoJogadores[1].nome} e ${trucoJogadores[3].nome}! 🏆
 
 			Escreva /truco pra entrar em um novo jogo`);
-		exec(ctx, trucomensagemgeral, trucofim);
+		exec(ctx, trucofim);
 	}
 
 	console.log(JSON.stringify(trucoJogadores))
@@ -3607,7 +3607,7 @@ const trucofim = (ctx, next) => {
 	trucoCartaJogada = "";
 	trucoMaiorValorVencedor = [];
 
-	trucoMensagem = [];
+	// trucoMensagem = [];
 
 
 	console.log("ACABOU A PARTIDA");
@@ -3708,6 +3708,7 @@ bot.command(['trucoentrar'], async ctx => {
 				// Primeiro Jogador entrar
 
 				if (trucoJogadores.length == 0) {
+					trucoMensagem = [];
 
 					console.log("Adicionando1");
 					trucoJogadores.push({
