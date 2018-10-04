@@ -2,11 +2,8 @@
 /*
 
 ---- Checklist ----
-
-/piscar piscar pro parceiro (50% de chance de perceberem)
-/chingar 
-/bater
-/trucosair
+- fazer tiny png funcionar
+- Arrumar uma forma de apagar os teclados após o pedido do pão, entrega das cartas do truco (exceto para o dono do turno.)
 
 */
 
@@ -20,7 +17,7 @@ const Extra = require('telegraf/extra');
 const axios = require('axios');
 var wordpress = require( "wordpress" );
 var tinify = require("tinify");
-
+const fs = require('fs');
 
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 // https://www.npmjs.com/package/wordpress
@@ -2180,11 +2177,35 @@ bot.command(['teste'], async ctx => {
 
 })
 
-bot.command(['tiny'], async ctx => {
-	await ctx.reply("Testado");
-	var source = tinify.fromFile("sample-png-images-download-4.png");
-	source.toFile("optimized.png");
-})
+// // bot.command(['tiny'], async ctx => {
+// // 	var source = tinify.fromFile("sample-png-images-download-4.png");
+// // 	source.toFile("optimized.png");
+// // })
+
+// bot.on('photo', async ctx => {
+// 	// const id = ctx.update.message.photo[ctx.update.message.photo.length-1].file_id;
+// 	// const res = await axios.get(`${apiUrl}/getFile?file_id=${id}`);
+// 	// ctx.replyWithPhoto({url: `${apiFileUrl}/${res.data.result.file_path}`})
+
+
+// 		const photo = ctx.update.message.photo[ctx.update.message.photo.length-1];
+// 		const res = await axios.get(`${apiUrl}/getFile?file_id=${photo.file_id}`).catch(e => console.log(e));
+
+// 		// console.log(res.data.result)
+// 		var source = tinify.fromUrl(`${apiFileUrl}/${res.data.result.file_path}`);
+// 		source.toFile(`./compress/${res.data.result.file_path}`);
+
+// 		// const fileUrlCompress = fs.readFileSync(`file:///compress/${res.data.result.file_path}`);
+
+// 		// console.log(fileUrlCompress);
+
+// 		// fs.readFileSync(new URL(`file:///compress/${res.data.result.file_path}`));
+
+
+// 		await ctx.replyWithPhoto({source: fs.readFileSync(`./compress/${res.data.result.file_path}`)})
+
+
+// }) 
 
 
 
