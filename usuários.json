@@ -1,0 +1,14 @@
+{ 
+  "id": "309",
+  "title": "0808080",
+  "date": "2018-10-04T05:00:00.000Z",
+  "customFields":[ 
+       { "key": "01-id", "value": "123456" },
+       { "key": "02-nome", "value": "Kiliano" },
+       { "key": "03-random", "value": "848484" },
+       { "key": "04-creditos", "value": "500" },
+       { "key": "05-vitoriastruco", "value": "5" },
+       { "key": "06-notificacaotruco", "value": "0" }
+     ] 
+
+}
