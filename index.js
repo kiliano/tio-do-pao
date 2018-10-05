@@ -4833,13 +4833,95 @@ bot.command('bolo', async ctx => {
 		var funcionariossorteio = funcionarios[0];
 		funcionarios.splice(0, 1);
 
-		await ctx.reply(` 🍰 Quem ganha bolo é.... ${funcionariossorteio}!! 🍰`);
+		await ctx.reply(`🍰 Quem ganha bolo é.... ${funcionariossorteio}!! 🍰`);
 	} else {
-		await ctx.reply(` 🍰 Cabou o bolo 🍰`);
+		await ctx.reply(`🍰 Cabou o bolo 🍰`);
 	}
 
 })
 
+// ---------------- Sistema de Membros -----------------
+
+var membrosJson = [
+{ 
+  "id": "309",
+  "title": "0808080",
+  "date": "2018-10-04T05:00:00.000Z",
+  "customFields":[ 
+       { "teste": "teste", "key": "00-id", "value": "123456" },
+       { "teste": "teste", "key": "01-nome", "value": "Kiliano" },
+       { "teste": "teste", "key": "02-random", "value": "848484" },
+       { "teste": "teste", "key": "03-creditos", "value": "500" },
+       { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
+       { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
+     ] 
+
+},
+
+{ 
+  "id": "319",
+  "title": "0808080",
+  "date": "2018-10-04T05:00:00.000Z",
+  "customFields":[ 
+       { "teste": "teste", "key": "00-id", "value": idKiliano },
+       { "teste": "teste", "key": "01-nome", "value": "Kiliano Teste" },
+       { "teste": "teste", "key": "02-random", "value": "848484" },
+       { "teste": "teste", "key": "03-creditos", "value": "500" },
+       { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
+       { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
+     ] 
+}
+]
+
+console.log(membrosJson);
+
+bot.command(['membros','pontos','perfil'], async ctx => {
+	
+	if (membrosJson.length > 0) {
+
+
+		var membrosAnalizar = 0;
+
+		// Checar se o id existe
+		for (var i = 0; i < membrosJson.length; i++) {
+			console.log(membrosJson[i].customFields[0]);
+			if (membrosJson[i].customFields[0].value == ctx.update.message.from.id) {
+				console.log("achou!");
+				
+				membrosAnalizar = membrosJson[i];
+
+			} else {
+				console.log("nao achou um perfil");
+			}
+		} 
+
+
+		if (membrosAnalizar == 0) {
+			await ctx.reply(`Não achei um perfil pra você. Já estou criando um...`);
+			membrosJson.push({
+				"title": ctx.update.message.from.first_name,
+				"customFields":[ 
+				       { "teste": "teste", "key": "00-id", "value": ctx.update.message.from.id },
+				       { "teste": "teste", "key": "01-nome", "value": ctx.update.message.from.first_name },
+				       { "teste": "teste", "key": "02-random", "value": Math.floor((Math.random() * 999999999999999999)) },
+				       { "teste": "teste", "key": "03-creditos", "value": 500 },
+				       { "teste": "teste", "key": "04-vitoriastruco", "value": 0 },
+				       { "teste": "teste", "key": "05-notificacaotruco", "value": 0 }
+				 ] 
+			})
+		} else {
+			await ctx.reply(`Achei seu perfil ${membrosAnalizar.customFields[1].value}. Você tem ${membrosAnalizar.customFields[3].value}`);
+		}
+
+		console.log(membrosJson);
+
+
+
+		
+	}
+
+	// await ctx.reply(`Ninguém está jogando truco agora`);
+})
 
 
 // Loop
