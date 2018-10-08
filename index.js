@@ -183,6 +183,8 @@ var conteudo = {};
 var conteudoprimeiro = {};
 
 var pedidosanalisados = [];
+var pedidosanalisadosunicos =[];
+
 var pedidosanalisadossoma = {
 	"lista": [],
 	"paofrances":0,
@@ -194,6 +196,18 @@ var pedidosanalisadossoma = {
 	"bisnaga":0,
 	"bisnagaacucar":0,
 	"bisnagacreme":0
+};
+
+var paopreco = {
+	"paofrances":0.3,
+	"paodemilho":0.3,
+	"rosquinha":0.3,
+	"rosquinharecheio":0.3,
+	"croissantpresunto":0.3,
+	"croissantfrango":0.3,
+	"bisnaga":0.3,
+	"bisnagaacucar":0.3,
+	"bisnagacreme":0.3
 };
 
 tinify.key = apiTinypng;
@@ -985,6 +999,7 @@ const novodia = (ctx, next) => {
 
 	pedidolista = [];
 	pedidolistasubstituto = [];
+	pedidosanalisadosunicos = [];
 
 	msg(`função novodia()`, idKiliano)
 
@@ -1236,8 +1251,10 @@ const relatoriopao = (ctx, next) => {
 				pedidosanalisadossoma.lista.push("RELATÓRIO ANUAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[2]);
 			}
 
+			pedidosanalisadossoma.lista.push("\n\n Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
+
 			if (pedidosanalisadossoma.paofrances > 0) {
-				pedidosanalisadossoma.lista.push("\n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
+				pedidosanalisadossoma.lista.push("\n\n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
 			}
 
 			if (pedidosanalisadossoma.paodemilho > 0) {
@@ -1288,7 +1305,274 @@ const relatoriopao = (ctx, next) => {
 }
 
 
+
+
+const relatoriopaodetalhado = (ctx, next) => {
+
+	if (conteudo.length > 0) {
+		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
+
+		pedidosanalisadossoma = {
+			"lista": [],
+			"paofrances":0,
+			"paodemilho":0,
+			"rosquinha":0,
+			"rosquinharecheio":0,
+			"croissantpresunto":0,
+			"croissantfrango":0,
+			"bisnaga":0,
+			"bisnagaacucar":0,
+			"bisnagacreme":0
+		};
+
+		pedidosanalisados = [];
+		pedidosanalisadosunicos = [];
+
+		for (var ic = 0; ic < conteudo.length; ic++) {
+			var pedidoanalisado = {
+				"dia_data": 0,
+				"mes_data": 0,
+				"ano_data": 0,
+				"acoes": [],
+				"indisponibilidade": [],
+				"lista": [],
+				"paofrances":0,
+				"paodemilho":0,
+				"rosquinha":0,
+				"rosquinharecheio":0,
+				"croissantpresunto":0,
+				"croissantfrango":0,
+				"bisnaga":0,
+				"bisnagaacucar":0,
+				"bisnagacreme":0
+			};
+
+			for (var id = 0; id < conteudo[ic].customFields.length; id++) {
+				if (conteudo[ic].customFields[id].key == "dia_data") {
+					pedidoanalisado.dia_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "mes_data") {
+					pedidoanalisado.mes_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "ano_data") {
+					pedidoanalisado.ano_data = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "acoes") {
+					pedidoanalisado.acoes = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "indisponibilidade") {
+					pedidoanalisado.indisponibilidade = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "lista") {
+					pedidoanalisado.lista = JSON.parse(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "paofrances") {
+					pedidoanalisado.paofrances = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "paodemilho") {
+					pedidoanalisado.paodemilho = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "rosquinha") {
+					pedidoanalisado.rosquinha = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "rosquinharecheio") {
+					pedidoanalisado.rosquinharecheio = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "croissantpresunto") {
+					pedidoanalisado.croissantpresunto = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "croissantfrango") {
+					pedidoanalisado.croissantfrango = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnaga") {
+					pedidoanalisado.bisnaga = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnagaacucar") {
+					pedidoanalisado.bisnagaacucar = parseInt(conteudo[ic].customFields[id].value);
+				}
+
+				if (conteudo[ic].customFields[id].key == "bisnagacreme") {
+					pedidoanalisado.bisnagacreme = parseInt(conteudo[ic].customFields[id].value);
+				}
+			}
+
+			if (relatorioTempo[0] == 1) {
+				// Busca por mês
+				if (pedidoanalisado.ano_data == relatorioTempo[2] && pedidoanalisado.mes_data == relatorioTempo[1]) {
+					pedidosanalisados.push(pedidoanalisado);
+				}
+			}
+
+			if (relatorioTempo[0] == 2) {
+				// Busca por ano
+				if (pedidoanalisado.ano_data == relatorioTempo[2]) {
+					pedidosanalisados.push(pedidoanalisado);
+				}
+			}
+		}
+		console.log("Total de "+pedidosanalisados.length+" pedidos selecionados");
+
+		for (var ip = 0; ip < pedidosanalisados.length; ip++) {
+
+			var pedidosanalisadounicolista = [];
+
+
+			pedidosanalisadossoma.paofrances += pedidosanalisados[ip].paofrances;
+			pedidosanalisadossoma.paodemilho += pedidosanalisados[ip].paodemilho;
+			pedidosanalisadossoma.rosquinha += pedidosanalisados[ip].rosquinha;
+			pedidosanalisadossoma.rosquinharecheio += pedidosanalisados[ip].rosquinharecheio;
+			pedidosanalisadossoma.croissantpresunto += pedidosanalisados[ip].croissantpresunto;
+			pedidosanalisadossoma.croissantfrango += pedidosanalisados[ip].croissantfrango;
+			pedidosanalisadossoma.bisnaga += pedidosanalisados[ip].bisnaga;
+			pedidosanalisadossoma.bisnagaacucar += pedidosanalisados[ip].bisnagaacucar;
+			pedidosanalisadossoma.bisnagacreme += pedidosanalisados[ip].bisnagacreme;
+
+			// aaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+			if (pedidosanalisados[ip].paofrances == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].paofrances+' Pão Francês')
+			}
+
+			if (pedidosanalisados[ip].paofrances > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].paofrances+' Pães Franceses')
+			}
+
+			if (pedidosanalisados[ip].paodemilho == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].paodemilho+' Pão de Milho')
+			}
+
+			if (pedidosanalisados[ip].paodemilho > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].paodemilho+' Pães de Milho')
+			}
+
+			if (pedidosanalisados[ip].rosquinha == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].rosquinha+' Rosquinha Comum')
+			}
+
+			if (pedidosanalisados[ip].rosquinha > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].rosquinha+' Rosquinhas Comuns')
+			}
+
+			if (pedidosanalisados[ip].rosquinharecheio == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].rosquinharecheio+' Rosquinha com Recheio')
+			}
+
+			if (pedidosanalisados[ip].rosquinharecheio > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].rosquinharecheio+' Rosquinhas com Recheio')
+			}
+
+			if (pedidosanalisados[ip].croissantpresunto == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].croissantpresunto+' Croissant de Presunto')
+			}
+
+			if (pedidosanalisados[ip].croissantpresunto > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].croissantpresunto+' Croissants de Presunto')
+			}
+
+			if (pedidosanalisados[ip].croissantfrango == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].croissantfrango+' Croissant de Frango')
+			}
+
+			if (pedidosanalisados[ip].croissantfrango > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].croissantfrango+' Croissants de Frango')
+			}
+
+			if (pedidosanalisados[ip].bisnaga == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnaga+' Bisnaga Comum')
+			}
+
+			if (pedidosanalisados[ip].bisnaga > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnaga+' Bisnagas Comuns')
+			}
+
+			if (pedidosanalisados[ip].bisnagaacucar == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnagaacucar+' Bisnaga com Açúcar')
+			}
+
+			if (pedidosanalisados[ip].bisnagaacucar > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnagaacucar+' Bisnagas com Açúcar')
+			}
+
+			if (pedidosanalisados[ip].bisnagacreme == 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnagacreme+' Bisnaga com Creme')
+			}
+
+			if (pedidosanalisados[ip].bisnagacreme > 1) {
+				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].bisnagacreme+' Bisnagas com Creme')
+			}
+
+			pedidosanalisadosunicos.push(`\n\n ${pedidosanalisados[ip].dia_data}/${pedidosanalisados[ip].mes_data} - R$ `+(Math.floor(((pedidosanalisados[ip].paofrances*paopreco.paofrances)+(pedidosanalisados[ip].paodemilho*paopreco.paodemilho)+(pedidosanalisados[ip].rosquinha*paopreco.rosquinha)+(pedidosanalisados[ip].rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisados[ip].croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisados[ip].croissantfrango*paopreco.croissantfrango)+(pedidosanalisados[ip].bisnaga*paopreco.bisnaga)+(pedidosanalisados[ip].bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisados[ip].bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)+`\n ${pedidosanalisadounicolista}`);
+
+			// var pedidoanalisado = {
+			// 	"dia_data": 0,
+			// 	"mes_data": 0,
+			// 	"ano_data": 0,
+			// 	"acoes": [],
+			// 	"indisponibilidade": [],
+			// 	"lista": [],
+			// 	"paofrances":0,
+			// 	"paodemilho":0,
+			// 	"rosquinha":0,
+			// 	"rosquinharecheio":0,
+			// 	"croissantpresunto":0,
+			// 	"croissantfrango":0,
+			// 	"bisnaga":0,
+			// 	"bisnagaacucar":0,
+			// 	"bisnagacreme":0
+			// };
+		}
+
+		if (pedidosanalisados.length > 0) {
+			if (relatorioTempo[0] == 1) {
+				pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+			}
+
+			if (relatorioTempo[0] == 2) {
+				pedidosanalisadossoma.lista.push("RELATÓRIO ANUAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[2]);
+			}
+
+			pedidosanalisadossoma.lista.push("\n\n Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
+
+			
+			
+		} else {
+			if (relatorioTempo[0] == 1) {
+				pedidosanalisadossoma.lista.push("Nenhum pedido cadastrado em "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+			}
+
+			if (relatorioTempo[0] == 2) {
+				pedidosanalisadossoma.lista.push("Nenhum pedido cadastrado no ano de "+relatorioTempo[2]);
+			}
+
+			
+		}
+
+		pedidosanalisadossoma.lista.push(pedidosanalisadosunicos);
+		
+		next();
+    }
+}
+
+
 const relatoriopaoprint = (ctx, next) => {
+	ctx.reply(""+pedidosanalisadossoma.lista+"", tecladoRelatorioPaoDetalhado);
+	next();
+}
+
+const relatoriopaodetalhadoprint = (ctx, next) => {
 	ctx.reply(""+pedidosanalisadossoma.lista+"");
 	next();
 }
@@ -1411,6 +1695,11 @@ const tecladoRelatorioPaoMes = Extra.markup(Markup.inlineKeyboard([
 	Markup.callbackButton('11', 'rmes 11'),
 	Markup.callbackButton('12', 'rmes 12')
 ], {columns: 6}))
+
+// Relatório Pão
+const tecladoRelatorioPaoDetalhado = Extra.markup(Markup.inlineKeyboard([
+	Markup.callbackButton('Relatório Detalhado', 'rdetalhado'),
+], {columns: 1}))
 
 
 
@@ -2163,7 +2452,23 @@ bot.action(/rano (\d+)/, async ctx => {
 
 
 
-// aaaaaaaaaaaaaaaaaaaaa
+// Detalhado
+
+bot.action('rdetalhado', async ctx => {
+
+	await ctx.editMessageText(`⏳ carregando ...`);
+
+	if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, relatoriopaodetalhado, relatoriopaodetalhadoprint, liberandopost)
+	} else {
+		console.log("nao carregado")
+		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
+	}
+})
+
+
+
 
 // Start
 
