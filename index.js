@@ -199,15 +199,15 @@ var pedidosanalisadossoma = {
 };
 
 var paopreco = {
-	"paofrances":0.3,
-	"paodemilho":0.3,
-	"rosquinha":0.3,
-	"rosquinharecheio":0.3,
-	"croissantpresunto":0.3,
-	"croissantfrango":0.3,
-	"bisnaga":0.3,
-	"bisnagaacucar":0.3,
-	"bisnagacreme":0.3
+	"paofrances":0.5,
+	"paodemilho":0.5,
+	"rosquinha":1,
+	"rosquinharecheio":1.5,
+	"croissantpresunto":3,
+	"croissantfrango":3,
+	"bisnaga":0.5,
+	"bisnagaacucar":0.5,
+	"bisnagacreme":0.5
 };
 
 tinify.key = apiTinypng;
