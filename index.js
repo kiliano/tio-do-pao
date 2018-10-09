@@ -2104,12 +2104,20 @@ bot.action('pconfirmar', async ctx => {
 	if (pedido.lista.length > 0) {
 
 		if (pedido.indisponibilidade.length > 0) {
-			indisponiveltxt = "_Os seguintes itens estavam em falta: *"+pedido.indisponibilidade+"*_"
+			
+			indisponiveltxt = `
+			_Os seguintes itens estavam em falta: ${pedido.indisponibilidade}. Trazer os substitutos:_
+			*${pedidolistasubstituto}*
+			`
 		} else {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* \n\ Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}\n\n ${indisponiveltxt}`)
+		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
+			*${pedidolista}*
+			${indisponiveltxt}`, tecladoFixoItens)
+		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
