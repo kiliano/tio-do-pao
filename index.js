@@ -2116,7 +2116,7 @@ bot.action('pconfirmar', async ctx => {
 		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt}`)
 		console.log(pedido.lista);
 
 	} else {
