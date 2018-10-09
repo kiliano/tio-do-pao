@@ -12,13 +12,12 @@
 
 var http = require('http');
 const Telegraf = require('telegraf');
+const Telegram = require('telegraf/telegram');
 const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
 var wordpress = require( "wordpress" );
-var tinify = require("tinify");
-const fs = require('fs');
-
+var schedule = require('node-schedule');
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 // https://www.npmjs.com/package/wordpress
 
@@ -62,113 +61,115 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
+	// 		setTimeout(function(){
+	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 			console.log("Primeiro ping do dia "+(datahora-3));
+	// 		 },1350000);
 
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
+	// 		setInterval(function(){ 
+	// 			exec(ctx,atualizarData)
 
-				if (datahora < 19+3) {
+	// 			if (datahora < 19+3) {
 
-					if (datahora > 1+3) {
-						if (fimdodia == true) {
-							fimdodia = false;
-							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-							exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-						}
-					}
+	// 				if (datahora > 1+3) {
+	// 					if (fimdodia == true) {
+	// 						fimdodia = false;
+	// 						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+	// 						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+	// 					}
+	// 				}
 	
 
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
+	// 					console.log("Ping timeout 750000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
 
-					 },750000);
+	// 				 },750000);
 
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
+	// 				setTimeout(function(){
+	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
+	// 					console.log("Ping timeout 1350000 "+(datahora-3));
 
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
+	// 					if (conteudocarregado == true)  {
+	// 						conteudocarregado = false;
+	// 						exec(ctx, carregarum, checagemparanovopost)
+	// 					} else {
+	// 						console.log("nao carregado")
+	// 					}
+	// 				 },1350000);
+	// 			} else {
 
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
+	// 				if (fimdodia == false) {
+	// 					fimdodia = true;
+	// 					console.log("Fim do dia ligado. Boa noite :)")
+	// 				}
 
-				}
-			}, 2400000);
+	// 			}
+	// 		}, 2400000);
 
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos
+	// const idTodos = process.env.idTodos
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
 
 
 
@@ -210,7 +211,6 @@ var paopreco = {
 	"bisnagacreme":0.5
 };
 
-tinify.key = apiTinypng;
 
 // Login WP
 var wp = wordpress.createClient({
@@ -1440,7 +1440,6 @@ const relatoriopaodetalhado = (ctx, next) => {
 			pedidosanalisadossoma.bisnagaacucar += pedidosanalisados[ip].bisnagaacucar;
 			pedidosanalisadossoma.bisnagacreme += pedidosanalisados[ip].bisnagacreme;
 
-			// aaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 			if (pedidosanalisados[ip].paofrances == 1) {
 				pedidosanalisadounicolista.push(' '+pedidosanalisados[ip].paofrances+' Pão Francês')
@@ -2847,58 +2846,8 @@ bot.command(['relatorio'], async ctx => {
 
 bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
-
-	
-
-	// if (debug == true) {
-	// 	trucoJogadores[0].pontos = 10;
-	// 	trucoJogadores[1].pontos = 11;
-	// 	trucoJogadores[2].pontos = 10;
-	// 	trucoJogadores[3].pontos = 11;
-	// }
-
-	// console.log("trucoJogadores: "+JSON.stringify(trucoJogadores))
-	// console.log("trucoTurno: "+trucoTurno)
-	// console.log("trucoValorDaMao: "+trucoValorDaMao)
-	// console.log("trucoContinuar: "+trucoContinuar)
-	// console.log("trucoEmTruco: "+trucoEmTruco)
-	// console.log("trucoAlvoTruco: "+trucoAlvoTruco)
-	// console.log("trucoRodada: "+trucoRodada)
-	// console.log("trucoTurnoId: "+trucoTurnoId)
-
-
-
 })
 
-// // bot.command(['tiny'], async ctx => {
-// // 	var source = tinify.fromFile("sample-png-images-download-4.png");
-// // 	source.toFile("optimized.png");
-// // })
-
-// bot.on('photo', async ctx => {
-// 	// const id = ctx.update.message.photo[ctx.update.message.photo.length-1].file_id;
-// 	// const res = await axios.get(`${apiUrl}/getFile?file_id=${id}`);
-// 	// ctx.replyWithPhoto({url: `${apiFileUrl}/${res.data.result.file_path}`})
-
-
-// 		const photo = ctx.update.message.photo[ctx.update.message.photo.length-1];
-// 		const res = await axios.get(`${apiUrl}/getFile?file_id=${photo.file_id}`).catch(e => console.log(e));
-
-// 		// console.log(res.data.result)
-// 		var source = tinify.fromUrl(`${apiFileUrl}/${res.data.result.file_path}`);
-// 		source.toFile(`./compress/${res.data.result.file_path}`);
-
-// 		// const fileUrlCompress = fs.readFileSync(`file:///compress/${res.data.result.file_path}`);
-
-// 		// console.log(fileUrlCompress);
-
-// 		// fs.readFileSync(new URL(`file:///compress/${res.data.result.file_path}`));
-
-
-// 		await ctx.replyWithPhoto({source: fs.readFileSync(`./compress/${res.data.result.file_path}`)})
-
-
-// }) 
 
 
 
@@ -2914,6 +2863,96 @@ bot.command(['post'], async ctx => {
 	}
 
 })
+
+
+
+// ------- Mensagens por tempo ------
+const bomdiagrupo = () => {
+	var bomdiarandom = Math.floor(4*Math.random())
+	// 0 a 3
+
+	var bomdiatexto = "Bom dia!";
+
+	if (bomdiarandom == 0 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 1 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 2 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 3 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 4 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 5 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 6 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 7 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 8 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+	if (bomdiarandom == 9 ) {
+		bomdiatexto = "Bom dia!"
+	}
+
+
+	msg(bomdiatexto, idKiliano);
+	console.log("foi?");
+}
+
+
+
+var datateste = new Date(2018, 10, 10, 17, 36, 0);
+// Fri Dec 21 2012 05:30:00 GMT-0200 (Horário brasileiro de verão)
+
+
+console.log("________________________________________");
+console.log("Data completa: "+datacompleta);
+console.log("Data teste: "+datateste);
+console.log("________________________________________");
+
+
+var j = schedule.scheduleJob(datateste, function(){
+  console.log('Msg de bom dia');
+  bomdiagrupo();
+});
+
+// https://www.npmjs.com/package/node-schedule
+
+
+// var j = schedule.scheduleJob('*/5 * * * * *', function(){
+//   console.log('The answer to life, the universe, and everything!');
+// });
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // / Código
