@@ -1253,14 +1253,14 @@ const relatoriopao = (ctx, next) => {
 
 		if (pedidosanalisados.length > 0) {
 			if (relatorioTempo[0] == 1) {
-				pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+				pedidosanalisadossoma.lista.push("📄 RELATÓRIO MENSAL 📄 ("+pedidosanalisados.length+" pedidos cadastrados) \n\n🗓 Pedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
 			}
 
 			if (relatorioTempo[0] == 2) {
-				pedidosanalisadossoma.lista.push("RELATÓRIO ANUAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[2]);
+				pedidosanalisadossoma.lista.push("📄 RELATÓRIO ANUAL 📄 ("+pedidosanalisados.length+" pedidos cadastrados) \n\n🗓 Pedidos de "+relatorioTempo[2]);
 			}
 
-			pedidosanalisadossoma.lista.push("\n\n Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
+			pedidosanalisadossoma.lista.push("\n\n💵 Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
 
 			if (pedidosanalisadossoma.paofrances > 0) {
 				pedidosanalisadossoma.lista.push("\n\n Pão Francês ("+pedidosanalisadossoma.paofrances+")");
@@ -1545,14 +1545,16 @@ const relatoriopaodetalhado = (ctx, next) => {
 
 		if (pedidosanalisados.length > 0) {
 			if (relatorioTempo[0] == 1) {
-				pedidosanalisadossoma.lista.push("RELATÓRIO MENSAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
+				pedidosanalisadossoma.lista.push("📄 RELATÓRIO MENSAL 📄 ("+pedidosanalisados.length+" pedidos cadastrados) \n\n🗓 Pedidos de "+relatorioTempo[1]+"/"+relatorioTempo[2]);
 			}
 
 			if (relatorioTempo[0] == 2) {
-				pedidosanalisadossoma.lista.push("RELATÓRIO ANUAL ("+pedidosanalisados.length+" pedidos cadastrados) \n\nPedidos de "+relatorioTempo[2]);
+				pedidosanalisadossoma.lista.push("📄 RELATÓRIO ANUAL 📄 ("+pedidosanalisados.length+" pedidos cadastrados) \n\n🗓 Pedidos de "+relatorioTempo[2]);
 			}
 
-			pedidosanalisadossoma.lista.push("\n\n Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
+			pedidosanalisadossoma.lista.push("\n\n💵 Valor total: R$ "+((Math.floor(((pedidosanalisadossoma.paofrances*paopreco.paofrances)+(pedidosanalisadossoma.paodemilho*paopreco.paodemilho)+(pedidosanalisadossoma.rosquinha*paopreco.rosquinha)+(pedidosanalisadossoma.rosquinharecheio*paopreco.rosquinharecheio)+(pedidosanalisadossoma.croissantpresunto*paopreco.croissantpresunto)+(pedidosanalisadossoma.croissantfrango*paopreco.croissantfrango)+(pedidosanalisadossoma.bisnaga*paopreco.bisnaga)+(pedidosanalisadossoma.bisnagaacucar*paopreco.bisnagaacucar)+(pedidosanalisadossoma.bisnagacreme*paopreco.bisnagacreme))*100)/100).toFixed(2)));
+
+			pedidosanalisadossoma.lista.push("\n\n📝 Relatórios detalhados abaixo:");
 
 			
 			
@@ -1582,6 +1584,11 @@ const relatoriopaoprint = (ctx, next) => {
 
 const relatoriopaodetalhadoprint = (ctx, next) => {
 	ctx.reply(""+pedidosanalisadossoma.lista+"");
+	next();
+}
+
+const relatoriopaobartira = (ctx, next) => {
+	msg(''+pedidosanalisadossoma.lista+'',idBartira)
 	next();
 }
 
@@ -1648,7 +1655,7 @@ const eventosagendados = (ctx, next) => {
 			}
 
 
-			msg(bomdiatexto, idKiliano);
+			msg(bomdiatexto, idChatDegrau);
 			console.log(bomdiatexto);
 		});
 		// / bom dia
@@ -1709,13 +1716,26 @@ const eventosagendados = (ctx, next) => {
 		// / Lembrete Pão
 
 		// Lembrete Geovana
-		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 1}, function(){
-			msg(`🐷 Geovaninha, não esquece de reservar seu pão me mandando um /pao 🐷`, idKiliano);
+		var schedulelembretepaogeovana = schedule.scheduleJob({hour: 15+fuso, minute: 1}, function(){
+			msg(`🐷 Geovaninha, não esquece de reservar seu pão me mandando um /pao 🐷`, idGeovana);
 		});
 		// / Lembrete Geovana
 
 
 	}
+	// / dias uteis
+
+	// Qualquer dia
+
+	var scheduleteste = schedule.scheduleJob({day: 1, hour: 8+fuso, minute: 30}, function(){
+		if (pedido.mes_data == 1) {
+			relatorioTempo = [1,12,(pedido.ano_data-1)];
+		} else {
+			relatorioTempo = [1,(pedido.mes_data-1),pedido.ano_data];
+		}
+		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaodetalhado, relatoriopaobartira, liberandopost)
+
+	});
 	
 
 	next();
@@ -1723,6 +1743,7 @@ const eventosagendados = (ctx, next) => {
 
 
 // aaaaaaaaaaaaaaaaaaaaaa
+// https://www.npmjs.com/package/node-schedule
 
 
 
@@ -2980,7 +3001,7 @@ bot.command('msg', async ctx => {
 
 bot.command(['relatorio'], async ctx => {
 	if (ctx.chat.id == idKiliano || ctx.chat.id == idBartira || ctx.chat.id == idIsabel) {
-		await ctx.reply(` 📅 Selecione a data do relatório 📅`,tecladoRelatorioPao);
+		await ctx.reply(` 🗓 Selecione a data do relatório 🗓`,tecladoRelatorioPao);
 	} else {
 		await ctx.reply(`Relatório só podem ser enviados inbox, através do Kiliano, Bartira ou Bel`);
 
