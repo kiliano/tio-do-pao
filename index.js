@@ -23,6 +23,7 @@ var schedule = require('node-schedule');
 
 
 var datacompleta;
+var datasemana;
 var datahora;
 var datadia;
 var datames;
@@ -43,6 +44,7 @@ var relatorioTempo = [];
 
 var clima = {};
 var climaicon = "";
+var fuso = 3;
 
 // Middlewares
 
@@ -61,115 +63,121 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
-	const telegram = new Telegram(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
+	// const telegram = new Telegram(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
-	const apiTinypng = env.apiTinypng;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idGeovana = env.idGeovana;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
+	// const apiTinypng = env.apiTinypng;
 	
 
-	const idTodos = env.idTodos;
+	// const idTodos = env.idTodos;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
+
+	// fuso = 0;
 
 
 // Chamadas para o Heroku
-	// 		setTimeout(function(){
-	// 			http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 			console.log("Primeiro ping do dia "+(datahora-3));
-	// 		 },1350000);
+			setTimeout(function(){
+				http.get("http://shielded-peak-24448.herokuapp.com/");
+				console.log("Primeiro ping do dia "+(datahora-3));
+			 },1350000);
 
-	// 		setInterval(function(){ 
-	// 			exec(ctx,atualizarData)
+			fuso = 3;
 
-	// 			if (datahora < 19+3) {
+			setInterval(function(){ 
+				exec(ctx,atualizarData)
 
-	// 				if (datahora > 1+3) {
-	// 					if (fimdodia == true) {
-	// 						fimdodia = false;
-	// 						msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-	// 						exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
-	// 					}
-	// 				}
+				if (datahora < 19+fuso) {
+
+					if (datahora > 1+fuso) {
+						if (fimdodia == true) {
+							fimdodia = false;
+							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
+							exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, liberandopost)
+						}
+					}
 	
 
 
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/");
-	// 					console.log("Ping timeout 750000 "+(datahora-3));
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/");
+						console.log("Ping timeout 750000 "+(datahora-3));
 
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
 
-	// 				 },750000);
+					 },750000);
 
-	// 				setTimeout(function(){
-	// 					http.get("http://shielded-peak-24448.herokuapp.com/")
-	// 					console.log("Ping timeout 1350000 "+(datahora-3));
+					setTimeout(function(){
+						http.get("http://shielded-peak-24448.herokuapp.com/")
+						console.log("Ping timeout 1350000 "+(datahora-3));
 
-	// 					if (conteudocarregado == true)  {
-	// 						conteudocarregado = false;
-	// 						exec(ctx, carregarum, checagemparanovopost)
-	// 					} else {
-	// 						console.log("nao carregado")
-	// 					}
-	// 				 },1350000);
-	// 			} else {
+						if (conteudocarregado == true)  {
+							conteudocarregado = false;
+							exec(ctx, carregarum, checagemparanovopost)
+						} else {
+							console.log("nao carregado")
+						}
+					 },1350000);
+				} else {
 
-	// 				if (fimdodia == false) {
-	// 					fimdodia = true;
-	// 					console.log("Fim do dia ligado. Boa noite :)")
-	// 				}
+					if (fimdodia == false) {
+						fimdodia = true;
+						console.log("Fim do dia ligado. Boa noite :)")
+					}
 
-	// 			}
-	// 		}, 2400000);
+				}
+			}, 2400000);
 
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano
-	// const idBartira = process.env.idBartira
-	// const idRodrigo = process.env.idRodrigo;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau
-	// const idChatFronts = process.env.idChatFronts
-	// const wordpressPass = process.env.wordpressPass;
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idRodrigo = process.env.idRodrigo;
+	const idGeovana = process.env.idGeovana;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
+	const wordpressPass = process.env.wordpressPass;
 
-	// const apiTinypng = process.env.apiTinypng;
+	const apiTinypng = process.env.apiTinypng;
 
-	// const idTodos = process.env.idTodos
+	const idTodos = process.env.idTodos
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
-	// const telegram = new Telegram(token);
+	const bot = new Telegraf(token)
+	const telegram = new Telegram(token);
 
 
 
@@ -750,6 +758,7 @@ const atualizarData = (ctx, next) => {
 	datacompleta = new Date();
 	datahora = datacompleta.getHours();
 	datadia = datacompleta.getDate();
+	datasemana = datacompleta.getDay();
 	datames = (datacompleta.getMonth()+1);
 	dataano = datacompleta.getFullYear();
 	datadata = (datadia+'/'+datames+'/'+dataano);
@@ -1582,6 +1591,157 @@ const relatoriopaodetalhadoprint = (ctx, next) => {
 
 
 
+
+// eventos agendadso
+// ------- Mensagens por tempo ------
+
+const eventosagendados = (ctx, next) => {
+
+
+	// Dias úteis
+	if (datasemana > 0 && datasemana < 6) {
+
+		// --- BOM DIA
+		var bomdiarandomminuto = Math.floor(10*Math.random()+10)
+		var schedulebomdia = schedule.scheduleJob({hour: 8+fuso, minute: bomdiarandomminuto}, function(){
+			var bomdiarandom = Math.floor(10*Math.random())
+			var bomdiatexto = "Bom dia!";
+
+			if (bomdiarandom == 0 ) {
+				bomdiatexto = "Bom dia! Vida longa e próspera 🖖"
+			}
+
+			if (bomdiarandom == 1 ) {
+				bomdiatexto = "Bom dia parças 🤜🤛!"
+			}
+
+			if (bomdiarandom == 2 ) {
+				bomdiatexto = "🍞 Bom dia! 🍩"
+			}
+
+			if (bomdiarandom == 3 ) {
+				bomdiatexto = "😎 Bom dia! ☀"
+			}
+
+			if (bomdiarandom == 4 ) {
+				bomdiatexto = "Dia 🤙!"
+			}
+
+			if (bomdiarandom == 5 ) {
+				bomdiatexto = "🌚 Dia! 🌝"
+			}
+
+			if (bomdiarandom == 6 ) {
+				bomdiatexto = "Buenos dias! 🎶"
+			}
+
+			if (bomdiarandom == 7 ) {
+				bomdiatexto = "Bom dia!"
+			}
+
+			if (bomdiarandom == 8 ) {
+				bomdiatexto = "Bom dia gente! 🙋‍♂"
+			}
+
+			if (bomdiarandom >= 9 ) {
+				bomdiatexto = "Bom dia meus consagrados!"
+			}
+
+
+			msg(bomdiatexto, idKiliano);
+			console.log(bomdiatexto);
+		});
+		// / bom dia
+
+
+		// BOA NOITE
+		
+		var scheduleboanoitepre = schedule.scheduleJob({hour: 18+fuso, minute: 58, second: 50}, function(){
+			clima = axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
+		});
+
+		var scheduleboanoite = schedule.scheduleJob({hour: 18+fuso, minute: 59}, function(){
+			
+			climaicon = "";
+
+			if (clima.data.data[1].rain.probability >= 90) {
+				climaicon = "☔";
+			} else {
+
+				if (clima.data.data[1].rain.probability >= 70) {
+					climaicon = "☂";
+				} else {
+
+					if (clima.data.data[1].rain.probability >= 50) {
+						climaicon = "🌂";
+					} else {
+						climaicon = "🌤";
+					}
+
+				}
+
+			}
+
+			var boanoitefds = "";
+
+			if (datasemana == 5) {
+				boanoitefds = "\n\nBom fim de semana! 😎"
+
+			}
+
+			msg(`🌙 Boa noite gente! Segue abaixo a previsão do tempo de amanhã 🌙 ${boanoitefds}
+
+				☀ ☀ AMANHÃ (${clima.data.data[1].date_br}) ☀ ☀
+
+				Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+			 	${clima.data.data[1].text_icon.text.pt} ☀
+			 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+			 	\n
+			`, idKiliano);
+
+		});
+		// / BOA NOITE
+
+		// Lembrete Pão
+		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 40}, function(){
+			msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idKiliano);
+		});
+		// / Lembrete Pão
+
+		// Lembrete Geovana
+		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 1}, function(){
+			msg(`🐷 Geovaninha, não esquece de reservar seu pão me mandando um /pao 🐷`, idKiliano);
+		});
+		// / Lembrete Geovana
+
+
+	}
+	
+
+	next();
+}
+
+
+// aaaaaaaaaaaaaaaaaaaaaa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Teclados
 
 // Pedido em mensagem direta
@@ -1707,7 +1867,7 @@ const tecladoRelatorioPaoDetalhado = Extra.markup(Markup.inlineKeyboard([
 
 
 // Início do dia
-exec(ctx, atualizarData, novodia, carregarum, atualizarlocal, liberandopost)
+exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, liberandopost)
 
 
 // Criação de comandos
@@ -2014,20 +2174,6 @@ bot.command(['quem'], async ctx => {
 
 
 
-bot.command(['bartira'], async ctx => {
-	listar();
-	if (pedido.lista.length > 0) {
-		msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idKiliano)
-
-		if (debug == false) {
-			msg(`Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} \n${pedido.lista}`, idBartira)
-		}
-	}
-})
-
-
-
-
 // Actions
 bot.action('pfalta', async ctx => {
 	await ctx.editMessageText(`Qual item está em falta?`, tecladoFixoItensFalta)
@@ -2130,7 +2276,6 @@ bot.action('pconfirmar', async ctx => {
 		console.log("nao carregado")
 	}
 
-	msg(`Não esquece de mandar um /bartira pra gravar o último pedido`, idKiliano)
 })
 
 bot.action('xpaofrances', async ctx => {
@@ -2866,74 +3011,9 @@ bot.command(['post'], async ctx => {
 
 
 
-// ------- Mensagens por tempo ------
-const bomdiagrupo = () => {
-	var bomdiarandom = Math.floor(4*Math.random())
-	// 0 a 3
-
-	var bomdiatexto = "Bom dia!";
-
-	if (bomdiarandom == 0 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 1 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 2 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 3 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 4 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 5 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 6 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 7 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 8 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-	if (bomdiarandom == 9 ) {
-		bomdiatexto = "Bom dia!"
-	}
-
-
-	msg(bomdiatexto, idKiliano);
-	console.log("foi?");
-}
 
 
 
-var datateste = new Date(2018, 10, 10, 17, 36, 0);
-// Fri Dec 21 2012 05:30:00 GMT-0200 (Horário brasileiro de verão)
-
-
-console.log("________________________________________");
-console.log("Data completa: "+datacompleta);
-console.log("Data teste: "+datateste);
-console.log("________________________________________");
-
-
-var j = schedule.scheduleJob(datateste, function(){
-  console.log('Msg de bom dia');
-  bomdiagrupo();
-});
 
 // https://www.npmjs.com/package/node-schedule
 
@@ -5255,7 +5335,7 @@ bot.command('trucosair', async ctx => {
 
 // ------------------ BOLO -------------------
 
-var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Geovana", "Rodrigo", "Isabel", "Jonathas", "Rogério", "Murilo", "Arnaldo", "Sarah", "Camilla", "Marina", "Marcelo", "Tony", "Douglas"];
+var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Geovana", "Rodrigo", "Isabel", "Jonathas", "Rogério", "Murilo", "Arnaldo", "Sarah", "Camilla", "Marina", "Marcelo", "Tony"];
 
 bot.command('bolo', async ctx => {
 	
