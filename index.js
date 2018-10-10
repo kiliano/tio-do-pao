@@ -1661,7 +1661,7 @@ const eventosagendados = (ctx, next) => {
 		// / bom dia
 
 
-		// BOA NOITE
+		// --- BOA NOITE
 		
 		var scheduleboanoitepre = schedule.scheduleJob({hour: 18+fuso, minute: 58, second: 50}, function(){
 			clima = axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
@@ -1704,18 +1704,18 @@ const eventosagendados = (ctx, next) => {
 			 	${clima.data.data[1].text_icon.text.pt} ☀
 			 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
 			 	\n
-			`, idKiliano);
+			`, idChatDegrau);
 
 		});
 		// / BOA NOITE
 
-		// Lembrete Pão
+		// ---- Lembrete Pão
 		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 40}, function(){
-			msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idKiliano);
+			msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idChatDegrau);
 		});
 		// / Lembrete Pão
 
-		// Lembrete Geovana
+		// ----- Lembrete Geovana
 		var schedulelembretepaogeovana = schedule.scheduleJob({hour: 15+fuso, minute: 1}, function(){
 			msg(`🐷 Geovaninha, não esquece de reservar seu pão me mandando um /pao 🐷`, idGeovana);
 		});
@@ -1727,6 +1727,8 @@ const eventosagendados = (ctx, next) => {
 
 	// Qualquer dia
 
+
+	// ------ Mandando relatório mensal para Bartira
 	var scheduleteste = schedule.scheduleJob({day: 1, hour: 8+fuso, minute: 30}, function(){
 		if (pedido.mes_data == 1) {
 			relatorioTempo = [1,12,(pedido.ano_data-1)];
