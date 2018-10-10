@@ -1663,50 +1663,60 @@ const eventosagendados = (ctx, next) => {
 
 		// --- BOA NOITE
 		
-		var scheduleboanoitepre = schedule.scheduleJob({hour: 18+fuso, minute: 58, second: 50}, function(){
-			clima = axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-		});
+		var scheduleboanoitepre = schedule.scheduleJob({hour: 18+fuso, minute: 59}, function(){
+			// clima = axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
 
-		var scheduleboanoite = schedule.scheduleJob({hour: 18+fuso, minute: 59}, function(){
-			
-			climaicon = "";
+			axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`)
+			.then(function (response) {
+			        console.log(response.data);
 
-			if (clima.data.data[1].rain.probability >= 90) {
-				climaicon = "☔";
-			} else {
+			        clima = response;
 
-				if (clima.data.data[1].rain.probability >= 70) {
-					climaicon = "☂";
-				} else {
+			        climaicon = "";
 
-					if (clima.data.data[1].rain.probability >= 50) {
-						climaicon = "🌂";
+					if (clima.data.data[1].rain.probability >= 90) {
+						climaicon = "☔";
 					} else {
-						climaicon = "🌤";
+
+						if (clima.data.data[1].rain.probability >= 70) {
+							climaicon = "☂";
+						} else {
+
+							if (clima.data.data[1].rain.probability >= 50) {
+								climaicon = "🌂";
+							} else {
+								climaicon = "🌤";
+							}
+
+						}
+
 					}
 
-				}
+					var boanoitefds = "";
 
-			}
+					if (datasemana == 5) {
+						boanoitefds = "\n\nBom fim de semana! 😎"
 
-			var boanoitefds = "";
+					}
 
-			if (datasemana == 5) {
-				boanoitefds = "\n\nBom fim de semana! 😎"
+					msg(`🌙 Boa noite 🌙 ${boanoitefds}
 
-			}
+						☀ Previsão do tempo pra amanhã (${clima.data.data[1].date_br})
 
-			msg(`🌙 Boa noite gente! Segue abaixo a previsão do tempo de amanhã 🌙 ${boanoitefds}
-
-				☀ ☀ AMANHÃ (${clima.data.data[1].date_br}) ☀ ☀
-
-				Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
-			 	${clima.data.data[1].text_icon.text.pt} ☀
-			 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
-			 	\n
-			`, idChatDegrau);
-
+						Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+					 	${clima.data.data[1].text_icon.text.pt} ☀
+					 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+					 	\n
+					`, idChatDegrau);
+			// I need this data here ^^
+			return response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
 		});
+
+		
 		// / BOA NOITE
 
 		// ---- Lembrete Pão
