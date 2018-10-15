@@ -2975,20 +2975,15 @@ bot.command(['post'], async ctx => {
 
 
 
-
-
-
-// https://www.npmjs.com/package/node-schedule
-
-
-// var j = schedule.scheduleJob('*/5 * * * * *', function(){
-//   console.log('The answer to life, the universe, and everything!');
-// });
-
-
-
-
-
+// Testando pedidos online a cada 25 minutos
+setInterval(function() {
+    if (conteudocarregado == true)  {
+		conteudocarregado = false;
+		exec(ctx, carregarum, checagemparanovopost)
+	} else {
+		console.log("nao carregado")
+	}
+}, 25 * 60000); // 60 minutos
 
 
 
