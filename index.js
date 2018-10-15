@@ -39,6 +39,7 @@ var debug = false;
 var acordado = true;
 
 var fimdodia = false;
+var tiopassou = false;
 
 var conteudocarregado = false;
 var relatorioTempo = [];
@@ -955,6 +956,8 @@ const novodia = (ctx, next) => {
 		"bisnagacreme":0
 	};
 
+	tiopassou = false;
+
 	pedidolista = [];
 	pedidolistasubstituto = [];
 	pedidosanalisadosunicos = [];
@@ -1681,6 +1684,34 @@ const eventosagendados = (ctx, next) => {
 		// / Lembrete Geovana
 
 
+		// -----  Checando se o tio do pão Realmente veio
+
+		var schedulepaonaopassou = schedule.scheduleJob({hour: 17+fuso, minute: 45}, function(){
+
+			if (pedido.acoes.length > 0){
+				if (tiopassou == false) {
+					msg(`Gente, pelo que pude notar o meu parceiro da bicicleta não passou hoje 🚴‍♂ . Caso não tenha passado mesmo, temos que apagar o pedido de hoje, se não ele fica registrado no sistema.
+
+
+					👉 Para apagar é só digitar /pedido e clicar em APAGAR TUDO. Caso ele tenha passado, ignorem essa msg.
+					`, idChatDegrau);
+
+				}
+			}
+
+			
+
+			
+		});
+
+		// /Checando se o tio do pão Realmente veio
+
+
+
+
+		// aaaaaaaaaaaaa
+
+
 	}
 	// / dias uteis
 
@@ -2063,6 +2094,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 	listar();
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
+		// Listagem pessoal
 		var listapessoal = [];
 
 		if (pedido.acoes.length > 0) {
@@ -2086,8 +2118,8 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 		
 
 	} else {
+		// Listagem do grupo
 		if (pedido.lista.length > 0) {
-
 			if (pedido.indisponibilidade.length > 0) {
 				
 				indisponiveltxt = `
@@ -2205,6 +2237,7 @@ bot.action('pcancelarapagar', async ctx => {
 
 bot.action('pconfirmar', async ctx => {
 	await ctx.editMessageText(`✅ Pedido gravado ✅`);
+	tiopassou = true;
 
 
 	listar()
