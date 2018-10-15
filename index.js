@@ -2,8 +2,7 @@
 /*
 
 ---- Checklist ----
-- fazer tiny png funcionar
-- Arrumar uma forma de apagar os teclados após o pedido do pão, entrega das cartas do truco (exceto para o dono do turno.)
+Fazer bot falar sobre feriados, datas comemorativas (proprio aniversário e etc)
 
 */
 
@@ -17,9 +16,13 @@ const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
 var wordpress = require( "wordpress" );
-var schedule = require('node-schedule');
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 // https://www.npmjs.com/package/wordpress
+
+var schedule = require('node-schedule');
+// https://www.npmjs.com/package/node-schedule
+
+
 
 
 var datacompleta;
@@ -91,68 +94,12 @@ const ctx = {}
 
 
 // Chamadas para o Heroku
-			setTimeout(function(){
-				http.get("http://shielded-peak-24448.herokuapp.com/");
-				console.log("Primeiro ping do dia "+(datahora-3));
-			 },1350000);
-
-			fuso = 3;
-
-			setInterval(function(){ 
-				exec(ctx,atualizarData)
-
-				if (datahora < 19+fuso) {
-
-					if (datahora > 1+fuso) {
-						if (fimdodia == true) {
-							fimdodia = false;
-							msg(`Reiniciando por causa do fimdodia==true`, idKiliano)
-							exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, liberandopost)
-						}
-					}
-	
-
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/");
-						console.log("Ping timeout 750000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-
-					 },750000);
-
-					setTimeout(function(){
-						http.get("http://shielded-peak-24448.herokuapp.com/")
-						console.log("Ping timeout 1350000 "+(datahora-3));
-
-						if (conteudocarregado == true)  {
-							conteudocarregado = false;
-							exec(ctx, carregarum, checagemparanovopost)
-						} else {
-							console.log("nao carregado")
-						}
-					 },1350000);
-				} else {
-
-					if (fimdodia == false) {
-						fimdodia = true;
-						console.log("Fim do dia ligado. Boa noite :)")
-					}
-
-				}
-			}, 2400000);
-
 
 	var port = (process.env.PORT || 5000)
 
 	http.createServer(function(request, response) {
 		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'tiodopaobot', ver: '0.1'}));
+		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
 		response.end();
 	}).listen(port)
 
@@ -178,6 +125,8 @@ const ctx = {}
 
 	const bot = new Telegraf(token)
 	const telegram = new Telegram(token);
+	fuso = 3;
+
 
 
 
@@ -1754,23 +1703,6 @@ const eventosagendados = (ctx, next) => {
 }
 
 
-// aaaaaaaaaaaaaaaaaaaaaa
-// https://www.npmjs.com/package/node-schedule
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2110,8 +2042,6 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 		if (listapessoal.length > 0) {
 			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
 
-			// apagar pós testes
-			// msg(`${ctx.update.message.from.first_name} pediu ${listapessoal}`, idChatKiliano);
 
 		} else {
 			await ctx.replyWithMarkdown(`Sua lista de pedidos está vazia. Peça algo com o /pao`);
