@@ -220,9 +220,6 @@ const carregarum = (ctx, next) => {
 		    conteudo = JSON.parse(conteudo);
 		    conteudoprimeiro = conteudo[0];
 	    }
-	    console.log( "Carregando " + conteudo.length + " posts!" );
-	    console.log( "Último post:" );
-	    console.log(conteudoprimeiro);
 	    next();
 	});
 }
@@ -239,9 +236,6 @@ const carregarsessenta = (ctx, next) => {
 		    conteudo = JSON.parse(conteudo);
 		    conteudoprimeiro = conteudo[0];
 	    }
-	    console.log( "Carregando " + conteudo.length + " posts!" );
-	    console.log( "Último post:" );
-	    console.log(conteudoprimeiro);
 	    next();
 	});
 }
@@ -258,9 +252,6 @@ const carregartodos = (ctx, next) => {
 		    conteudo = JSON.parse(conteudo);
 		    conteudoprimeiro = conteudo[0];
 	    }
-	    console.log( "Carregando " + conteudo.length + " posts!" );
-	    console.log( "Último post:" );
-	    console.log(conteudoprimeiro);
 	    next()
 	});
 }
@@ -749,9 +740,8 @@ const checagemparanovopost = (ctx, next) => {
 
 
 					if (conteudodia == pedido.dia_data && conteudomes == pedido.mes_data) {
-						console.log("Já existe um post nessa data. Verificando se o post está atualizado:" + conteudoacoes + "" +JSON.stringify(pedido.acoes));
+						console.log("Já existe um post nessa data. Verificando se o post está atualizado...");
 
-						console.log("conteudoindisponiveis "+conteudoindisponiveis+" ---- "+JSON.stringify(pedido.indisponibilidade))
 						if (conteudoacoes == JSON.stringify(pedido.acoes) && conteudoindisponiveis == JSON.stringify(pedido.indisponibilidade)) {
 							console.log("A versão online já está atualizada. Nenhuma medida necessária.");
 							exec(ctx, liberandopost)
@@ -867,9 +857,7 @@ const novopost = (ctx, next) => {
 	        
 
 	}, function( error, data ) {
-	        console.log( "Post enviado resposta como:\n" );
-	        console.log( arguments );
-	        console.log("\n");
+	        console.log( "Post enviado"+arguments );
 	    next();
 	});
 }
@@ -914,13 +902,9 @@ const checagemparaapagar = (ctx, next) => {
 
 const deletarultimopost = (ctx, next) => {
 	
-	console.log("deletando ultimo post");
-
 	wp.deletePost(conteudoprimeiro.id,function( error, data ) {
-		console.log("deletando post de id "+conteudoprimeiro.id)
-	        console.log( arguments );
-	        console.log("\n");
-	        next();
+		console.log("deletando post de id "+conteudoprimeiro.id+" Arguments:"+arguments)
+        next();
 	});
 }
 
@@ -987,9 +971,6 @@ const atualizarlocal = (ctx, next) => {
 	}
 
 
-	console.log("atualizar local. conteudoprimeiro.dia_data:"+conteudoprimeirodia+" == pedido.dia_data: "+pedido.dia_data);
-	console.log("atualizar local. conteudoprimeiro.dia_data:"+conteudoprimeiromes+" == pedido.mes_data: "+pedido.mes_data);
-
 	if (conteudoprimeirodia == pedido.dia_data && conteudoprimeiromes == pedido.mes_data) {
 
 		for (var i = 0; i < conteudoprimeiro.customFields.length; i++) {
@@ -1047,8 +1028,6 @@ const atualizarlocal = (ctx, next) => {
 
 		console.log("Puxando versão mais atualizada do servidor");
 
-		console.log(pedido);
-
 	} else {
 		console.log("Não existe uma versão online do dia de hoje");
 	}
@@ -1077,7 +1056,6 @@ const relatoriopao = (ctx, next) => {
 
 
 	if (conteudo.length > 0) {
-		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
 
 		pedidosanalisadossoma = {
 			"lista": [],
@@ -1189,7 +1167,6 @@ const relatoriopao = (ctx, next) => {
 				}
 			}
 		}
-		console.log("Total de "+pedidosanalisados.length+" pedidos selecionados");
 
 		for (var ip = 0; ip < pedidosanalisados.length; ip++) {
 			pedidosanalisadossoma.paofrances += pedidosanalisados[ip].paofrances;
@@ -1271,7 +1248,6 @@ const relatoriopao = (ctx, next) => {
 const relatoriopaodetalhado = (ctx, next) => {
 
 	if (conteudo.length > 0) {
-		console.log("analisando conteúdo dos "+conteudo.length+" posts puxados");
 
 		pedidosanalisadossoma = {
 			"lista": [],
@@ -1384,7 +1360,6 @@ const relatoriopaodetalhado = (ctx, next) => {
 				}
 			}
 		}
-		console.log("Total de "+pedidosanalisados.length+" pedidos selecionados");
 
 		for (var ip = 0; ip < pedidosanalisados.length; ip++) {
 
@@ -1608,7 +1583,6 @@ const eventosagendados = (ctx, next) => {
 
 
 			msg(bomdiatexto, idChatDegrau);
-			console.log(bomdiatexto);
 		});
 		// / bom dia
 
@@ -1620,7 +1594,6 @@ const eventosagendados = (ctx, next) => {
 
 			axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`)
 			.then(function (response) {
-			        console.log(response.data);
 
 			        clima = response;
 
@@ -1907,7 +1880,6 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}. Para mostrar todos os pedidos do dia, só escrever /pedido, aqui no grupo da Degrau`, idChatDegrau);
 
-		console.log(pedido.acoes);
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -1971,7 +1943,6 @@ bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '�
 
 		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${item} Mais alguma coisa? `, tecladoFinal);
 		
-		console.log(pedido.acoes);
 	} else {
 		await ctx.reply("💤💤💤")
 	}
@@ -2134,7 +2105,6 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 				Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 				*${pedidolista}*
 				${indisponiveltxt}`, tecladoFixoItens)
-			console.log(pedido.lista);
 
 		} else {
 			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2199,8 +2169,7 @@ bot.action('pcancelarvoltar', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
-
+		
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
 	}
@@ -2258,7 +2227,6 @@ bot.action('pconfirmar', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2296,7 +2264,6 @@ bot.action('xpaofrances', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2327,7 +2294,6 @@ bot.action('xpaodemilho', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2357,7 +2323,6 @@ bot.action('xrosquinha', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2387,7 +2352,6 @@ bot.action('xrosquinharecheio', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2418,7 +2382,6 @@ bot.action('xcroissantpresunto', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2448,7 +2411,6 @@ bot.action('xcroissantfrango', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2479,7 +2441,6 @@ bot.action('xbisnaga', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2509,7 +2470,6 @@ bot.action('xbisnagaacucar', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2539,7 +2499,6 @@ bot.action('xbisnagacreme', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2569,7 +2528,6 @@ bot.action('xreiniciar', async ctx => {
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
 			${indisponiveltxt}`, tecladoFixoItens)
-		console.log(pedido.lista);
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2587,7 +2545,6 @@ bot.action('rmesatual', async ctx => {
 
 	relatorioTempo = [1,pedido.mes_data,pedido.ano_data];
 
-	console.log("buscando: "+relatorioTempo);
 
 	await ctx.editMessageText(`⏳ carregando ...`);
 
@@ -2608,7 +2565,6 @@ bot.action('rmespassado', async ctx => {
 		relatorioTempo = [1,(pedido.mes_data-1),pedido.ano_data];
 	}
 
-	console.log("buscando: "+relatorioTempo);
 	await ctx.editMessageText(`⏳ carregando ...`);
 
 	if (conteudocarregado == true)  {
@@ -2624,7 +2580,7 @@ bot.action('ranoatual', async ctx => {
 
 	relatorioTempo = [2,pedido.mes_data,pedido.ano_data];
 
-	console.log("buscando: "+relatorioTempo);
+
 	await ctx.editMessageText(`⏳ carregando ...`);
 
 	if (conteudocarregado == true)  {
@@ -2640,14 +2596,14 @@ bot.action('ranopassado', async ctx => {
 
 	relatorioTempo = [2,pedido.mes_data,(pedido.ano_data-1)];
 
-	console.log("buscando: "+relatorioTempo);
+
 	await ctx.editMessageText(`⏳ carregando ...`);
 
 	if (conteudocarregado == true)  {
 		conteudocarregado = false;
 		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
 	} else {
-		console.log("nao carregado")
+		console.log("nao carregado");
 		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
 	}
 })
@@ -2660,7 +2616,6 @@ bot.action('respecificar', async ctx => {
 bot.action(/rmes (\d+)/, async ctx => {
 
 	relatorioTempo[1] = parseInt(ctx.match[1]);
-	console.log("buscando: "+relatorioTempo);
 
 	const tecladoRelatorioPaoAno = Extra.markup(Markup.inlineKeyboard([
 		Markup.callbackButton(pedido.ano_data, 'rano '+pedido.ano_data),
@@ -2675,14 +2630,13 @@ bot.action(/rano (\d+)/, async ctx => {
 
 	relatorioTempo[2] = parseInt(ctx.match[1]);
 
-	console.log("buscando: "+relatorioTempo);
 	await ctx.editMessageText(`⏳ carregando ...`);
 
 	if (conteudocarregado == true)  {
 		conteudocarregado = false;
 		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaoprint, liberandopost)
 	} else {
-		console.log("nao carregado")
+		console.log("nao carregado");
 		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
 	}
 	
@@ -2700,7 +2654,7 @@ bot.action('rdetalhado', async ctx => {
 		conteudocarregado = false;
 		exec(ctx, relatoriopaodetalhado, relatoriopaodetalhadoprint, liberandopost)
 	} else {
-		console.log("nao carregado")
+		console.log("nao carregado");
 		await ctx.editMessageText(`Erro, solicite o pedido novamente`);
 	}
 })
@@ -3153,24 +3107,20 @@ const trucozerar = (ctx, next) => {
 
 
 const trucocloading = (ctx, next) => {
-	console.log("trucocloading");
 	trucoLoading = true;
 	next();
 }
 
 const trucocloadingfim = (ctx, next) => {
-	console.log("trucocloadingfim");
 	trucoLoading = false;
 }
 
 
 const trucoadicionarjogador = (ctx, next) => {
-	console.log("trucoadicionarjogador");
 	next();
 }
 
 const trucocomecar = (ctx, next) => {
-	console.log("trucocomecar");
 	trucoComecou = true;
 	next();
 }
@@ -3178,7 +3128,6 @@ const trucocomecar = (ctx, next) => {
 
 
 const trucobaralho = (ctx, next) => {
-	console.log("trucobaralho");
 
 	if (trucoBaralhoTipo == 'limpo') {
 		trucoBaralho = ["3♣","2♣","A♣","K♣","J♣","Q♣","3♥","2♥","A♥","K♥","J♥","Q♥","3♠","2♠","A♠","K♠","J♠","Q♠","3♦","2♦","A♦","K♦","J♦","Q♦"];
@@ -3192,7 +3141,6 @@ const trucobaralho = (ctx, next) => {
 
 const trucoEmbaralhar = (ctx, next) => {
 
-	console.log("trucoEmbaralhar");
 
 
 	var currentIndex = trucoBaralho.length, temporaryValue, randomIndex;
@@ -3209,7 +3157,6 @@ const trucoEmbaralhar = (ctx, next) => {
 		trucoBaralho[randomIndex] = temporaryValue;
 	}
 
-	console.log(trucoBaralho);
 
 	trucoManilhaValor = {
 		"zap": "",
@@ -3236,12 +3183,10 @@ const trucoEmbaralhar = (ctx, next) => {
 
 const trucomanilha = (ctx, next) => {
 
-	console.log("trucomanilha");
 
 	trucoManilha = trucoBaralho[0];
 	trucoBaralho.splice(0, 1)
 
-	console.log("Descarte manilha: "+trucoManilha);
 
 	if (trucoManilhaValor.valor1.includes(trucoManilha)){
 		trucoManilhaValor.zap = "5♣";
@@ -3351,14 +3296,12 @@ const trucomanilha = (ctx, next) => {
 
 const trucoqueimar = (ctx, next) => {
 
-	console.log("trucoqueimar");
 
 
 	next();
 }
 
 const trucoprimeiramesa = (ctx, next) => {
-	console.log("trucoprimeiramesa");
 	trucoPrimeiroRound = true;
 	trucoComecou = true;
 	var trucoJogadoresOrdem1 = trucoJogadores[1];
@@ -3370,7 +3313,6 @@ const trucoprimeiramesa = (ctx, next) => {
 
 
 const trucolimparmesa = (ctx, next) => {
-	console.log("trucolimparmesa "+JSON.stringify(trucoJogadores));
 	trucoValorDaMao = 1;
 
 	if (trucoJogadores.length > 0) {
@@ -3383,7 +3325,6 @@ const trucolimparmesa = (ctx, next) => {
 		}
 	}
 
-	console.log("trucolimparmesa fim do for");
 
 	trucoQueimar = [];
 	trucoManilha = '';
@@ -3405,7 +3346,6 @@ const trucolimparmesa = (ctx, next) => {
 
 const trucoiniciativa = (ctx, next) => {
 
-	console.log("trucoiniciativa");
 
 	if(trucoPrimeiroRound == true) {
 		trucoTurno = Math.floor(4*Math.random());
@@ -3432,7 +3372,6 @@ const trucoiniciativa = (ctx, next) => {
 
 const trucodistribuircarta = async (ctx, next) => {
 
-	console.log("trucodistribuircarta");
 
 
 	for(var i = 0; i < trucoJogadores.length; i++){
@@ -3480,7 +3419,6 @@ const trucodistribuircarta = async (ctx, next) => {
 
 const trucomostrouteclado = (ctx, next) => {
 
-	console.log("trucomostrouteclado");
 
 
 	var trucoMaoReplaceBaixo = [];
@@ -3512,7 +3450,6 @@ const trucomostrouteclado = (ctx, next) => {
 
 const trucomostroutecladomaodeferro = (ctx, next) => {
 
-	console.log("trucomostroutecladomaodeferro");
 
 
 	var trucoMaoReplaceMaodeFerro = [];
@@ -3619,7 +3556,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 	}
 
 
-	console.log(trucoMaiorValorVencedor)
 
 
 	// Se só tiver 1 carta vencedora
@@ -3636,7 +3572,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 		}
 
 		trucoRodada.push(trucoMaiorValorVencedor[0].time);
-		console.log(trucoRodada);
 
 		trucoMensagem.push(`\n\nVitória: [ ${trucoMaiorValorVencedor[0].visual} ] ${trucoMaiorValorVencedorTimeNome}`);
 		
@@ -3697,7 +3632,6 @@ const trucocalcularvitoriamao = (ctx, next) => {
 
 const trucoanalizarrodada = (ctx, next) => {
 
-	console.log("trucoRodada "+trucoRodada)
 
 
 	/*
@@ -3722,10 +3656,8 @@ const trucoanalizarrodada = (ctx, next) => {
 	if (trucoRodada.length == 1) {
 		
 		trucoTurno = trucoMaiorValorVencedor[trucoMaiorValorVencedor.length-1].dononumero;
-		console.log("trucoTurno "+trucoTurno);
 		trucoTurnoId = trucoJogadores[trucoTurno].id;
 
-		console.log("trucoTurnoId "+trucoTurnoId)
 
 		
 
@@ -4006,9 +3938,7 @@ const trucoproximarodada = (ctx, next) => {
 		exec(ctx, trucofim);
 	}
 
-	console.log(JSON.stringify(trucoJogadores))
 
-	console.log("pontos time1 "+trucoJogadores[0].pontos+"    pontos time2 "+trucoJogadores[1].pontos);
 
 
 	// Continuando o jogo
@@ -4027,7 +3957,6 @@ const trucoproximarodada = (ctx, next) => {
 const trucomensagemgeral = async (ctx, next) =>  {
 
 	if (trucoJogadores.length > 0) {
-		console.log(trucoMensagem)
 		for (var i = 0; i < trucoJogadores.length; i++) {
 			await msg(""+trucoMensagem+"",trucoJogadores[i].id);
 		}
@@ -4049,7 +3978,6 @@ const trucocontinuarrodada = (ctx, next) => {
 
 	axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoTurno].id}&text=${encodeURI('Continue:')}&reply_markup=${encodeURI(tecladoTrucoContinuar)}`).catch(e => console.log(e))
 
-	console.log(trucoJogadores[trucoTurno].nome+" - "+trucoJogadores[trucoTurno].id)
 
 
 	next();
@@ -4125,7 +4053,6 @@ const trucofim = (ctx, next) => {
 	// trucoMensagem = [];
 
 
-	console.log("ACABOU A PARTIDA");
 	next();
 }
 
@@ -4135,7 +4062,6 @@ const trucomaodeonze = (ctx, next) => {
 
 	// Continuando o jogo
 	if (trucoJogadores[0].pontos == 11 && trucoJogadores[1].pontos == 11) {
-		console.log("mão de ferro");
 
 		trucoMaodeFerro = true;
 
@@ -4143,7 +4069,6 @@ const trucomaodeonze = (ctx, next) => {
 		// Mão de ferro
 
 	} else {
-		console.log("não é mão de ferro");
 
 			if (trucoJogadores[0].pontos == 11) {
 				console.log("quem tem 11 é o time 0");
@@ -4171,10 +4096,8 @@ const trucomaodeonze = (ctx, next) => {
 				exec(ctx, trucomostroutecladotruco);
 
 			} else {
-				console.log("quem tem 11 NÃO é o time 0");
 
 				if (trucoJogadores[1].pontos == 11) {
-					console.log("quem tem 11 é o time 1");
 
 					// Ninguém pode trucar
 					trucoJogadores[0].truco = "";
@@ -4196,7 +4119,6 @@ const trucomaodeonze = (ctx, next) => {
 					exec(ctx, trucomensagemgeral, trucomostroutecladotruco);
 
 				} else {
-					console.log("quem tem 11 NÃO é o time 1");
 					
 					exec(ctx, trucomostrouteclado)
 				}
@@ -4215,7 +4137,6 @@ const trucomaodeonze = (ctx, next) => {
 bot.command(['trucoentrar'], async ctx => {
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
-		console.log("/trucoentrar "+ctx.update.message.from.first_name);
 
 
 		if (debug == false) {
@@ -4225,7 +4146,6 @@ bot.command(['trucoentrar'], async ctx => {
 				if (trucoJogadores.length == 0) {
 					trucoMensagem = [];
 
-					console.log("Adicionando1");
 					trucoJogadores.push({
 						"nome":ctx.update.message.from.first_name,
 						"id": ctx.update.message.from.id,
@@ -4236,7 +4156,6 @@ bot.command(['trucoentrar'], async ctx => {
 						"donodascartas":[]
 					});
 
-					console.log(JSON.stringify(trucoJogadores[0]));
 
 					msg(`${trucoJogadores[0].nome} abriu o ♠♥♦♣ TRUCO ♠♥♦♣ e é o líder da mesa.
 
@@ -4246,7 +4165,6 @@ bot.command(['trucoentrar'], async ctx => {
 					// Segundo jogador
 					if (trucoJogadores.length == 1 && trucoJogadores[0].id != ctx.update.message.from.id) {
 
-						console.log("add2");
 
 						trucoJogadores.push({
 							"nome":ctx.update.message.from.first_name,
@@ -4258,7 +4176,6 @@ bot.command(['trucoentrar'], async ctx => {
 							"donodascartas":[]
 						});
 
-						console.log(JSON.stringify(trucoJogadores[1]));
 
 						msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[0].id);
 						msg(`${trucoJogadores[1].nome} acabou de entrar e é parceiro de ${trucoJogadores[0].nome}`, trucoJogadores[1].id);
@@ -4267,7 +4184,6 @@ bot.command(['trucoentrar'], async ctx => {
 						// terceiro jogador
 						if (trucoJogadores.length == 2 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id) {
 
-							console.log("Add 3");
 
 							trucoJogadores.push({
 								"nome":ctx.update.message.from.first_name,
@@ -4279,7 +4195,6 @@ bot.command(['trucoentrar'], async ctx => {
 								"donodascartas":[]
 							});
 
-							console.log(JSON.stringify(trucoJogadores[2]));
 
 							msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[0].id);
 							msg(`${trucoJogadores[2].nome} acabou de entrar e vai jogar contra ${trucoJogadores[0].nome} e ${trucoJogadores[1].nome}`, trucoJogadores[1].id);
@@ -4289,7 +4204,6 @@ bot.command(['trucoentrar'], async ctx => {
 							// quarto jogador
 							if (trucoJogadores.length == 3 && trucoJogadores[0].id != ctx.update.message.from.id && trucoJogadores[1].id != ctx.update.message.from.id && trucoJogadores[2].id != ctx.update.message.from.id) {
 
-								console.log("add 4");
 
 								trucoJogadores.push({
 									"nome":ctx.update.message.from.first_name,
@@ -4301,7 +4215,6 @@ bot.command(['trucoentrar'], async ctx => {
 									"donodascartas":[]
 								});
 
-								console.log(JSON.stringify(trucoJogadores[3]));
 
 
 								if (trucoLoading == false) {
@@ -4335,74 +4248,7 @@ bot.command(['trucoentrar'], async ctx => {
 				}
 
 		}
-
-
-		// Debug
-
-
-		if (debug == true) {
-
-			// Primeiro Jogador entrar
-
-			if (trucoJogadores.length == 0) {
-
-				trucoJogadores.push({
-					"nome":"Rick",
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 0,
-					"mao":[],
-					"truco" : "É Truco ❗❗❗",
-					"donodascartas":[]
-				});
-
-				trucoJogadores.push({
-					"nome":"Urgan",
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 0,
-					"mao":[],
-					"truco" : "É Truco ❗❗❗",
-					"donodascartas":[]
-				});
-
-				trucoJogadores.push({
-					"nome":"Ana",
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 1,
-					"mao":[],
-					"truco" : "É Truco ❗❗❗",
-					"donodascartas":[]
-				});
-
-				trucoJogadores.push({
-					"nome":"Lifa",
-					"id": ctx.update.message.from.id,
-					"pontos":0,
-					"time" : 1,
-					"mao":[],
-					"truco" : "É Truco ❗❗❗",
-					"donodascartas":[]
-				});
-
-				if (trucoLoading == false) {
-					console.log("DEBUUUGGG")
-					exec(ctx, trucocloading, trucoprimeiramesa, trucolimparmesa, trucoiniciativa, trucobaralho, trucoEmbaralhar, trucomanilha, trucoqueimar,trucodistribuircarta, trucomostrouteclado, trucocloadingfim);
-				} else {
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[0].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[1].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[2].id);
-					msg(`Ocorreu um erro, por favor desfaçam a sala e criem novamente /trucosair`, trucoJogadores[3].id);
-				}
-			
-			} 
-
-
-		}
-
-
-		// /Debug
+		
 	} else {
 		await ctx.reply(`Não é possível jogar truco dentro de um grupo. Me manda uma mensagem direta.`);
 	}
@@ -4510,10 +4356,6 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 	}
 
 
-	// trucoCartaJogada = trucoCartaJogada.replace("♥", "%E2%99%A5");
-	// trucoCartaJogada = trucoCartaJogada.replace("♠", "%E2%99%A0");
-	// trucoCartaJogada = trucoCartaJogada.replace("♦", "%E2%99%A6");
-
 	// msg direta
 	if (ctx.update.message.from.id == ctx.chat.id) {
 		// loading
@@ -4572,7 +4414,6 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 
 							trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaVisual), 1 );
 
-							console.log(trucoCartasNaMesa);
 
 							var trucoCartasNaMesaVisual = [];
 
@@ -4590,12 +4431,9 @@ bot.hears(["3♣","2♣","A♣","K♣","J♣","Q♣","7♣","6♣","5♣","4♣"
 
 					} else {
 						await ctx.reply(`Você não tem essa carta na mão`);
-						console.log("trucoJogadores[trucoTurno].mao   "+trucoJogadores[trucoTurno].mao);
-						console.log("trucoCartaJogada   "+trucoCartaJogada)
 					}
 				} else {
 					await ctx.reply(`Não é sua vez`);
-					console.log("trucoTurnoId: "+trucoTurnoId+" - seu id: "+ctx.update.message.from.id )
 				}
 			} else {
 				await ctx.reply(`Não existe uma jogada ativa`);
@@ -4672,7 +4510,6 @@ bot.hears(["▫❓▫"], async ctx => {
 
 							trucoJogadores[trucoTurno].mao.splice( trucoJogadores[trucoTurno].mao.indexOf(trucoCartaJogadaVisual), 1 );
 
-							console.log(trucoCartasNaMesa);
 
 							var trucoCartasNaMesaVisual = [];
 
@@ -4693,7 +4530,6 @@ bot.hears(["▫❓▫"], async ctx => {
 					}
 				} else {
 					await ctx.reply(`Não é sua vez`);
-					console.log("trucoTurnoId: "+trucoTurnoId+" - seu id: "+ctx.update.message.from.id )
 				}
 			} else {
 				await ctx.reply(`Não existe uma jogada ativa`);
@@ -4836,7 +4672,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 
 						trucoMensagem.push(`${trucoJogadores[trucoAlvoTruco[0]].nome} bateu na mesa e gritou! \n ❗❗❗ É TRUCO ❗❗❗`)
 
-						console.log("trucoAlvoTruco "+trucoAlvoTruco)
 
 
 						exec(ctx, trucocloading, trucomensagemgeral, trucomostroutecladotruco, trucocloadingfim);
@@ -4888,7 +4723,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 							trucoAlvoTrucoVeiodeParceiro = 2
 						}
 
-						console.log("trucoAlvoTrucoVeiodeParceiro "+trucoAlvoTrucoVeiodeParceiro)
 
 						var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 						axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTrucoVeiodeParceiro].id}&text=${encodeURI('Seu parceiro pediu seis!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
@@ -4927,7 +4761,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 								trucoAlvoTruco = [trucoAlvoTrucoVeiode,0,2];
 							}
 
-							console.log("trucoAlvoTruco "+trucoAlvoTruco)
 
 
 
@@ -4941,7 +4774,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 								trucoAlvoTrucoVeiodeParceiro = 2
 							}
 
-							console.log("trucoAlvoTrucoVeiodeParceiro "+trucoAlvoTrucoVeiodeParceiro)
 
 							var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 							axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTrucoVeiodeParceiro].id}&text=${encodeURI('Seu parceiro pediu nove!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
@@ -4982,7 +4814,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 									trucoAlvoTruco = [trucoAlvoTrucoVeiode,0,2];
 								}
 
-								console.log("trucoAlvoTruco "+trucoAlvoTruco)
 
 
 								var trucoAlvoTrucoVeiodeParceiro = trucoAlvoTrucoVeiode-2;
@@ -4995,7 +4826,6 @@ bot.hears(["É Truco ❗❗❗", "É SEIS ❗❗❗", "É NOOOVE ❗❗❗", "DO
 									trucoAlvoTrucoVeiodeParceiro = 2
 								}
 
-								console.log("trucoAlvoTrucoVeiodeParceiro "+trucoAlvoTrucoVeiodeParceiro)
 
 								var tecladoTruco = JSON.stringify({"remove_keyboard":true})
 								axios.get(`${apiUrl}/sendMessage?chat_id=${trucoJogadores[trucoAlvoTrucoVeiodeParceiro].id}&text=${encodeURI('Seu parceiro pediu doze!')}&reply_markup=${encodeURI(tecladoTruco)}`).catch(e => console.log(e))
@@ -5138,20 +4968,15 @@ bot.hears(["Desce! ✔"], async ctx => {
 
 bot.hears(["Correr? ✖"], async ctx => {
 	// msg direta
-	console.log("1")
 	if (ctx.update.message.from.id == ctx.chat.id) {
-console.log("2")
 		// Se o continuar veio do turno certo
 		if (trucoEmTruco == true) {
-			console.log("3")
 
 				// existe partida
 				if (trucoComecou == true) {
-					console.log("4")
 
 					// Se a pessoa foi alvo
 					if (ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[1]].id || ctx.update.message.from.id == trucoJogadores[trucoAlvoTruco[2]].id) {
-						console.log("5")
 						
 						
 						trucoCorrer += 1;
@@ -5388,7 +5213,6 @@ var membrosJson = [
 }
 ]
 
-console.log(membrosJson);
 
 bot.command(['membros','pontos','perfil'], async ctx => {
 	
