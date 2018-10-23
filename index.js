@@ -1538,51 +1538,14 @@ const eventosagendados = (ctx, next) => {
 		// --- BOM DIA
 		var bomdiarandomminuto = Math.floor(10*Math.random()+10)
 		var schedulebomdia = schedule.scheduleJob({hour: 8+fuso, minute: bomdiarandomminuto}, function(){
-			var bomdiarandom = Math.floor(10*Math.random())
-			var bomdiatexto = "Bom dia!";
+			// var bomdiarandom = Math.floor(10*Math.random());
+			// var bomdiatexto = "Bom dia!";
+			var bomdiajson = ["BD (que na lingua do truco é Bom Dia)","Bom dia e que a força esteja com você!","Bom dia meus consagrados!","Bom dia gente! 🙋‍","Bom dia!","Buenos dias! 🎶","🌚 Dia! 🌝","Bom dia! Vida longa e próspera 🖖","Bom dia parças 🤜🤛!","🍞 Bom dia! 🍩","😎 Bom dia! ☀","Dia 🤙!","Bom dia!!"]
+			var bomdiarandom = Math.floor(bomdiajson.length*Math.random());
 
-			if (bomdiarandom == 0 ) {
-				bomdiatexto = "Bom dia! Vida longa e próspera 🖖"
-			}
-
-			if (bomdiarandom == 1 ) {
-				bomdiatexto = "Bom dia parças 🤜🤛!"
-			}
-
-			if (bomdiarandom == 2 ) {
-				bomdiatexto = "🍞 Bom dia! 🍩"
-			}
-
-			if (bomdiarandom == 3 ) {
-				bomdiatexto = "😎 Bom dia! ☀"
-			}
-
-			if (bomdiarandom == 4 ) {
-				bomdiatexto = "Dia 🤙!"
-			}
-
-			if (bomdiarandom == 5 ) {
-				bomdiatexto = "🌚 Dia! 🌝"
-			}
-
-			if (bomdiarandom == 6 ) {
-				bomdiatexto = "Buenos dias! 🎶"
-			}
-
-			if (bomdiarandom == 7 ) {
-				bomdiatexto = "Bom dia!"
-			}
-
-			if (bomdiarandom == 8 ) {
-				bomdiatexto = "Bom dia gente! 🙋‍♂"
-			}
-
-			if (bomdiarandom >= 9 ) {
-				bomdiatexto = "Bom dia meus consagrados!"
-			}
-
-
-			msg(bomdiatexto, idChatDegrau);
+			console.log(bomdiajson[bomdiarandom]);
+			
+			msg(bomdiajson[bomdiarandom], idChatDegrau);
 		});
 		// / bom dia
 
