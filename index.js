@@ -1515,7 +1515,7 @@ const relatoriopaodetalhadoprint = (ctx, next) => {
 }
 
 const relatoriopaobartira = (ctx, next) => {
-	msg(''+pedidosanalisadossoma.lista+'',idBartira)
+	msg(''+pedidosanalisadossoma.lista+'',idKiliano)
 	next();
 }
 
