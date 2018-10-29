@@ -172,7 +172,7 @@ var paopreco = {
 
 // Login WP
 var wp = wordpress.createClient({
-    url: "http://api.degraupublicidade.com.br",
+    url: "http://horacio.kiliano.com.br",
     username: "tiodopao",
     password: wordpressPass
 });
