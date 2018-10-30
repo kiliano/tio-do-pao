@@ -1851,7 +1851,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
 
-		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}. Para mostrar todos os pedidos do dia, só escrever /pedido, aqui no grupo da Degrau`, idChatDegrau);
+		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}.`, idChatDegrau);
 
 	} else {
 		await ctx.reply("💤💤💤")
@@ -2015,7 +2015,10 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 		}
 
 		if (listapessoal.length > 0) {
-			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
+			var tecladoLimpo = JSON.stringify({"remove_keyboard":true});
+			axios.get(`${apiUrl}/sendMessage?chat_id=${ctx.update.message.from.id}&text=${encodeURI(`Você pediu os seguintes itens: \n${listapessoal}\n`)}&reply_markup=${encodeURI(tecladoLimpo)}`)
+				.catch(e => console.log(e))
+
 
 			// Enviando para o server
 			if (conteudocarregado == true)  {
@@ -3006,7 +3009,7 @@ bot.command(['post'], async ctx => {
 		if (conteudocarregado == true)  {
 			conteudocarregado = false;
 			exec(ctx, carregarum, checagemparanovopost)
-			await ctx.reply("Sugindo pro server");
+			await ctx.reply("Subindo pro server");
 		} else {
 			console.log("nao carregado")
 		}
