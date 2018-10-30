@@ -2669,69 +2669,87 @@ bot.command(['clima'], async ctx => {
 })
 
 bot.command(['jandira'], async ctx => {
-	if (ctx.update.message.from.first_name == idRodrigo) {
-		clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`);
-		climaicon = "";
+	if (ctx.update.message.from.id == idRodrigo) {
 
-		var jandira1 = "";
-		var jandira2 = "";
+		axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`)
+			.then(function (response) {
+				clima = response;
 
-		if (clima.data.data[0].rain.probability >= 90) {
-			climaicon = "☔";
-		} else {
+				climaicon = "";
 
-			if (clima.data.data[0].rain.probability >= 70) {
-				climaicon = "☂";
-			} else {
+				var jandira1 = "";
+				var jandira2 = "";
 
-				if (clima.data.data[0].rain.probability >= 50) {
-					climaicon = "🌂";
+				if (clima.data.data[0].rain.probability >= 90) {
+					climaicon = "☔";
 				} else {
-					climaicon = "🌤";
+
+					if (clima.data.data[0].rain.probability >= 70) {
+						climaicon = "☂";
+					} else {
+
+						if (clima.data.data[0].rain.probability >= 50) {
+							climaicon = "🌂";
+						} else {
+							climaicon = "🌤";
+						}
+
+					}
+
 				}
 
-			}
+				jandira1 = `☀ ☀ Previsão para JANDIRA ☀ ☀
 
-		}
+				HOJE (${clima.data.data[0].date_br})
+					Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
+				 	${clima.data.data[0].text_icon.text.pt} ☀
+				 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+				 	`;
 
-		jandira1 = `☀ ☀ Previsão para JANDIRA ☀ ☀
-
-		HOJE (${clima.data.data[0].date_br})
-			Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
-		 	${clima.data.data[0].text_icon.text.pt} ☀
-		 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
-		 	`;
-
-		if (clima.data.data[1].rain.probability >= 90) {
-			climaicon = "☔";
-		} else {
-
-			if (clima.data.data[1].rain.probability >= 70) {
-				climaicon = "☂";
-			} else {
-
-				if (clima.data.data[1].rain.probability >= 50) {
-					climaicon = "🌂";
+				if (clima.data.data[1].rain.probability >= 90) {
+					climaicon = "☔";
 				} else {
-					climaicon = "🌤";
+
+					if (clima.data.data[1].rain.probability >= 70) {
+						climaicon = "☂";
+					} else {
+
+						if (clima.data.data[1].rain.probability >= 50) {
+							climaicon = "🌂";
+						} else {
+							climaicon = "🌤";
+						}
+
+					}
+
 				}
 
-			}
+				jandira2 = `AMANHÃ (${clima.data.data[1].date_br})
 
-		}
+					Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+				 	${clima.data.data[1].text_icon.text.pt} ☀
+				 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
 
-		jandira2 = `AMANHÃ (${clima.data.data[1].date_br})
+				if (ctx.chat.id != idRodrigo) {
+					ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
+				}
 
-			Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
-		 	${clima.data.data[1].text_icon.text.pt} ☀
-		 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
+				msg(jandira1+jandira2, idRodrigo);
+			       
+			// I need this data here ^^
+			// return response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			    ctx.reply(`Erro :( Veja o log do sistema (chama o kiki).`);	
+			});
 
-		if (ctx.chat.id != idRodrigo) {
-			await ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
-		}
 
-		msg(jandira1+jandira2, idRodrigo);
 
+		
+
+	} else {
+		ctx.reply(`Só o Rodrigo pode pedir a previsão de Jandira`)
 	}
 
 
@@ -2741,101 +2759,154 @@ bot.command(['jandira'], async ctx => {
 
 bot.action('choje', async ctx => {
 
-	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-	climaicon = "";
+	axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`)
+			.then(function (response) {
 
-	if (clima.data.data[0].rain.probability >= 90) {
-		climaicon = "☔";
-	} else {
+				clima = response;
 
-		if (clima.data.data[0].rain.probability >= 70) {
-			climaicon = "☂";
-		} else {
+				climaicon = "";
 
-			if (clima.data.data[0].rain.probability >= 50) {
-				climaicon = "🌂";
-			} else {
-				climaicon = "🌤";
-			}
+				if (clima.data.data[0].rain.probability >= 90) {
+					climaicon = "☔";
+				} else {
 
-		}
+					if (clima.data.data[0].rain.probability >= 70) {
+						climaicon = "☂";
+					} else {
 
-	}
+						if (clima.data.data[0].rain.probability >= 50) {
+							climaicon = "🌂";
+						} else {
+							climaicon = "🌤";
+						}
 
-	await ctx.editMessageText(` ☀ ☀ HOJE (${clima.data.data[0].date_br}) ☀ ☀
+					}
 
-		Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
-	 	${clima.data.data[0].text_icon.text.pt} ☀
-	 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
-	 	\n
-	 `);
+				}
+
+				ctx.editMessageText(` ☀ ☀ HOJE (${clima.data.data[0].date_br}) ☀ ☀
+
+					Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
+				 	${clima.data.data[0].text_icon.text.pt} ☀
+				 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+				 	\n
+				 `);
+				
+			       
+			// I need this data here ^^
+			// return response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			    ctx.editMessageText(`Erro :( Veja o log do sistema (chama o kiki).`);	
+			});
+
+	
 })
 
 bot.action('camanha', async ctx => {
 
-	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-	climaicon = "";
+	axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`)
+			.then(function (response) {
 
-	if (clima.data.data[1].rain.probability >= 90) {
-		climaicon = "☔";
-	} else {
+				clima = response;
 
-		if (clima.data.data[1].rain.probability >= 70) {
-			climaicon = "☂";
-		} else {
+				climaicon = "";
 
-			if (clima.data.data[1].rain.probability >= 50) {
-				climaicon = "🌂";
-			} else {
-				climaicon = "🌤";
-			}
+				if (clima.data.data[1].rain.probability >= 90) {
+					climaicon = "☔";
+				} else {
 
-		}
+					if (clima.data.data[1].rain.probability >= 70) {
+						climaicon = "☂";
+					} else {
 
-	}
+						if (clima.data.data[1].rain.probability >= 50) {
+							climaicon = "🌂";
+						} else {
+							climaicon = "🌤";
+						}
 
-	await ctx.editMessageText(` ☀ ☀ AMANHÃ (${clima.data.data[1].date_br}) ☀ ☀
+					}
 
-		Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
-	 	${clima.data.data[1].text_icon.text.pt} ☀
-	 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
-	 	\n
-	 `);
+				}
+
+				ctx.editMessageText(` ☀ ☀ AMANHÃ (${clima.data.data[1].date_br}) ☀ ☀
+
+					Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+				 	${clima.data.data[1].text_icon.text.pt} ☀
+				 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+				 	\n
+				 `);
+				
+			       
+			// I need this data here ^^
+			// return response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			    ctx.editMessageText(`Erro :( Veja o log do sistema (chama o kiki).`);	
+			});
+
+
+
+
+	
 })
 
 bot.action('csetedias', async ctx => {
 
-	clima = await axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`);
-	climaicon = "";
 
-	var csetedias = [];
+	axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3477/days/15?token=${apiClimatempo}`)
+			.then(function (response) {
+
+				clima = response;
+
+				climaicon = "";
+
+				var csetedias = [];
 
 
-	// for
-	for (var iclima = 0; iclima < 7; iclima++) {
-		if (clima.data.data[iclima].rain.probability >= 90) {
-			climaicon = "☔";
-		} else {
+				// for
+				for (var iclima = 0; iclima < 7; iclima++) {
+					if (clima.data.data[iclima].rain.probability >= 90) {
+						climaicon = "☔";
+					} else {
 
-			if (clima.data.data[iclima].rain.probability >= 70) {
-				climaicon = "☂";
-			} else {
+						if (clima.data.data[iclima].rain.probability >= 70) {
+							climaicon = "☂";
+						} else {
 
-				if (clima.data.data[iclima].rain.probability >= 50) {
-					climaicon = "🌂";
-				} else {
-					climaicon = "🌤";
+							if (clima.data.data[iclima].rain.probability >= 50) {
+								climaicon = "🌂";
+							} else {
+								climaicon = "🌤";
+							}
+
+						}
+					}
+
+					csetedias.push(`\n\n ${clima.data.data[iclima].date_br} \n🌡 ${clima.data.data[iclima].temperature.min}ºC a ${clima.data.data[iclima].temperature.max}ºC | ${climaicon} ${clima.data.data[iclima].text_icon.text.pt}`)
 				}
 
-			}
-		}
 
-		csetedias.push(`\n\n ${clima.data.data[iclima].date_br} \n🌡 ${clima.data.data[iclima].temperature.min}ºC a ${clima.data.data[iclima].temperature.max}ºC | ${climaicon} ${clima.data.data[iclima].text_icon.text.pt}`)
-	}
+				// for
+				ctx.editMessageText(` ☀ ☀ 7 Dias ☀ ☀ ${csetedias}`);	
+				
+				
+			       
+			// I need this data here ^^
+			// return response.data;
+			})
+			.catch(function (error) {
+			    console.log(error);
+			    ctx.editMessageText(`Erro :( Veja o log do sistema (chama o kiki).`);	
+			});
 
 
-	// for
-	await ctx.editMessageText(` ☀ ☀ 7 Dias ☀ ☀ ${csetedias}`);	
+
+
+	
 })
 
 
@@ -2856,6 +2927,7 @@ bot.command(['help', 'ajuda', 'tio'], async ctx => {
 
 		/clima - mostra a previsão do tempo
 		/wifi - mostra a senha da wifi do visitante
+		/truco - joga truco com os amigos
 		`)
 
 })
@@ -2914,6 +2986,7 @@ bot.command(['relatorio'], async ctx => {
 
 bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
+	console.log("Testado");
 })
 
 
@@ -2925,6 +2998,7 @@ bot.command(['post'], async ctx => {
 		if (conteudocarregado == true)  {
 			conteudocarregado = false;
 			exec(ctx, carregarum, checagemparanovopost)
+			await ctx.reply("Sugindo pro server");
 		} else {
 			console.log("nao carregado")
 		}
@@ -2939,7 +3013,7 @@ bot.command(['post'], async ctx => {
 setInterval(function() {
     if (conteudocarregado == true)  {
 		conteudocarregado = false;
-		exec(ctx, carregarum, checagemparanovopost)
+		exec(ctx, carregarum, checagemparanovopost);
 	} else {
 		console.log("nao carregado")
 	}
