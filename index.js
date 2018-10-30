@@ -1996,7 +1996,7 @@ bot.hears(['😋 Quero pedir mais um pão'], async ctx => {
 
 
 bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
-	await ctx.reply(`É nóiz 👍`)
+	await ctx.reply(`É nóiz 👍`);
 
 	if (ctx.update.message.from.id == ctx.chat.id) {
 
@@ -2016,6 +2016,14 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 
 		if (listapessoal.length > 0) {
 			await ctx.replyWithMarkdown(`Você pediu os seguintes itens: \n${listapessoal}\n`);
+
+			// Enviando para o server
+			if (conteudocarregado == true)  {
+				conteudocarregado = false;
+				exec(ctx, carregarum, checagemparanovopost)
+			} else {
+				console.log("Outro loading")
+			}
 
 
 		} else {
