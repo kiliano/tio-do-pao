@@ -48,7 +48,8 @@ var relatorioTempo = [];
 
 var clima = {};
 var climaicon = "";
-var fuso = 3;
+var fuso = 2;
+// horario de verão = 2; normal =3
 
 // Middlewares
 
@@ -2946,6 +2947,10 @@ bot.command(['help', 'ajuda', 'tio'], async ctx => {
 
 bot.command('id', async ctx => {
 	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+})
+
+bot.command('organizar', async ctx => {
+	await ctx.reply(`🌚 Organizado 🌝`)
 })
 
 bot.command('msg', async ctx => {
