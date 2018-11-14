@@ -1517,7 +1517,7 @@ const relatoriopaodetalhadoprint = (ctx, next) => {
 
 const relatoriopaobartira = (ctx, next) => {
 	msg(''+pedidosanalisadossoma.lista+'',idKiliano)
-	msg(''+pedidosanalisadossoma.lista+'',idBartira)
+	// msg(''+pedidosanalisadossoma.lista+'',idBartira)
 	next();
 }
 
@@ -1667,7 +1667,7 @@ const eventosagendados = (ctx, next) => {
 
 	// });
 
-	var schedulerelatoriomensal = schedule.scheduleJob({hour: 8+fuso, minute: 15, dayOfMonth: 1}, function(){
+	var schedulerelatoriomensal = schedule.scheduleJob({hour: 8+fuso, minute: 15, dayOfWeek: [1,2,3,4,5,6,7], dayOfMonth: 1}, function(){
 	  if (pedido.mes_data == 1) {
 			relatorioTempo = [1,12,(pedido.ano_data-1)];
 		} else {
