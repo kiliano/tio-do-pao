@@ -77,7 +77,6 @@ const ctx = {}
 
 	// const idKiliano = env.idKiliano;
 	// const idBartira = env.idBartira;
-	// const idGeovana = env.idGeovana;
 	// const idRodrigo = env.idRodrigo;
 	// const idIsabel = env.idIsabel;
 	// const idChatDegrau = env.idChatDegrau;
@@ -110,7 +109,6 @@ const ctx = {}
 	const idKiliano = process.env.idKiliano
 	const idBartira = process.env.idBartira
 	const idRodrigo = process.env.idRodrigo;
-	const idGeovana = process.env.idGeovana;
 	const idIsabel = process.env.idIsabel;
 	const idChatDegrau = process.env.idChatDegrau
 	const idChatFronts = process.env.idChatFronts
@@ -1517,7 +1515,7 @@ const relatoriopaodetalhadoprint = (ctx, next) => {
 
 const relatoriopaobartira = (ctx, next) => {
 	msg(''+pedidosanalisadossoma.lista+'',idKiliano)
-	// msg(''+pedidosanalisadossoma.lista+'',idBartira)
+	msg(''+pedidosanalisadossoma.lista+'',idBartira)
 	next();
 }
 
@@ -1615,12 +1613,6 @@ const eventosagendados = (ctx, next) => {
 		});
 		// / Lembrete Pão
 
-		// ----- Lembrete Geovana
-		var schedulelembretepaogeovana = schedule.scheduleJob({hour: 15+fuso, minute: 1}, function(){
-			msg(`🐷 Geovaninha, não esquece de reservar seu pão me mandando um /pao 🐷`, idGeovana);
-		});
-		// / Lembrete Geovana
-
 
 		// -----  Checando se o tio do pão Realmente veio
 
@@ -1667,13 +1659,16 @@ const eventosagendados = (ctx, next) => {
 
 	// });
 
-	var schedulerelatoriomensal = schedule.scheduleJob({hour: 8+fuso, minute: 15, dayOfWeek: [1,2,3,4,5,6,7], dayOfMonth: 1}, function(){
-	  if (pedido.mes_data == 1) {
-			relatorioTempo = [1,12,(pedido.ano_data-1)];
-		} else {
-			relatorioTempo = [1,(pedido.mes_data-1),pedido.ano_data];
+	var schedulerelatoriomensal = schedule.scheduleJob({hour: 8+fuso, minute: 15}, function(){
+		if (datadia == 1) {
+			if (pedido.mes_data == 1) {
+				relatorioTempo = [1,12,(pedido.ano_data-1)];
+			} else {
+				relatorioTempo = [1,(pedido.mes_data-1),pedido.ano_data];
+			}
+			exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaodetalhado, relatoriopaobartira, liberandopost)
 		}
-		exec(ctx, atualizarData, carregartodos, relatoriopao, relatoriopaodetalhado, relatoriopaobartira, liberandopost)
+	  
 	});
 	
 
@@ -5214,7 +5209,7 @@ bot.command('trucosair', async ctx => {
 
 // ------------------ BOLO -------------------
 
-var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Geovana", "Rodrigo", "Isabel", "Jonathas", "Rogério", "Murilo", "Arnaldo", "Sarah", "Camilla", "Marina", "Marcelo", "Tony"];
+var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Rodrigo", "Isabel", "Jonathas", "Rogério", "Murilo", "Arnaldo", "Sarah", "Camilla", "Marina", "Marcelo", "Tony"];
 
 bot.command('bolo', async ctx => {
 	
