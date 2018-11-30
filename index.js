@@ -1713,9 +1713,6 @@ const eventosagendados = (ctx, next) => {
 
 
 
-		// aaaaaaaaaaaaa
-
-
 	}
 	// / dias uteis
 
@@ -3067,6 +3064,14 @@ bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
 	console.log("Testado");
 })
+
+
+// CS
+bot.command(['cs'], async ctx => {
+	await ctx.reply(`🔫 Terrorist Win 🔫 http://horacio.kiliano.com.br/wp-content/uploads/2018/11/cs.zip`);
+})
+
+// 
 
 
 
