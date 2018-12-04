@@ -68,64 +68,67 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
-	// fuso = 0;
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// const idKiliano = process.env.idKiliano
+	// const idBartira = process.env.idBartira
+	// const idRodrigo = process.env.idRodrigo;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau
+	// const idChatFronts = process.env.idChatFronts
+	// const wordpressPass = process.env.wordpressPass;
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos
+	// const idTodos = process.env.idTodos;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const emailSenha = process.env.emailSenha;
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 2;
+	// const apiClimatempo = process.env.apiClimatempo
+
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 2;
 
 
 
@@ -142,6 +145,108 @@ var conteudoprimeiro = {};
 
 var pedidosanalisados = [];
 var pedidosanalisadosunicos =[];
+
+// email
+
+
+
+
+// https://github.com/mscdex/node-imap
+
+var Imap = require('imap'),
+    inspect = require('util').inspect;
+
+var imap = new Imap({
+  user: 'horacio@degraupublicidade.com.br',
+  password: emailSenha,
+  host: 'mail.degraupublicidade.com.br',
+  port: 143,
+  tls: false
+});
+
+function openInbox(cb) {
+  imap.openBox('INBOX', true, cb);
+}
+
+var emaillista = [];
+
+imap.once('ready', function() {
+  openInbox(function(err, box) {
+
+  	console.log("------------------------------------------");
+
+    if (err) throw err;
+    var f = imap.seq.fetch('1:2', {
+      bodies: 'HEADER.FIELDS (FROM TO SUBJECT DATE)',
+      struct: true
+    });
+
+    f.on('message', function(msg, seqno) {
+
+      console.log('Message #%d', seqno);
+
+      var prefix = '(#' + seqno + ') ';
+
+      msg.on('body', function(stream, info) {
+        var buffer = '';
+        stream.on('data', function(chunk) {
+        	buffer = chunk.toString('utf8');
+        	var buffer2 = buffer.replace(/\n|\r/g, "-");
+        	var buffer3 = buffer2.split("-");
+        	console.log(buffer3);
+          // buffer += chunk.toString('utf8');
+          // buffer += chunk;
+        });
+        stream.once('end', function() {
+          // console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
+          // var conteudoemail = buffer.toString();
+
+          console.log("end");
+
+        });
+      });
+
+          // emaillista.push(inspect(Imap.parseHeader(buffer)));
+      // msg.once('attributes', function(attrs) {
+      //   console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
+      // });
+
+      msg.once('end', function() {
+        console.log(prefix + 'Finished');
+      });
+
+    });
+
+
+    f.once('error', function(err) {
+      console.log('BBBBB Fetch error: ' + err);
+    });
+
+    f.once('end', function() {
+      console.log('Done fetching all messages!');
+      console.log(emaillista);
+      console.log("------------------------------------------");
+      imap.end();
+    });
+
+
+  });
+});
+
+imap.once('error', function(err) {
+  console.log(err);
+});
+
+imap.once('end', function() {
+  console.log('Connection ended');
+});
+
+imap.connect();
+
+
+
+
+// /email
 
 var pedidosanalisadossoma = {
 	"lista": [],
@@ -3064,6 +3169,18 @@ bot.command(['teste'], async ctx => {
 	await ctx.reply("Testado");
 	console.log("Testado");
 })
+
+bot.command(['plantao'], async ctx => {
+	await ctx.reply(emaillista);
+
+	
+
+
+})
+
+
+
+
 
 
 // CS
