@@ -23,8 +23,6 @@ var schedule = require('node-schedule');
 // https://www.npmjs.com/package/node-schedule
 
 
-
-
 var datacompleta;
 var datasemana;
 var datahora;
@@ -68,67 +66,67 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
-	const telegram = new Telegram(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
+	// const telegram = new Telegram(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
-	const apiTinypng = env.apiTinypng;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
+	// const apiTinypng = env.apiTinypng;
 	
 
-	const idTodos = env.idTodos;
-	const emailSenha = env.emailSenha;
+	// const idTodos = env.idTodos;
+	// const emailSenha = env.emailSenha;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
-	fuso = 0;
+	// fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano
-	// const idBartira = process.env.idBartira
-	// const idRodrigo = process.env.idRodrigo;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau
-	// const idChatFronts = process.env.idChatFronts
-	// const wordpressPass = process.env.wordpressPass;
+	const idKiliano = process.env.idKiliano
+	const idBartira = process.env.idBartira
+	const idRodrigo = process.env.idRodrigo;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau
+	const idChatFronts = process.env.idChatFronts
+	const wordpressPass = process.env.wordpressPass;
 
-	// const apiTinypng = process.env.apiTinypng;
+	const apiTinypng = process.env.apiTinypng;
 
-	// const idTodos = process.env.idTodos;
+	const idTodos = process.env.idTodos;
 
-	// const emailSenha = process.env.emailSenha;
+	const emailSenha = process.env.emailSenha;
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
-	// const telegram = new Telegram(token);
-	// fuso = 2;
+	const bot = new Telegraf(token)
+	const telegram = new Telegram(token);
+	fuso = 2;
 
 
 
@@ -178,14 +176,18 @@ function openInbox(cb) {
 
 
 const receberemails = (ctx, next) => {
+	emaillista = {
+		emails: []
+	};
 	emaillistaultimos = [];
+
 	imap.once('ready', function() {
+		
 
 		openInbox(function(err, box) {
 		  if (err) throw err;
 		  imap.search([ 'UNSEEN', ['SINCE', 'May 20, 2010'] ], function(err, results) {
 		    if (err) throw err;
-		    console.log();
 
 		    if (results.length > 0) {
 		    	emaillistavazia = false;
@@ -200,8 +202,9 @@ const receberemails = (ctx, next) => {
 			        var buffer = '';
 			        stream.on('data', function(chunk) {
 			        	buffer = chunk.toString('utf8');
-			        	var buffer2 = buffer.replace(/\n|\r/g, "-");
-			        	var buffer3 = buffer2.split("-");
+			        	console.log(buffer);
+			        	var buffer2 = buffer.replace(/\n|\r/g, "---CORTE---");
+			        	var buffer3 = buffer2.split("---CORTE---");
 
 			        	var emailcadastro = [];
 
@@ -251,7 +254,180 @@ const receberemails = (ctx, next) => {
 				      		}
 
 				      		if(comparacao == "Su") {
-				      			arrayemailAssunto = arrayemail[b].substr(9);
+				      			if (arrayemail[b].substr(9).slice(0,5) == "=?UTF" || arrayemail[b].substr(9).slice(0,5) == "=?utf") {
+
+				      				// Decode artificial
+				      				arrayemailAssunto = arrayemail[b].substr(19);
+				      				arrayemailAssunto = arrayemailAssunto.substring(0, arrayemailAssunto.length-2);
+				      				arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=9A/g, '‚');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=9E/g, '„');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=A6/g, '…');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=A0/g, '†');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=A1/g, '‡');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=B0/g, '‰');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=B9/g, '‹');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=98/g, '‘');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=99/g, '’');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=9C/g, '“');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=9D/g, '”');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=A2/g, '•');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=93/g, '–');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80=94/g, '—');
+				      				arrayemailAssunto = arrayemailAssunto.replace(/=E2=84/g, '™');
+				      				arrayemailAssunto = arrayemailAssunto.replace(/=CB=9C/g, '˜');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=A1/g, 'š');
+									arrayemailAssunto = arrayemailAssunto.replace(/=E2=80/g, '›');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=93/g, 'œ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C6=92/g, 'ƒ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=92/g, 'Œ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=A0/g, 'Š');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=BD/g, 'Ž');
+									arrayemailAssunto = arrayemailAssunto.replace(/=CB=86/g, 'ˆ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=BE/g, 'ž');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C5=B8/g, 'Ÿ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A1/g, '¡');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A2/g, '¢');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A3/g, '£');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A4/g, '¤');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A5/g, '¥');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A6/g, '¦');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A7/g, '§');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A8/g, '¨');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=A9/g, '©');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=AA/g, 'ª');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=AB/g, '«');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=AC/g, '¬');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=AE/g, '®');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=AF/g, '¯');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B0/g, '°');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B1/g, '±');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B2/g, '²');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B3/g, '³');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B4/g, '´');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B5/g, 'µ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B6/g, '¶');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B7/g, '·');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B8/g, '¸');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=B9/g, '¹');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BA/g, 'º');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BB/g, '»');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BC/g, '¼');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BD/g, '½');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BE/g, '¾');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C2=BF/g, '¿');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=80/g, 'À');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=81/g, 'Á');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=82/g, 'Â');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=83/g, 'Ã');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=84/g, 'Ä');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=85/g, 'Å');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=86/g, 'Æ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=87/g, 'Ç');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=88/g, 'È');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=89/g, 'É');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8A/g, 'Ê');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8B/g, 'Ë');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8C/g, 'Ì');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8D/g, 'Í');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8E/g, 'Î');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=8F/g, 'Ï');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=90/g, 'Ð');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=91/g, 'Ñ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=92/g, 'Ò');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=93/g, 'Ó');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=94/g, 'Ô');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=95/g, 'Õ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=96/g, 'Ö');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=97/g, '×');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=98/g, 'Ø');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=99/g, 'Ù');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9A/g, 'Ú');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9B/g, 'Û');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9C/g, 'Ü');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9D/g, 'Ý');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9E/g, 'Þ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=9F/g, 'ß');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A0/g, 'à');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A1/g, 'á');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A2/g, 'â');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A3/g, 'ã');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A4/g, 'ä');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A5/g, 'å');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A6/g, 'æ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A7/g, 'ç');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A8/g, 'è');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=A9/g, 'é');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AA/g, 'ê');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AB/g, 'ë');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AC/g, 'ì');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AD/g, 'í');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AE/g, 'î');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=AF/g, 'ï');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B0/g, 'ð');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B1/g, 'ñ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B2/g, 'ò');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B3/g, 'ó');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B4/g, 'ô');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B5/g, 'õ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B6/g, 'ö');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B7/g, '÷');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B8/g, 'ø');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=B9/g, 'ù');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BA/g, 'ú');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BB/g, 'û');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BC/g, 'ü');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BD/g, 'ý');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BE/g, 'þ');
+									arrayemailAssunto = arrayemailAssunto.replace(/=C3=BF/g, 'ÿ');
+				      				arrayemailAssunto = arrayemailAssunto.replace(/_/g, ' ');
+				      				arrayemailAssunto = arrayemailAssunto.replace(/=21/g, '!');
+									arrayemailAssunto = arrayemailAssunto.replace(/=22/g, '"');
+									arrayemailAssunto = arrayemailAssunto.replace(/=23/g, '#');
+									arrayemailAssunto = arrayemailAssunto.replace(/=24/g, '$');
+									arrayemailAssunto = arrayemailAssunto.replace(/=25/g, '%');
+									arrayemailAssunto = arrayemailAssunto.replace(/=26/g, '&');
+									arrayemailAssunto = arrayemailAssunto.replace(/=27/g, '"');
+									arrayemailAssunto = arrayemailAssunto.replace(/=28/g, '(');
+									arrayemailAssunto = arrayemailAssunto.replace(/=29/g, ')');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2A/g, '*');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2B/g, '+');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2C/g, ',');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2D/g, '-');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2E/g, '.');
+									arrayemailAssunto = arrayemailAssunto.replace(/=2F/g, '/');
+									arrayemailAssunto = arrayemailAssunto.replace(/=30/g, '0');
+									arrayemailAssunto = arrayemailAssunto.replace(/=31/g, '1');
+									arrayemailAssunto = arrayemailAssunto.replace(/=32/g, '2');
+									arrayemailAssunto = arrayemailAssunto.replace(/=33/g, '3');
+									arrayemailAssunto = arrayemailAssunto.replace(/=34/g, '4');
+									arrayemailAssunto = arrayemailAssunto.replace(/=35/g, '5');
+									arrayemailAssunto = arrayemailAssunto.replace(/=36/g, '6');
+									arrayemailAssunto = arrayemailAssunto.replace(/=37/g, '7');
+									arrayemailAssunto = arrayemailAssunto.replace(/=38/g, '8');
+									arrayemailAssunto = arrayemailAssunto.replace(/=39/g, '9');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3A/g, ':');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3B/g, ';');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3C/g, '<');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3D/g, '=');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3E/g, '>');
+									arrayemailAssunto = arrayemailAssunto.replace(/=3F/g, '?');
+									arrayemailAssunto = arrayemailAssunto.replace(/=40/g, '@');
+									arrayemailAssunto = arrayemailAssunto.replace(/=5B/g, '[');
+									arrayemailAssunto = arrayemailAssunto.replace(/=5C/g, '|');
+									arrayemailAssunto = arrayemailAssunto.replace(/=5D/g, ']');
+									arrayemailAssunto = arrayemailAssunto.replace(/=5E/g, '^');
+									arrayemailAssunto = arrayemailAssunto.replace(/=5F/g, '_');
+									arrayemailAssunto = arrayemailAssunto.replace(/=60/g, '`');
+									arrayemailAssunto = arrayemailAssunto.replace(/=AD/g, '%');
+									arrayemailAssunto = arrayemailAssunto.replace(/=7B/g, '{');
+									arrayemailAssunto = arrayemailAssunto.replace(/=7C/g, '|');
+									arrayemailAssunto = arrayemailAssunto.replace(/=7D/g, '}');
+									arrayemailAssunto = arrayemailAssunto.replace(/=7E/g, '~');
+
+				      			} else {
+				      				arrayemailAssunto = arrayemail[b].substr(9);
+				      			}
+				      			
 				      		}
 			      		}
 			      		
@@ -295,8 +471,10 @@ const receberemails = (ctx, next) => {
 const exibiremails = (ctx, next) => {
 	if (emaillistavazia ==  true) {
 		ctx.reply("✌️ Todos os e-mails lidos ✌️");
+		next();
 	} else {
-		ctx.reply("📨️ E-mails não lidos do Suporte 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/");
+		ctx.reply("📨️ "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/");
+		next();
 	}
 	
 }
@@ -3230,17 +3408,11 @@ bot.command(['teste'], async ctx => {
 
 
 
-bot.command(['plantao'], async ctx => {
-
-	// aaaaaaaaaaaaaaaaaaaaa
+bot.command(['suporte'], async ctx => {
 
 	// Buscando e-mails
-	ctx.reply("Buscando e-mails...");
+		ctx.reply("Buscando e-mails...");
 	exec(ctx, receberemails, exibiremails);
-
-	
-	
-
 
 })
 
