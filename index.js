@@ -3492,7 +3492,7 @@ bot.command(['suporte'], async ctx => {
 		
 		exec(ctx, receberemails, exibiremails);
 
-		if (plantao == true && ctx.update.message.from.id == idKiliano) {
+		if (plantao == true && ctx.update.message.from.id == idMarcos) {
 			plantaomarcos = plantaomarcos+1;
 
 			if (plantaomarcos > 2) {
