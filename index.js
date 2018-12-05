@@ -3489,17 +3489,21 @@ bot.command(['teste'], async ctx => {
 bot.command(['suporte'], async ctx => {
 
 	// Buscando e-mails
-		ctx.reply("Buscando e-mails...");
+		
 		exec(ctx, receberemails, exibiremails);
 
 		if (plantao == true && ctx.update.message.from.id == idKiliano) {
 			plantaomarcos = plantaomarcos+1;
 
 			if (plantaomarcos > 2) {
-				ctx.reply("MARCOS: Você acessou o /suporte "+plantaomarcos+" vezes hoje. Você está de férias, vai aproveitar! 😬");
+				ctx.reply("MARCOS: Você acessou o /suporte "+plantaomarcos+" vezes hoje. Você está de férias, vai aproveitar! 😬 \n Buscando e-mails...");
 
+			} else {
+				ctx.reply("Buscando e-mails...");
 			}
 			
+		} else {
+			ctx.reply("Buscando e-mails...");
 		}
 
 })
