@@ -38,6 +38,7 @@ var acordado = true;
 
 // PLANTÃO
 var plantao = true;
+var plantaomarcos = 0;
 
 var fimdodia = false;
 var tiopassou = false;
@@ -1383,6 +1384,7 @@ const liberandopost = (ctx, next) => {
 
 // Começando o dia
 const novodia = (ctx, next) => {
+	plantaomarcos = 0;
 
 	// Horário
 	relatorioTempo = [1,datames,dataano];
@@ -3488,7 +3490,17 @@ bot.command(['suporte'], async ctx => {
 
 	// Buscando e-mails
 		ctx.reply("Buscando e-mails...");
-	exec(ctx, receberemails, exibiremails);
+		exec(ctx, receberemails, exibiremails);
+
+		if (plantao == true && ctx.update.message.from.id == idKiliano) {
+			plantaomarcos = plantaomarcos+1;
+
+			if (plantaomarcos > 2) {
+				ctx.reply("MARCOS: Você acessou o /suporte "+plantaomarcos+" vezes hoje. Você está de férias, vai aproveitar! 😬");
+
+			}
+			
+		}
 
 })
 
