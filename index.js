@@ -36,6 +36,9 @@ var debug = false;
 
 var acordado = true;
 
+// PLANTÃO
+var plantao = true;
+
 var fimdodia = false;
 var tiopassou = false;
 
@@ -75,6 +78,9 @@ const ctx = {}
 
 	// const idKiliano = env.idKiliano;
 	// const idBartira = env.idBartira;
+	// const idMichel = env.idMichel;
+	// const idOtavio = env.idOtavio;
+	// const idMarcos = env.idMarcos;
 	// const idRodrigo = env.idRodrigo;
 	// const idIsabel = env.idIsabel;
 	// const idChatDegrau = env.idChatDegrau;
@@ -108,10 +114,14 @@ const ctx = {}
 	const idKiliano = process.env.idKiliano
 	const idBartira = process.env.idBartira
 	const idRodrigo = process.env.idRodrigo;
+	const idMichel = process.env.idMichel;
+	const idMichel = process.env.idMarcos;
+	const idOtavio = process.env.idOtavio;
 	const idIsabel = process.env.idIsabel;
 	const idChatDegrau = process.env.idChatDegrau
 	const idChatFronts = process.env.idChatFronts
 	const wordpressPass = process.env.wordpressPass;
+
 
 	const apiTinypng = process.env.apiTinypng;
 
@@ -151,7 +161,6 @@ var pedidosanalisadosunicos =[];
 
 // https://github.com/mscdex/node-imap
 
-// aaaaaaaaaaaaaaaaaaaa
 var emaillista = {
 	emails: []
 };
@@ -478,6 +487,51 @@ const exibiremails = (ctx, next) => {
 	}
 	
 }
+
+const emailsplantao = (ctx, next) => {
+	if (emaillistavazia ==  true) {
+		console.log("Caixa Vazia");
+		next();
+	} else {
+		// enviando
+		if (dataano == 2018) {
+			if (datames == 12) {
+
+				// TESTE
+				if (datadia == 6) {
+					msg("📨️ (TESTE 6/12) PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idKiliano);
+					msg("📨️ (TESTE 6/12) PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idMarcos);
+				}
+				// /TESTE
+
+				if (datadia == 24 || datadia == 25 || datadia == 26 || datadia == 27 || datadia == 28 || datadia == 29) {
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idMichel);
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idOtavio);
+				}
+
+				if (datadia == 31) {
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idKiliano);
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idRodrigo);
+				}
+			}
+		}
+
+		// enviando
+		if (dataano == 2019) {
+			if (datames == 1) {
+				if (datadia == 1 || datadia == 2 || datadia == 3 || datadia == 4 || datadia == 5) {
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idKiliano);
+					msg("📨️ PLANTÃO DEGRAU: "+emaillistaultimos.length+" e-mails não lidos 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/ - suporte@degraupublicidade.com.br / senha: "+emailSenha, idRodrigo);
+				}
+			}
+		}
+		next();
+	}
+	
+}
+
+
+
 
 
 
@@ -1959,7 +2013,9 @@ const eventosagendados = (ctx, next) => {
 
 			console.log(bomdiajson[bomdiarandom]);
 			
-			msg(bomdiajson[bomdiarandom], idChatDegrau);
+			if (plantao == false) {
+				msg(bomdiajson[bomdiarandom], idChatDegrau);
+			}
 		});
 		// / bom dia
 
@@ -2000,16 +2056,19 @@ const eventosagendados = (ctx, next) => {
 						boanoitefds = "\n\nBom fim de semana! 😎"
 
 					}
+					if (plantao == false) {
+						msg(`🌙 Boa noite 🌙 ${boanoitefds}
 
-					msg(`🌙 Boa noite 🌙 ${boanoitefds}
+							☀ Previsão do tempo pra amanhã (${clima.data.data[1].date_br})
 
-						☀ Previsão do tempo pra amanhã (${clima.data.data[1].date_br})
+							Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
+						 	${clima.data.data[1].text_icon.text.pt} ☀
+						 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+						 	\n
+						`, idChatDegrau);
 
-						Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
-					 	${clima.data.data[1].text_icon.text.pt} ☀
-					 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
-					 	\n
-					`, idChatDegrau);
+					}
+
 			// I need this data here ^^
 			return response.data;
 			})
@@ -2023,7 +2082,9 @@ const eventosagendados = (ctx, next) => {
 
 		// ---- Lembrete Pão
 		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 40}, function(){
-			msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idChatDegrau);
+			if (plantao == false) {
+				msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idChatDegrau);
+			}
 		});
 		// / Lembrete Pão
 
@@ -2033,7 +2094,7 @@ const eventosagendados = (ctx, next) => {
 		var schedulepaonaopassou = schedule.scheduleJob({hour: 17+fuso, minute: 45}, function(){
 
 			if (pedido.acoes.length > 0){
-				if (tiopassou == false) {
+				if (tiopassou == false && plantao == false) {
 					msg(`Gente, pelo que pude notar o meu parceiro da bicicleta não passou hoje 🚴‍♂ . Caso não tenha passado mesmo, temos que apagar o pedido de hoje, se não ele fica registrado no sistema.
 
 
@@ -2074,6 +2135,21 @@ const eventosagendados = (ctx, next) => {
 			}
 		}
 	  
+	});
+
+
+
+	// PLANTÃO
+	var scheduleplantao = schedule.scheduleJob({hour: 9+fuso, minute: 0}, function(){
+		if (plantao ==  true) {
+			exec(ctx, receberemails, emailsplantao);
+		}
+	});
+
+	var scheduleplantao = schedule.scheduleJob({hour: 16+fuso, minute: 0}, function(){
+		if (plantao ==  true) {
+			exec(ctx, receberemails, emailsplantao);
+		}
 	});
 	
 
