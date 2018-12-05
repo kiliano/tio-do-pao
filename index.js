@@ -153,17 +153,19 @@ var pedidosanalisadosunicos =[];
 
 // https://github.com/mscdex/node-imap
 
+// aaaaaaaaaaaaaaaaaaaa
 var emaillista = {
 	emails: []
 };
+var emaillistaultimos = [];
 
-
+var emaillistavazia = false;
 
 var Imap = require('imap'),
     inspect = require('util').inspect;
 
 var imap = new Imap({
-  user: 'horacio@degraupublicidade.com.br',
+  user: 'suporte@degraupublicidade.com.br',
   password: emailSenha,
   host: 'mail.degraupublicidade.com.br',
   port: 143,
@@ -174,6 +176,130 @@ function openInbox(cb) {
   imap.openBox('INBOX', true, cb);
 }
 
+
+const receberemails = (ctx, next) => {
+	emaillistaultimos = [];
+	imap.once('ready', function() {
+
+		openInbox(function(err, box) {
+		  if (err) throw err;
+		  imap.search([ 'UNSEEN', ['SINCE', 'May 20, 2010'] ], function(err, results) {
+		    if (err) throw err;
+		    console.log();
+
+		    if (results.length > 0) {
+		    	emaillistavazia = false;
+		    	var f = imap.fetch(results, { bodies: '' });
+			    f.on('message', function(msg, seqno) {
+
+			      console.log('Message #%d', seqno);
+
+			      var prefix = '(#' + seqno + ') ';
+
+			      msg.on('body', function(stream, info) {
+			        var buffer = '';
+			        stream.on('data', function(chunk) {
+			        	buffer = chunk.toString('utf8');
+			        	var buffer2 = buffer.replace(/\n|\r/g, "-");
+			        	var buffer3 = buffer2.split("-");
+
+			        	var emailcadastro = [];
+
+			        	for (var i = 0; i < buffer3.length; i++) {
+			        		buffer3[i].slice(0,2);
+
+			        		if (buffer3[i].slice(0,2) == "Da" || buffer3[i].slice(0,2) == "Su" || buffer3[i].slice(0,2) == "Fr") {
+			        			emailcadastro.push(buffer3[i]);
+			        		}
+			        	}
+
+			        	emaillista.emails.push(emailcadastro);
+			        	console.log(emailcadastro);
+			        });
+
+			        stream.once('end', function() {
+			          console.log("end");
+			        });
+			      });
+
+			      msg.once('end', function() {
+			        console.log(prefix + 'Finished');
+			      });
+
+			    });
+
+
+			    f.once('error', function(err) {
+			      console.log('Fetch error: ' + err);
+			    });
+			    f.once('end', function() {
+			      console.log('Done fetching all messages!');
+			     
+			      for (var i = 0; i < emaillista.emails.length; i++) {
+			      	var arrayemailDe = "";
+				    var arrayemailAssunto = "";
+
+			      	for (var b = 0; b < 3; b++) {
+			      		var arrayemail = emaillista.emails[emaillista.emails.length-1-i];
+
+			      		var comparacao = "";
+
+			      		if (arrayemail[b] != undefined) {
+			      			comparacao = arrayemail[b].slice(0,2);
+				      		if(comparacao == "Fr") {
+				      			arrayemailDe = arrayemail[b].substr(6);
+				      		}
+
+				      		if(comparacao == "Su") {
+				      			arrayemailAssunto = arrayemail[b].substr(9);
+				      		}
+			      		}
+			      		
+			      	}
+
+			      	if (arrayemailAssunto != "" && arrayemailAssunto != undefined) {
+			      		emaillistaultimos.push("\n▫️ "+arrayemailAssunto+" - (De :"+arrayemailDe+")")
+			      	}
+			      	
+			      }
+
+			      imap.end();
+			    });
+
+		    } else {
+		    	console.log('Caixa vazia');
+		    	emaillistavazia = true;
+		    	next();
+		    }
+		    
+
+
+		  });
+		});
+
+
+	});
+
+	imap.once('error', function(err) {
+	  console.log(err);
+	});
+
+	imap.once('end', function() {
+	  console.log('Connection ended');
+	  next();
+	});
+
+	imap.connect();
+}
+
+const exibiremails = (ctx, next) => {
+	if (emaillistavazia ==  true) {
+		ctx.reply("✌️ Todos os e-mails lidos ✌️");
+	} else {
+		ctx.reply("📨️ E-mails não lidos do Suporte 📨️ \n"+emaillistaultimos+"\n\n Acesse o webmail: http://webmail.degraupublicidade.com.br/");
+	}
+	
+}
 
 
 
@@ -3106,121 +3232,13 @@ bot.command(['teste'], async ctx => {
 
 bot.command(['plantao'], async ctx => {
 
+	// aaaaaaaaaaaaaaaaaaaaa
+
 	// Buscando e-mails
 	ctx.reply("Buscando e-mails...");
+	exec(ctx, receberemails, exibiremails);
 
-	imap.once('ready', function() {
-
-		openInbox(function(err, box) {
-		  if (err) throw err;
-		  imap.search([ 'UNSEEN', ['SINCE', 'May 20, 2010'] ], function(err, results) {
-		    if (err) throw err;
-		    var f = imap.fetch(results, { bodies: '' });
-
-
-		      f.on('message', function(msg, seqno) {
-
-		      console.log('Message #%d', seqno);
-
-		      var prefix = '(#' + seqno + ') ';
-
-		      msg.on('body', function(stream, info) {
-		        var buffer = '';
-		        stream.on('data', function(chunk) {
-		        	buffer = chunk.toString('utf8');
-		        	var buffer2 = buffer.replace(/\n|\r/g, "-");
-		        	var buffer3 = buffer2.split("-");
-
-		        	var emailcadastro = [];
-
-		        	for (var i = 0; i < buffer3.length; i++) {
-		        		buffer3[i].slice(0,2);
-		        		console.log(buffer3[i].slice(0,2));
-
-		        		if (buffer3[i].slice(0,2) == "Da" || buffer3[i].slice(0,2) == "Su" || buffer3[i].slice(0,2) == "Fr") {
-		        			emailcadastro.push(buffer3[i]);
-		        		}
-		        	}
-
-		        	emaillista.emails.push(emailcadastro);
-		        });
-
-		        stream.once('end', function() {
-		          console.log("end");
-		        });
-		      });
-
-		      // msg.once('attributes', function(attrs) {
-		      //   console.log(prefix + 'Attributes: %s', inspect(attrs, false, 8));
-		      // });
-
-		      msg.once('end', function() {
-		        console.log(prefix + 'Finished');
-		      });
-
-		    });
-
-
-		    f.once('error', function(err) {
-		      console.log('Fetch error: ' + err);
-		    });
-		    f.once('end', function() {
-		      console.log('Done fetching all messages!');
-		      console.log(emaillista);
-		      var ultimosemails = "📨️ Últimos E-mails 📨️ \n\n";
-		      
-
-
-		      for (var i = 0; i < 7; i++) {
-		      	var arrayemailDe = "";
-			    var arrayemailAssunto = "";
-
-		      	for (var b = 0; b < 3; b++) {
-		      		var arrayemail = emaillista.emails[i];
-		      		console.log("----------------------");
-
-		      		var comparacao = "";
-
-		      		if (arrayemail[b] != undefined) {
-		      			comparacao = arrayemail[b].slice(0,2);
-			      		if(comparacao == "Fr") {
-			      			arrayemailDe = arrayemail[b].substr(6);
-			      		}
-
-			      		if(comparacao == "Su") {
-			      			arrayemailAssunto = arrayemail[b].substr(9);
-			      		}
-		      		}
-		      		
-		      	}
-
-		      	if (arrayemailAssunto != "" && arrayemailAssunto != undefined) {
-		      		ultimosemails = ultimosemails+("▫️ "+arrayemailAssunto+" - (De :"+arrayemailDe+") \n")
-		      	}
-		      	
-		      }
-
-		      ctx.reply(ultimosemails);
-		      console.log(ultimosemails);
-		      imap.end();
-		    });
-
-
-		  });
-		});
-
-
-	});
-
-	imap.once('error', function(err) {
-	  console.log(err);
-	});
-
-	imap.once('end', function() {
-	  console.log('Connection ended');
-	});
-
-	imap.connect();
+	
 	
 
 
