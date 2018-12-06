@@ -2142,7 +2142,7 @@ const eventosagendados = (ctx, next) => {
 
 
 	// PLANTÃO
-	var scheduleplantao = schedule.scheduleJob({hour: 9+fuso, minute: 0}, function(){
+	var scheduleplantao = schedule.scheduleJob({hour: 10+fuso, minute: 0}, function(){
 		if (plantao ==  true) {
 			exec(ctx, receberemails, emailsplantao);
 		}
