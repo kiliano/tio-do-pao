@@ -5968,6 +5968,7 @@ bot.action(/transferir (.+)/, async ctx => {
 		for (var i = 0; i< membrosdegrauNome.length; i++) {
 			if (membrosdegrauNome[i] == ctx.match[1]) {
 				membrosJson.degrau[i].creditos = (membrosJson.degrau[i].creditos+ctx.session.creditostransferencia);
+				msg(`Você recebeu ${ctx.session.creditostransferencia} créditos de ${ctx.session.eu}. Seu total agora é de ${membrosJson.degrau[i].creditos}`, membrosJson.degrau[i].id);
 			}
 
 			if (membrosdegrauId[i] == ctx.session.eu) {
