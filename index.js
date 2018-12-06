@@ -70,76 +70,76 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idMichel = env.idMichel;
-	// const idOtavio = env.idOtavio;
-	// const idAntibot = env.idAntibot;
-	// const idMarcos = env.idMarcos;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idMichel = env.idMichel;
+	const idOtavio = env.idOtavio;
+	const idAntibot = env.idAntibot;
+	const idMarcos = env.idMarcos;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
-	// const emailSenha = env.emailSenha;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
-	// fuso = 0;
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano;
-	const idBartira = process.env.idBartira;
-	const idRodrigo = process.env.idRodrigo;
-	const idMichel = process.env.idMichel;
-	const idMarcos = process.env.idMarcos;
-	const idOtavio = process.env.idOtavio;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau;
-	const idChatFronts = process.env.idChatFronts;
-	const wordpressPass = process.env.wordpressPass;
-	const idAntibot = process.env.idAntibot;
+	// const idKiliano = process.env.idKiliano;
+	// const idBartira = process.env.idBartira;
+	// const idRodrigo = process.env.idRodrigo;
+	// const idMichel = process.env.idMichel;
+	// const idMarcos = process.env.idMarcos;
+	// const idOtavio = process.env.idOtavio;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau;
+	// const idChatFronts = process.env.idChatFronts;
+	// const wordpressPass = process.env.wordpressPass;
+	// const idAntibot = process.env.idAntibot;
 
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos;
+	// const idTodos = process.env.idTodos;
 
-	const emailSenha = process.env.emailSenha;
+	// const emailSenha = process.env.emailSenha;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 2;
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 2;
 
 
 
@@ -2297,21 +2297,21 @@ exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, 
 
 bot.command(['pao','Pao','pedir', 'cardapio'], async ctx => {
 
-	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (acordado == true && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		if (ctx.update.message.from.id == ctx.chat.id) {
 			await ctx.replyWithMarkdown(`📣📣📣 Pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} * 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 		} else {
 			await ctx.replyWithMarkdown(`\n 📣📣📣 *Hora do Pão cambada!!!* 📣📣📣 \n\n Os pedidos devem ser feitos por uma *✉ mensagem direta ✉* \n Só me mandar uma direct e escrever /pao`)
 		}
 	} else {
-		await ctx.reply("💤💤💤")
+		
 	}
 })
 
 
 // Ouvindo o pedido
 bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 com Recheio','🥐 Croissant Presunto', '🥐 Croissant Frango','🥖 Bisnaga','🥖 com Açúcar','🥖 com Creme'], async ctx => {
-	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (acordado == true && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegundaAntes)
 
 		var nome = ctx.update.message.from.first_name
@@ -2335,7 +2335,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}.`, idChatDegrau);
 
 	} else {
-		await ctx.reply("💤💤💤")
+		
 	}
 })
 
@@ -2357,7 +2357,7 @@ bot.hears(['✅Quero uma segunda opção✅'], async ctx => {
 
 bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '🍩 com Recheio.','🥐 Croissant Presunto.', '🥐 Croissant Frango.','🥖 Bisnaga.','🥖 com Açúcar.','🥖 com Creme.'], async ctx => {
 
-	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (acordado == true && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		// Estrutura do pedido id[0] : nome[1] : pediu[2] : produto[3]
 
 		var acaoitemoriginal = "";
@@ -2398,14 +2398,14 @@ bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '�
 		await ctx.reply(`Ok! Caso não tenha ${acaoitemoriginal}, vou trazer ${item} Mais alguma coisa? `, tecladoFinal);
 		
 	} else {
-		await ctx.reply("💤💤💤")
+		
 	}
 })
 
 // Removendo um pedido
 bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
-	if (pedido.acoes.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (pedido.acoes.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		for (var i = 0; i < pedido.acoes.length;) {
 			var acaoatual = pedido.acoes[i].split(' : ');
 
@@ -2426,7 +2426,7 @@ bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
 bot.command('cancelar', async ctx => {
 
-	if (pedido.acoes.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (pedido.acoes.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		for (var i = 0; i < pedido.acoes.length;) {
 			var acaoatual = pedido.acoes[i].split(' : ');
 
@@ -2443,7 +2443,7 @@ bot.command('cancelar', async ctx => {
 })
 
 bot.command('cancelartodosospedidos', async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 		pedido.acoes = [];
 		pedido.indisponibilidade = [];
@@ -2465,14 +2465,14 @@ bot.command('cancelartodosospedidos', async ctx => {
 })
 
 bot.hears(['❌ Cancelar meus Pedidos ❌'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 	await ctx.replyWithMarkdown(`*Tem certeza que quer cancelar tudo que pediu hoje?*`, tecladoCancelar);
 	}
 })
 
 bot.hears(['Voltar,'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 	await ctx.replyWithMarkdown(`Voltando...`, tecladoFinal);
 	}
@@ -2481,7 +2481,7 @@ bot.hears(['Voltar,'], async ctx => {
 
 // Finalizando pedido particular
 bot.hears(['😋 Quero pedir mais um pão'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 	await ctx.replyWithMarkdown(`Tá com fome ein? Pede aí ✌️ `, tecladoPao)
 	}
@@ -2492,7 +2492,7 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 
 	await ctx.reply(`É nóiz 👍`);
 
-	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 		listar();
 		var listapessoal = [];
@@ -2542,7 +2542,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	listar();
 
-	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		// Listagem pessoal
 		var listapessoal = [];
 
@@ -2595,7 +2595,7 @@ bot.command(['quem'], async ctx => {
 	var quem = [];
 	var quemtroca = [];
 
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 		for (var i = 0; i < pedido.acoes.length; i++) {
 			var acaoatual = pedido.acoes[i].split(' : ');
@@ -3174,14 +3174,14 @@ bot.start(async ctx => {
 // Previsão do tempo
 
 bot.command(['clima'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		await ctx.reply(`Clima pra que dia?`,tecladoClima);
 		
 	}
 })
 
 bot.command(['jandira'], async ctx => {
-	if (ctx.update.message.from.id == idRodrigo && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == idRodrigo && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 		axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`)
 			.then(function (response) {
@@ -3426,14 +3426,14 @@ bot.action('csetedias', async ctx => {
 
 // Extras
 bot.command('wifi', async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false){
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true){
 		await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
 		
 	}
 })
 
 bot.command(['help', 'ajuda', 'tio'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		await ctx.reply(`
 			/pao - abre o menu para fazer o pedido do pão
 			/pedido - mostra os pedidos do dia do pão
@@ -3452,7 +3452,7 @@ bot.command(['help', 'ajuda', 'tio'], async ctx => {
 
 
 bot.command('id', async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false){
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true){
 		await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
 		
 	}
@@ -3523,7 +3523,7 @@ bot.command(['suporte'], async ctx => {
 		
 		exec(ctx, receberemails, exibiremails);
 
-		if (plantao == true && ctx.update.message.from.id == idMarcos && idAntibot.includes(ctx.update.message.from.id) == false) {
+		if (plantao == true && ctx.update.message.from.id == idMarcos && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 			plantaomarcos = plantaomarcos+1;
 
 			if (plantaomarcos > 2) {
@@ -3546,7 +3546,7 @@ bot.command(['suporte'], async ctx => {
 
 // CS
 bot.command(['cs'], async ctx => {
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		await ctx.reply(`🔫 Terrorist Win 🔫 http://horacio.kiliano.com.br/wp-content/uploads/2018/11/cs.zip`);
 		
 	}
@@ -3597,7 +3597,7 @@ setInterval(function() {
 
 bot.command(['cpf'], async ctx => {
 
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		var cpfteste = cpf();
 
 		await ctx.reply(`CPF válido gerado aleatoriamente:
@@ -3610,7 +3610,7 @@ bot.command(['cpf'], async ctx => {
 
 bot.command(['cnpj'], async ctx => {
 
-	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		var cnpjteste = cnpj();
 
 		await ctx.reply(`CNPJ válido gerado aleatoriamente:
@@ -4784,7 +4784,7 @@ const trucomaodeonze = (ctx, next) => {
 
 bot.command(['trucoentrar'], async ctx => {
 
-	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 
 		if (debug == false) {
@@ -4943,7 +4943,7 @@ bot.command(['truco'], async ctx => {
 
 
 bot.command(['trucolimpo'], async ctx => {
-	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		if (trucoComecou == false) {
 			trucoBaralhoTipo = 'limpo';
 
@@ -4967,7 +4967,7 @@ bot.command(['trucolimpo'], async ctx => {
 })
 
 bot.command(['trucosujo'], async ctx => {
-	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		if (trucoComecou == false) {
 			trucoBaralhoTipo = 'sujo';
 
@@ -5803,7 +5803,7 @@ var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Rodrigo", "Isabel"
 
 bot.command('bolo', async ctx => {
 	
-	if (funcionarios.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (funcionarios.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
 
 		// While there remain elements to shuffle...
@@ -5830,41 +5830,91 @@ bot.command('bolo', async ctx => {
 
 // ---------------- Sistema de Membros -----------------
 
-var membrosJson = [
-{ 
-  "id": "309",
-  "title": "0808080",
-  "date": "2018-10-04T05:00:00.000Z",
-  "customFields":[ 
-       { "teste": "teste", "key": "00-id", "value": "123456" },
-       { "teste": "teste", "key": "01-nome", "value": "Kiliano" },
-       { "teste": "teste", "key": "02-random", "value": "848484" },
-       { "teste": "teste", "key": "03-creditos", "value": "500" },
-       { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
-       { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
-     ] 
+var membrosJson = {};
+var membrosdegrauId = [];
+var membrosdegrauNome = [];
 
-},
 
-{ 
-  "id": "319",
-  "title": "0808080",
-  "date": "2018-10-04T05:00:00.000Z",
-  "customFields":[ 
-       { "teste": "teste", "key": "00-id", "value": idKiliano },
-       { "teste": "teste", "key": "01-nome", "value": "Kiliano Teste" },
-       { "teste": "teste", "key": "02-random", "value": "848484" },
-       { "teste": "teste", "key": "03-creditos", "value": "500" },
-       { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
-       { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
-     ] 
+
+// TESTE 
+
+// { 
+//   "id": "309",
+//   "title": "0808080",
+//   "date": "2018-10-04T05:00:00.000Z",
+//   "customFields":[ 
+//        { "teste": "teste", "key": "00-id", "value": "123456" },
+//        { "teste": "teste", "key": "01-nome", "value": "Kiliano" },
+//        { "teste": "teste", "key": "02-random", "value": "848484" },
+//        { "teste": "teste", "key": "03-creditos", "value": "500" },
+//        { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
+//        { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
+//      ] 
+
+// },
+
+// { 
+//   "id": "319",
+//   "title": "0808080",
+//   "date": "2018-10-04T05:00:00.000Z",
+//   "customFields":[ 
+//        { "teste": "teste", "key": "00-id", "value": idKiliano },
+//        { "teste": "teste", "key": "01-nome", "value": "Kiliano Teste" },
+//        { "teste": "teste", "key": "02-random", "value": "848484" },
+//        { "teste": "teste", "key": "03-creditos", "value": "500" },
+//        { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
+//        { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
+//      ] 
+// }
+
+
+
+// Carregando informação do Online
+const carregarmembros = (ctx, next) => {
+	wp.getPosts({
+		type: "cpt-membros",
+		number: "9999"
+	},["title","date", "customFields"],function( error, posts, data ) {
+	    membrosJson = posts;
+	    membrosJson = JSON.stringify(membrosJson);
+	    if (membrosJson.length > 0) {
+		    membrosJson = JSON.parse(membrosJson);
+	    }
+	    console.log(membrosJson);
+	    next();
+	});
 }
-]
+
+// Gerando array da degrau
+const listandodegrau = (ctx, next) => {
+	membrosdegrauId = [];
+	membrosdegrauNome = [];
+	console.log(membrosdegrauId);
+	if (membrosJson.length > 0) {
+		for (var i = 0; i < membrosJson.length; i++) {
+			membrosdegrauId.push(parseInt(membrosJson[i].customFields[0].value));
+			membrosdegrauNome.push(membrosJson[i].customFields[1].value);
+		}
+	}
+	console.log(membrosdegrauId);
+	console.log(membrosdegrauNome);
+
+	tecladoTransferirCreditos = Extra.markup(Markup.inlineKeyboard(
+		membrosdegrauNome.map(item => Markup.callbackButton(item, `transferir ${item}`)),
+		{columns: 4}
+	));
+
+	// Teclado de Usuários
+	next();
+}
+
+var tecladoTransferirCreditos = [];
+
 
 
 bot.command(['membros','pontos','perfil'], async ctx => {
 	
-	if (membrosJson.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
+	if (membrosJson.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 
 		var membrosAnalizar = 0;
@@ -5882,33 +5932,26 @@ bot.command(['membros','pontos','perfil'], async ctx => {
 			}
 		} 
 
-
-		if (membrosAnalizar == 0) {
-			await ctx.reply(`Não achei um perfil pra você. Já estou criando um...`);
-			membrosJson.push({
-				"title": ctx.update.message.from.first_name,
-				"customFields":[ 
-				       { "teste": "teste", "key": "00-id", "value": ctx.update.message.from.id },
-				       { "teste": "teste", "key": "01-nome", "value": ctx.update.message.from.first_name },
-				       { "teste": "teste", "key": "02-random", "value": Math.floor((Math.random() * 999999999999999999)) },
-				       { "teste": "teste", "key": "03-creditos", "value": 500 },
-				       { "teste": "teste", "key": "04-vitoriastruco", "value": 0 },
-				       { "teste": "teste", "key": "05-notificacaotruco", "value": 0 }
-				 ] 
-			})
-		} else {
-			await ctx.reply(`Achei seu perfil ${membrosAnalizar.customFields[1].value}. Você tem ${membrosAnalizar.customFields[3].value}`);
-		}
-
 		console.log(membrosJson);
 
-
-
-		
 	}
-
 	// await ctx.reply(`Ninguém está jogando truco agora`);
-})
+});
+
+
+
+
+
+
+bot.command(['d'], async ctx => {
+	await ctx.reply(`Usuários`, tecladoTransferirCreditos);
+});
+
+
+
+// TESTE
+
+exec(ctx, carregarmembros, listandodegrau);
 
 
 // Loop
