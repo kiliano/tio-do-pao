@@ -5930,6 +5930,7 @@ bot.command(['transferir'], async ctx => {
 	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 
 		ctx.session.eu = ctx.update.message.from.id;
+		ctx.session.eunome = ctx.update.message.from.first_name;
 		ctx.session.creditos = 0;
 		ctx.session.creditostransferencia = 0;
 
@@ -5968,7 +5969,7 @@ bot.action(/transferir (.+)/, async ctx => {
 		for (var i = 0; i< membrosdegrauNome.length; i++) {
 			if (membrosdegrauNome[i] == ctx.match[1]) {
 				membrosJson.degrau[i].creditos = (membrosJson.degrau[i].creditos+ctx.session.creditostransferencia);
-				msg(`Você recebeu ${ctx.session.creditostransferencia} créditos de ${ctx.session.eu}. Seu total agora é de ${membrosJson.degrau[i].creditos}`, membrosJson.degrau[i].id);
+				msg(`Você recebeu ${ctx.session.creditostransferencia} créditos de ${ctx.session.eunome}. Seu total agora é de ${membrosJson.degrau[i].creditos} créditos`, membrosJson.degrau[i].id);
 			}
 
 			if (membrosdegrauId[i] == ctx.session.eu) {
