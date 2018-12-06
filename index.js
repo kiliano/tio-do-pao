@@ -15,7 +15,8 @@ const Telegram = require('telegraf/telegram');
 const Markup = require('telegraf/markup');
 const Extra = require('telegraf/extra');
 const axios = require('axios');
-var wordpress = require( "wordpress" );
+var wordpress = require('wordpress');
+const session = require('telegraf/session');
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 // https://www.npmjs.com/package/wordpress
 
@@ -5836,64 +5837,33 @@ var membrosdegrauNome = [];
 
 
 
-// TESTE 
-
-// { 
-//   "id": "309",
-//   "title": "0808080",
-//   "date": "2018-10-04T05:00:00.000Z",
-//   "customFields":[ 
-//        { "teste": "teste", "key": "00-id", "value": "123456" },
-//        { "teste": "teste", "key": "01-nome", "value": "Kiliano" },
-//        { "teste": "teste", "key": "02-random", "value": "848484" },
-//        { "teste": "teste", "key": "03-creditos", "value": "500" },
-//        { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
-//        { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
-//      ] 
-
-// },
-
-// { 
-//   "id": "319",
-//   "title": "0808080",
-//   "date": "2018-10-04T05:00:00.000Z",
-//   "customFields":[ 
-//        { "teste": "teste", "key": "00-id", "value": idKiliano },
-//        { "teste": "teste", "key": "01-nome", "value": "Kiliano Teste" },
-//        { "teste": "teste", "key": "02-random", "value": "848484" },
-//        { "teste": "teste", "key": "03-creditos", "value": "500" },
-//        { "teste": "teste", "key": "04-vitoriastruco", "value": "5" },
-//        { "teste": "teste", "key": "05-notificacaotruco", "value": "0" }
-//      ] 
-// }
-
-
-
 // Carregando informação do Online
 const carregarmembros = (ctx, next) => {
 	wp.getPosts({
 		type: "cpt-membros",
-		number: "9999"
-	},["title","date", "customFields"],function( error, posts, data ) {
-	    membrosJson = posts;
-	    membrosJson = JSON.stringify(membrosJson);
-	    if (membrosJson.length > 0) {
-		    membrosJson = JSON.parse(membrosJson);
-	    }
+		number: "1"
+	},["title"],function( error, posts, data ) {
+	    membrosJson = JSON.stringify(posts);
+	    membrosJson = JSON.parse(membrosJson);
+	    membrosJson = membrosJson[0].title;
+	    membrosJson = JSON.parse(membrosJson);
 	    console.log(membrosJson);
+
 	    next();
 	});
+
+			
 }
+
 
 // Gerando array da degrau
 const listandodegrau = (ctx, next) => {
 	membrosdegrauId = [];
 	membrosdegrauNome = [];
-	console.log(membrosdegrauId);
-	if (membrosJson.length > 0) {
-		for (var i = 0; i < membrosJson.length; i++) {
-			membrosdegrauId.push(parseInt(membrosJson[i].customFields[0].value));
-			membrosdegrauNome.push(membrosJson[i].customFields[1].value);
+	if (membrosJson.degrau.length > 0) {
+		for (var i = 0; i < membrosJson.degrau.length; i++) {
+			membrosdegrauId.push(parseInt(membrosJson.degrau[i].id));
+			membrosdegrauNome.push(membrosJson.degrau[i].nome);
 		}
 	}
 	console.log(membrosdegrauId);
@@ -5908,51 +5878,118 @@ const listandodegrau = (ctx, next) => {
 	next();
 }
 
+
+// Checando atualizações
+const atualizarmembros = (ctx, next) => {
+	wp.newPost({
+	        title: JSON.stringify(membrosJson),
+	        status: "publish",
+	        type: "cpt-membros",
+
+	}, function( error, data ) {
+	        console.log( "Post enviado"+arguments );
+	        next();
+	});
+
+}
+
+
+// TECLADOS
 var tecladoTransferirCreditos = [];
 
 
 
-bot.command(['membros','pontos','perfil'], async ctx => {
+
+// Transferir
+bot.use(session());
+
+bot.command(['perfil','creditos','credito'], async ctx => {
+
+	ctx.session.creditos = 0;
+
+	for (var i = 0; i< membrosdegrauId.length; i++) {
+		if (membrosdegrauId[i] == ctx.update.message.from.id) {
+			ctx.session.creditos = membrosJson.degrau[i].creditos;
+		}
+	}
+
+	await ctx.reply(`💰 Você ${ctx.session.creditos} créditos 💰
+
+		Para transferir para alguém basta digitar /transferir, digitando logo em seguida a quantidade.`);
+
 	
-	if (membrosJson.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+	
+});
 
 
-		var membrosAnalizar = 0;
 
-		// Checar se o id existe
-		for (var i = 0; i < membrosJson.length; i++) {
-			console.log(membrosJson[i].customFields[0]);
-			if (membrosJson[i].customFields[0].value == ctx.update.message.from.id) {
-				console.log("achou!");
-				
-				membrosAnalizar = membrosJson[i];
 
-			} else {
-				console.log("nao achou um perfil");
+
+
+bot.command(['transferir'], async ctx => {
+	if (ctx.update.message.from.id == ctx.chat.id && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+
+		ctx.session.eu = ctx.update.message.from.id;
+		ctx.session.creditos = 0;
+		ctx.session.creditostransferencia = 0;
+
+		for (var i = 0; i< membrosdegrauId.length; i++) {
+			if (membrosdegrauId[i] == ctx.update.message.from.id) {
+				ctx.session.creditos = membrosJson.degrau[i].creditos;
 			}
-		} 
+		}
+
+		var mimic = ctx.update.message.text;
+		var mimic = parseInt(mimic.replace("/transferir", ""));
+		ctx.session.creditostransferencia = mimic;
+
+		if (ctx.session.creditostransferencia != undefined && ctx.session.creditostransferencia != 0 && ctx.session.creditostransferencia > 0) {
+			if (ctx.session.creditostransferencia <= ctx.session.creditos) {
+				await ctx.reply(`Pra quem você quer transferir ${ctx.session.creditostransferencia} créditos?`, tecladoTransferirCreditos);
+			} else {
+				await ctx.reply(`Você tem apenas ${ctx.session.creditos} créditos.`);
+			}
+
+		} else {
+			await ctx.reply(`Quantidade inválida`);
+		}
+		
+		
+
+	} else {
+		await ctx.reply(`Transferências devem ser solicitadas apenas mandando mensagem direta pra mim`);
+	}
+
+	
+});
+
+bot.action(/transferir (.+)/, async ctx => {
+	if (ctx.session.creditostransferencia <= ctx.session.creditos) {
+		for (var i = 0; i< membrosdegrauNome.length; i++) {
+			if (membrosdegrauNome[i] == ctx.match[1]) {
+				membrosJson.degrau[i].creditos = (membrosJson.degrau[i].creditos+ctx.session.creditostransferencia);
+			}
+
+			if (membrosdegrauId[i] == ctx.session.eu) {
+				membrosJson.degrau[i].creditos = (membrosJson.degrau[i].creditos-ctx.session.creditostransferencia);
+				ctx.session.creditos = membrosJson.degrau[i].creditos;
+			}
+		}
+		ctx.editMessageText(`Você transferiu ${ctx.session.creditostransferencia} para ${ctx.match[1]}. Agora você tem ${ctx.session.creditos} créditos.`);
+
+		ctx.session.creditostransferencia = 0;
+
+		exec(ctx, atualizarmembros, carregarmembros, listandodegrau);
 
 		console.log(membrosJson);
-
+	} else {
+		await ctx.editMessageText(`Você tem apenas ${ctx.session.creditos} créditos.`);
 	}
-	// await ctx.reply(`Ninguém está jogando truco agora`);
 });
 
 
-
-
-
-
-bot.command(['d'], async ctx => {
-	await ctx.reply(`Usuários`, tecladoTransferirCreditos);
-});
-
-
-
-// TESTE
-
+// Iniciando Sistema de Membros
 exec(ctx, carregarmembros, listandodegrau);
-
 
 // Loop
 bot.startPolling()
