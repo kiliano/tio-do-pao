@@ -70,74 +70,76 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idMichel = env.idMichel;
-	// const idOtavio = env.idOtavio;
-	// const idMarcos = env.idMarcos;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idMichel = env.idMichel;
+	const idOtavio = env.idOtavio;
+	const idAntibot = env.idAntibot;
+	const idMarcos = env.idMarcos;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
-	// const emailSenha = env.emailSenha;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
-	// fuso = 0;
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano
-	const idBartira = process.env.idBartira
-	const idRodrigo = process.env.idRodrigo;
-	const idMichel = process.env.idMichel;
-	const idMarcos = process.env.idMarcos;
-	const idOtavio = process.env.idOtavio;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau
-	const idChatFronts = process.env.idChatFronts
-	const wordpressPass = process.env.wordpressPass;
+	// const idKiliano = process.env.idKiliano;
+	// const idBartira = process.env.idBartira;
+	// const idRodrigo = process.env.idRodrigo;
+	// const idMichel = process.env.idMichel;
+	// const idMarcos = process.env.idMarcos;
+	// const idOtavio = process.env.idOtavio;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau;
+	// const idChatFronts = process.env.idChatFronts;
+	// const wordpressPass = process.env.wordpressPass;
+	// const idAntibot = process.env.idAntibot;
 
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos;
+	// const idTodos = process.env.idTodos;
 
-	const emailSenha = process.env.emailSenha;
+	// const emailSenha = process.env.emailSenha;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 2;
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 2;
 
 
 
@@ -2295,7 +2297,7 @@ exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, 
 
 bot.command(['pao','Pao','pedir', 'cardapio'], async ctx => {
 
-	if (acordado == true) {
+	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
 		if (ctx.update.message.from.id == ctx.chat.id) {
 			await ctx.replyWithMarkdown(`📣📣📣 Pedidos do dia *${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} * 📣📣📣 \n O que você quer pedir?`, tecladoPao)
 		} else {
@@ -2309,7 +2311,7 @@ bot.command(['pao','Pao','pedir', 'cardapio'], async ctx => {
 
 // Ouvindo o pedido
 bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 com Recheio','🥐 Croissant Presunto', '🥐 Croissant Frango','🥖 Bisnaga','🥖 com Açúcar','🥖 com Creme'], async ctx => {
-	if (acordado == true) {
+	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
 		await ctx.replyWithMarkdown(`Anotei seu pedido 😊 \n*Caso não tenha ${ctx.update.message.text}, você quer que peça outra coisa?*`, tecladoSegundaAntes)
 
 		var nome = ctx.update.message.from.first_name
@@ -2355,7 +2357,7 @@ bot.hears(['✅Quero uma segunda opção✅'], async ctx => {
 
 bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '🍩 com Recheio.','🥐 Croissant Presunto.', '🥐 Croissant Frango.','🥖 Bisnaga.','🥖 com Açúcar.','🥖 com Creme.'], async ctx => {
 
-	if (acordado == true) {
+	if (acordado == true && idAntibot.includes(ctx.update.message.from.id) == false) {
 		// Estrutura do pedido id[0] : nome[1] : pediu[2] : produto[3]
 
 		var acaoitemoriginal = "";
@@ -2403,7 +2405,7 @@ bot.hears(['🍞 Pão Francês.', '🌽 Pão de Milho.', '🍩 Rosquinha.', '�
 // Removendo um pedido
 bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
-	if (pedido.acoes.length > 0) {
+	if (pedido.acoes.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
 		for (var i = 0; i < pedido.acoes.length;) {
 			var acaoatual = pedido.acoes[i].split(' : ');
 
@@ -2424,7 +2426,7 @@ bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
 bot.command('cancelar', async ctx => {
 
-	if (pedido.acoes.length > 0) {
+	if (pedido.acoes.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
 		for (var i = 0; i < pedido.acoes.length;) {
 			var acaoatual = pedido.acoes[i].split(' : ');
 
@@ -2441,43 +2443,56 @@ bot.command('cancelar', async ctx => {
 })
 
 bot.command('cancelartodosospedidos', async ctx => {
-	pedido.acoes = [];
-	pedido.indisponibilidade = [];
-	pedido.lista = [];
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
 
-	pedido.paofrances = 0;
-	pedido.paodemilho = 0;
-	pedido.rosquinha = 0;
-	pedido.rosquinharecheio = 0;
-	pedido.croissantpresunto = 0;
-	pedido.croissantfrango = 0;
-	pedido.bisnaga = 0;
-	pedido.bisnagaacucar = 0;
-	pedido.bisnagacreme = 0;
+		pedido.acoes = [];
+		pedido.indisponibilidade = [];
+		pedido.lista = [];
 
-	await ctx.replyWithMarkdown(`*Todos pedidos de todo mundo foram cacelados*`);
+		pedido.paofrances = 0;
+		pedido.paodemilho = 0;
+		pedido.rosquinha = 0;
+		pedido.rosquinharecheio = 0;
+		pedido.croissantpresunto = 0;
+		pedido.croissantfrango = 0;
+		pedido.bisnaga = 0;
+		pedido.bisnagaacucar = 0;
+		pedido.bisnagacreme = 0;
+
+		await ctx.replyWithMarkdown(`*Todos pedidos de todo mundo foram cacelados*`);
+	}
 
 })
 
 bot.hears(['❌ Cancelar meus Pedidos ❌'], async ctx => {
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+
 	await ctx.replyWithMarkdown(`*Tem certeza que quer cancelar tudo que pediu hoje?*`, tecladoCancelar);
+	}
 })
 
 bot.hears(['Voltar,'], async ctx => {
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+
 	await ctx.replyWithMarkdown(`Voltando...`, tecladoFinal);
+	}
 })
 
 
 // Finalizando pedido particular
 bot.hears(['😋 Quero pedir mais um pão'], async ctx => {
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+
 	await ctx.replyWithMarkdown(`Tá com fome ein? Pede aí ✌️ `, tecladoPao)
+	}
 })
 
 
 bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
+
 	await ctx.reply(`É nóiz 👍`);
 
-	if (ctx.update.message.from.id == ctx.chat.id) {
+	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
 
 		listar();
 		var listapessoal = [];
@@ -2527,7 +2542,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	listar();
 
-	if (ctx.update.message.from.id == ctx.chat.id) {
+	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
 		// Listagem pessoal
 		var listapessoal = [];
 
@@ -2580,24 +2595,28 @@ bot.command(['quem'], async ctx => {
 	var quem = [];
 	var quemtroca = [];
 
-	for (var i = 0; i < pedido.acoes.length; i++) {
-		var acaoatual = pedido.acoes[i].split(' : ');
-		if (acaoatual[2] == 'pediu') {
-			quem.push("\n"+acaoatual[1]+" pediu 1 "+acaoatual[3]);
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+
+		for (var i = 0; i < pedido.acoes.length; i++) {
+			var acaoatual = pedido.acoes[i].split(' : ');
+			if (acaoatual[2] == 'pediu') {
+				quem.push("\n"+acaoatual[1]+" pediu 1 "+acaoatual[3]);
+			}
+
+			if (acaoatual[2] == 'trocaria') {
+				quemtroca.push("\n"+acaoatual[1]+": se não houver "+acaoatual[3]+", quero um "+acaoatual[5]);
+			}
 		}
 
-		if (acaoatual[2] == 'trocaria') {
-			quemtroca.push("\n"+acaoatual[1]+": se não houver "+acaoatual[3]+", quero um "+acaoatual[5]);
+		if (quem.length > 0 ) {
+			await ctx.reply(`Quem pediu o que: ${quem}`)
+		}
+
+		if (quemtroca.length > 0 ) {
+			await ctx.reply(`Listagem de trocas: ${quemtroca}`)
 		}
 	}
 
-	if (quem.length > 0 ) {
-		await ctx.reply(`Quem pediu o que: ${quem}`)
-	}
-
-	if (quemtroca.length > 0 ) {
-		await ctx.reply(`Listagem de trocas: ${quemtroca}`)
-	}
 })
 
 
@@ -3155,11 +3174,14 @@ bot.start(async ctx => {
 // Previsão do tempo
 
 bot.command(['clima'], async ctx => {
-	await ctx.reply(`Clima pra que dia?`,tecladoClima);
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+		await ctx.reply(`Clima pra que dia?`,tecladoClima);
+		
+	}
 })
 
 bot.command(['jandira'], async ctx => {
-	if (ctx.update.message.from.id == idRodrigo) {
+	if (ctx.update.message.from.id == idRodrigo && idAntibot.includes(ctx.update.message.from.id) == false) {
 
 		axios.get(`http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/3861/days/15?token=${apiClimatempo}`)
 			.then(function (response) {
@@ -3404,27 +3426,36 @@ bot.action('csetedias', async ctx => {
 
 // Extras
 bot.command('wifi', async ctx => {
-	await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
+	if (idAntibot.includes(ctx.update.message.from.id) == false){
+		await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
+		
+	}
 })
 
 bot.command(['help', 'ajuda', 'tio'], async ctx => {
-	await ctx.reply(`
-		/pao - abre o menu para fazer o pedido do pão
-		/pedido - mostra os pedidos do dia do pão
-		/quem - mostra os pedidos separadamente de cada um
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+		await ctx.reply(`
+			/pao - abre o menu para fazer o pedido do pão
+			/pedido - mostra os pedidos do dia do pão
+			/quem - mostra os pedidos separadamente de cada um
 
-		/relatorio - gera relatórios dos pedidos de pão
+			/relatorio - gera relatórios dos pedidos de pão
 
-		/clima - mostra a previsão do tempo
-		/wifi - mostra a senha da wifi do visitante
-		/truco - joga truco com os amigos
-		`)
+			/clima - mostra a previsão do tempo
+			/wifi - mostra a senha da wifi do visitante
+			/truco - joga truco com os amigos
+			`)
+		
+	}
 
 })
 
 
 bot.command('id', async ctx => {
-	await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+	if (idAntibot.includes(ctx.update.message.from.id) == false){
+		await ctx.reply(`Oi ${ctx.update.message.from.first_name}, seu id é ${ctx.update.message.from.id}. O id do chat é ${ctx.chat.id}. Essa é uma info meio sensível, melhor apagar essa mensagem depois. `)
+		
+	}
 })
 
 bot.command('organizar', async ctx => {
@@ -3492,7 +3523,7 @@ bot.command(['suporte'], async ctx => {
 		
 		exec(ctx, receberemails, exibiremails);
 
-		if (plantao == true && ctx.update.message.from.id == idMarcos) {
+		if (plantao == true && ctx.update.message.from.id == idMarcos && idAntibot.includes(ctx.update.message.from.id) == false) {
 			plantaomarcos = plantaomarcos+1;
 
 			if (plantaomarcos > 2) {
@@ -3515,7 +3546,10 @@ bot.command(['suporte'], async ctx => {
 
 // CS
 bot.command(['cs'], async ctx => {
-	await ctx.reply(`🔫 Terrorist Win 🔫 http://horacio.kiliano.com.br/wp-content/uploads/2018/11/cs.zip`);
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+		await ctx.reply(`🔫 Terrorist Win 🔫 http://horacio.kiliano.com.br/wp-content/uploads/2018/11/cs.zip`);
+		
+	}
 })
 
 // 
@@ -3563,19 +3597,27 @@ setInterval(function() {
 
 bot.command(['cpf'], async ctx => {
 
-	var cpfteste = cpf();
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+		var cpfteste = cpf();
 
-	await ctx.reply(`CPF válido gerado aleatoriamente:
-${cpfteste}`);
+		await ctx.reply(`CPF válido gerado aleatoriamente:
+	${cpfteste}`);
+		
+	}
+
 
 })
 
 bot.command(['cnpj'], async ctx => {
 
-	var cnpjteste = cnpj();
+	if (idAntibot.includes(ctx.update.message.from.id) == false) {
+		var cnpjteste = cnpj();
 
-	await ctx.reply(`CNPJ válido gerado aleatoriamente:
-${cnpjteste}`);
+		await ctx.reply(`CNPJ válido gerado aleatoriamente:
+	${cnpjteste}`);
+		
+	}
+
 
 })
 
@@ -4742,7 +4784,7 @@ const trucomaodeonze = (ctx, next) => {
 
 bot.command(['trucoentrar'], async ctx => {
 
-	if (ctx.update.message.from.id == ctx.chat.id) {
+	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
 
 
 		if (debug == false) {
@@ -4901,7 +4943,7 @@ bot.command(['truco'], async ctx => {
 
 
 bot.command(['trucolimpo'], async ctx => {
-	if (ctx.update.message.from.id == ctx.chat.id) {
+	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
 		if (trucoComecou == false) {
 			trucoBaralhoTipo = 'limpo';
 
@@ -4925,7 +4967,7 @@ bot.command(['trucolimpo'], async ctx => {
 })
 
 bot.command(['trucosujo'], async ctx => {
-	if (ctx.update.message.from.id == ctx.chat.id) {
+	if (ctx.update.message.from.id == ctx.chat.id && idAntibot.includes(ctx.update.message.from.id) == false) {
 		if (trucoComecou == false) {
 			trucoBaralhoTipo = 'sujo';
 
@@ -5761,7 +5803,7 @@ var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Rodrigo", "Isabel"
 
 bot.command('bolo', async ctx => {
 	
-	if (funcionarios.length > 0) {
+	if (funcionarios.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
 		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
 
 		// While there remain elements to shuffle...
@@ -5822,7 +5864,7 @@ var membrosJson = [
 
 bot.command(['membros','pontos','perfil'], async ctx => {
 	
-	if (membrosJson.length > 0) {
+	if (membrosJson.length > 0 && idAntibot.includes(ctx.update.message.from.id) == false) {
 
 
 		var membrosAnalizar = 0;
