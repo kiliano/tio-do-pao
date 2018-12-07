@@ -71,76 +71,76 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idMichel = env.idMichel;
-	// const idOtavio = env.idOtavio;
-	// const idAntibot = env.idAntibot;
-	// const idMarcos = env.idMarcos;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idMichel = env.idMichel;
+	const idOtavio = env.idOtavio;
+	const idAntibot = env.idAntibot;
+	const idMarcos = env.idMarcos;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 	
 
-	// const idTodos = env.idTodos;
-	// const emailSenha = env.emailSenha;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
-	// fuso = 0;
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano;
-	const idBartira = process.env.idBartira;
-	const idRodrigo = process.env.idRodrigo;
-	const idMichel = process.env.idMichel;
-	const idMarcos = process.env.idMarcos;
-	const idOtavio = process.env.idOtavio;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau;
-	const idChatFronts = process.env.idChatFronts;
-	const wordpressPass = process.env.wordpressPass;
-	const idAntibot = process.env.idAntibot;
+	// const idKiliano = process.env.idKiliano;
+	// const idBartira = process.env.idBartira;
+	// const idRodrigo = process.env.idRodrigo;
+	// const idMichel = process.env.idMichel;
+	// const idMarcos = process.env.idMarcos;
+	// const idOtavio = process.env.idOtavio;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau;
+	// const idChatFronts = process.env.idChatFronts;
+	// const wordpressPass = process.env.wordpressPass;
+	// const idAntibot = process.env.idAntibot;
 
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos;
+	// const idTodos = process.env.idTodos;
 
-	const emailSenha = process.env.emailSenha;
+	// const emailSenha = process.env.emailSenha;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 2;
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 2;
 
 
 
@@ -2538,6 +2538,9 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 
 // Concluíndo pedido
 
+var chamadapedido = "*📝 Pedidos da Degrau Publicidade 📝*";
+var chamadaendereco = "\n🔸 Rua Jair de Melo Viana, 65";
+
 bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 
@@ -2580,10 +2583,10 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 				indisponiveltxt = ""
 			}
 
-			await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+			await ctx.replyWithMarkdown(`${chamadapedido} 
 				Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 				*${pedidolista}*
-				${indisponiveltxt}`, tecladoFixoItens)
+				${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 		} else {
 			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2648,10 +2651,10 @@ bot.action('pcancelarvoltar', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 		
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2706,10 +2709,10 @@ bot.action('pconfirmar', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`)
+			${indisponiveltxt} ${chamadaendereco}`)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2743,10 +2746,10 @@ bot.action('xpaofrances', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2773,10 +2776,10 @@ bot.action('xpaodemilho', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2802,10 +2805,10 @@ bot.action('xrosquinha', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2831,10 +2834,10 @@ bot.action('xrosquinharecheio', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2861,10 +2864,10 @@ bot.action('xcroissantpresunto', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2890,10 +2893,10 @@ bot.action('xcroissantfrango', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2920,10 +2923,10 @@ bot.action('xbisnaga', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2949,10 +2952,10 @@ bot.action('xbisnagaacucar', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -2978,10 +2981,10 @@ bot.action('xbisnagacreme', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -3007,10 +3010,10 @@ bot.action('xreiniciar', async ctx => {
 			indisponiveltxt = ""
 		}
 
-		await ctx.replyWithMarkdown(`*📝📝 Pedidos pro Tio do Pão 📝📝* 
+		await ctx.replyWithMarkdown(`${chamadapedido} 
 			Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
 			*${pedidolista}*
-			${indisponiveltxt}`, tecladoFixoItens)
+			${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
 
 	} else {
 		await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
@@ -5798,36 +5801,7 @@ bot.command('trucosair', async ctx => {
 
 
 
-// ------------------ BOLO -------------------
 
-var funcionarios = ["Kiliano", "Otávio", "Mimi", "Emerson", "Rodrigo", "Isabel", "Jonathas", "Rogério", "Murilo", "Arnaldo", "Sarah", "Camilla", "Marina", "Marcelo", "Tony"];
-
-bot.command('bolo', async ctx => {
-	
-	if (funcionarios.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
-		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
-
-		// While there remain elements to shuffle...
-		while (0 !== currentIndex) {
-			// Pick a remaining element...
-			randomIndex = Math.floor(Math.random() * currentIndex);
-			currentIndex -= 1;
-
-			// And swap it with the current element.
-			temporaryValue = funcionarios[currentIndex];
-			funcionarios[currentIndex] = funcionarios[randomIndex];
-			funcionarios[randomIndex] = temporaryValue;
-		}
-
-		var funcionariossorteio = funcionarios[0];
-		funcionarios.splice(0, 1);
-
-		await ctx.reply(`🍰 Quem ganha bolo é.... ${funcionariossorteio}!! 🍰`);
-	} else {
-		await ctx.reply(`🍰 Cabou o bolo 🍰`);
-	}
-
-})
 
 // ---------------- Sistema de Membros -----------------
 
@@ -5992,6 +5966,38 @@ bot.action(/transferir (.+)/, async ctx => {
 
 // Iniciando Sistema de Membros
 exec(ctx, carregarmembros, listandodegrau);
+
+
+// ------------------ BOLO -------------------
+
+var funcionarios = membrosdegrauNome;
+
+bot.command('bolo', async ctx => {
+	
+	if (funcionarios.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
+
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			// And swap it with the current element.
+			temporaryValue = funcionarios[currentIndex];
+			funcionarios[currentIndex] = funcionarios[randomIndex];
+			funcionarios[randomIndex] = temporaryValue;
+		}
+
+		var funcionariossorteio = funcionarios[0];
+		funcionarios.splice(0, 1);
+
+		await ctx.reply(`🍰 Quem ganha bolo é.... ${funcionariossorteio}!! 🍰`);
+	} else {
+		await ctx.reply(`🍰 Cabou o bolo 🍰`);
+	}
+
+})
 
 // Loop
 bot.startPolling()
