@@ -5862,6 +5862,8 @@ const listandodegrau = (ctx, next) => {
 		{columns: 4}
 	));
 
+	funcionarios = membrosdegrauNome;
+
 	// Teclado de Usuários
 	next();
 }
@@ -5984,11 +5986,10 @@ exec(ctx, carregarmembros, listandodegrau);
 
 // ------------------ BOLO -------------------
 
-
+var funcionarios = [];
 
 bot.command('bolo', async ctx => {
-	var funcionarios = membrosdegrauNome;
-	
+
 	if (funcionarios.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
 
