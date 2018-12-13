@@ -3519,6 +3519,21 @@ bot.command(['teste'], async ctx => {
 })
 
 
+bot.command(['plantao'], async ctx => {
+	if (ctx.update.message.from.id == idMarcos || ctx.update.message.from.id == idKiliano || ctx.update.message.from.id == idBartira || ctx.update.message.from.id == idOtavio) {
+		if (plantao == false) {
+			
+			plantao = true;
+			await ctx.reply("Modo Plantão LIGADO");
+			
+		} else {
+			plantao = false;
+			await ctx.reply("Modo Plantão DESLIGADO");
+
+		}
+	}
+})
+
 
 
 bot.command(['suporte'], async ctx => {
@@ -3552,7 +3567,6 @@ bot.command(['suporte'], async ctx => {
 bot.command(['cs'], async ctx => {
 	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		await ctx.reply(`🔫 Terrorist Win 🔫 http://horacio.kiliano.com.br/wp-content/uploads/2018/11/cs.zip`);
-		
 	}
 })
 
