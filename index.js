@@ -5984,9 +5984,10 @@ exec(ctx, carregarmembros, listandodegrau);
 
 // ------------------ BOLO -------------------
 
-var funcionarios = membrosdegrauNome;
+
 
 bot.command('bolo', async ctx => {
+	var funcionarios = membrosdegrauNome;
 	
 	if (funcionarios.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
 		var currentIndex = funcionarios.length, temporaryValue, randomIndex;
