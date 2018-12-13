@@ -2539,7 +2539,8 @@ bot.hears(['👍 Tô satisfeito tio!'], async ctx => {
 // Concluíndo pedido
 
 var chamadapedido = "*📝 Pedidos da Degrau Publicidade 📝*";
-var chamadaendereco = "\n🔸 Rua Jair de Melo Viana, 65";
+// var chamadaendereco = "\n🔸 Rua Jair de Melo Viana, 65";
+var chamadaendereco = "";
 
 bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
