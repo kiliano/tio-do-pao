@@ -38,7 +38,7 @@ var debug = false;
 var acordado = true;
 
 // PLANTÃO
-var plantao = true;
+var plantao = false;
 var plantaomarcos = 0;
 
 var fimdodia = false;
