@@ -6016,5 +6016,27 @@ bot.command('bolo', async ctx => {
 
 })
 
+
+
+// TESTE
+
+//var expect  = require('chai').expect;
+var request = require('request');
+
+const testedocs = (ctx, next) => {
+    request('https://docs.degraupublicidade.com.br/' , function(error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+		console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+		console.log('body:', body); // Print the HTML for the Google homepage.
+        next();
+    });
+};
+
+//exec(ctx, testedocs);
+
+
+
+
+
 // Loop
 bot.startPolling()
