@@ -71,76 +71,76 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
-	const telegram = new Telegram(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
+	// const telegram = new Telegram(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idMichel = env.idMichel;
-	const idOtavio = env.idOtavio;
-	const idAntibot = env.idAntibot;
-	const idMarcos = env.idMarcos;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatFronts = env.idChatFronts;
-	const apiTinypng = env.apiTinypng;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idMichel = env.idMichel;
+	// const idOtavio = env.idOtavio;
+	// const idAntibot = env.idAntibot;
+	// const idMarcos = env.idMarcos;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatFronts = env.idChatFronts;
+	// const apiTinypng = env.apiTinypng;
 	
 
-	const idTodos = env.idTodos;
-	const emailSenha = env.emailSenha;
+	// const idTodos = env.idTodos;
+	// const emailSenha = env.emailSenha;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
-	fuso = 0;
+	// fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano;
-	// const idBartira = process.env.idBartira;
-	// const idRodrigo = process.env.idRodrigo;
-	// const idMichel = process.env.idMichel;
-	// const idMarcos = process.env.idMarcos;
-	// const idOtavio = process.env.idOtavio;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau;
-	// const idChatFronts = process.env.idChatFronts;
-	// const wordpressPass = process.env.wordpressPass;
-	// const idAntibot = process.env.idAntibot;
+	const idKiliano = process.env.idKiliano;
+	const idBartira = process.env.idBartira;
+	const idRodrigo = process.env.idRodrigo;
+	const idMichel = process.env.idMichel;
+	const idMarcos = process.env.idMarcos;
+	const idOtavio = process.env.idOtavio;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau;
+	const idChatFronts = process.env.idChatFronts;
+	const wordpressPass = process.env.wordpressPass;
+	const idAntibot = process.env.idAntibot;
 
 
-	// const apiTinypng = process.env.apiTinypng;
+	const apiTinypng = process.env.apiTinypng;
 
-	// const idTodos = process.env.idTodos;
+	const idTodos = process.env.idTodos;
 
-	// const emailSenha = process.env.emailSenha;
+	const emailSenha = process.env.emailSenha;
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
-	// const telegram = new Telegram(token);
-	// fuso = 2;
+	const bot = new Telegraf(token)
+	const telegram = new Telegram(token);
+	fuso = 2;
 
 
 
@@ -6023,11 +6023,18 @@ bot.command('bolo', async ctx => {
 var request = require('request');
 var statusloading = false;
 var statusresultado = [];
-var statusid = 0;
+var statustodos = [];
+var statusid = idKiliano;
+
+
+
+
+
 
 const statusinicio = (ctx, next) => {
 	statusloading = true;
 	statusresultado = [];
+	statustodos = [];
 	next();
 }
 
@@ -6037,10 +6044,10 @@ const statusfinal = (ctx, next) => {
 
 const statusmsg = (ctx, next) => {
 	if (statusresultado.length == 0) {
-		msg(`Não foram encontrados erros nos sites registrados`, idKiliano);
+		msg(`🔹 Sites testados \n ${statustodos} \n\n👍 Não foram encontrados erros nos sites registrados`, statusid);
 
 	} else {
-		msg(`Erros encontrados:\n ${statusresultado}`, idKiliano);
+		msg(`🔹 Sites testados \n ${statustodos} \n\nErros encontrados:\n ${statusresultado}`, statusid);
 	}
 
 	next();
@@ -6053,30 +6060,40 @@ const statusdocs = (ctx, next) => {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` DOCS`);
+
 		if (response == undefined) {
 			statusresultado.push(`📍 docs.degraupublicidade.com.br | Sem Resposta | Erro: ${error} \n`);
 	        next();
 		} else {
+
 			if (response.statusCode != 200) {
 				statusresultado.push(`📍 docs.degraupublicidade.com.br | Response ${response.statusCode} \n`);
 				next();
 			} else {
 				next();
+				
 			}
 		}
     });
 };
 
 
+
+
+
+
 const statusdne = (ctx, next) => {
-	request('https://www.drogarianovaesperanca.com.br/' , function(error, response, body) {
+	request({ url: 'https://www.drogarianovaesperanca.com.br/', headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
         //console.log('error:', error); // Print the error if one occurred
 		//console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		// console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` DNE`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.drogarianovaesperanca.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
 		} else {
+
 			if (response.statusCode != 200) {
 				statusresultado.push(`📍 https://www.drogarianovaesperanca.com.br/ | Response ${response.statusCode} \n`);
 				next();
@@ -6087,11 +6104,16 @@ const statusdne = (ctx, next) => {
     });
 };
 
+
+
+
+
 const statusmix = (ctx, next) => {
-	request('https://www.farmaciamix.com.br/' , function(error, response, body) {
+	request({ url: 'https://www.farmaciamix.com.br/', headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` F Mix`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.farmaciamix.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6107,10 +6129,11 @@ const statusmix = (ctx, next) => {
 };
 
 const statusunique = (ctx, next) => {
-	request('https://www.farmaciaunique.com.br/' , function(error, response, body) {
+	request({ url: 'https://www.farmaciaunique.com.br/', headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` F Unique`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.farmaciaunique.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6130,6 +6153,7 @@ const statustatuagem = (ctx, next) => {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` Loja da Tatuagem`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.lojadatatuagem.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6146,10 +6170,11 @@ const statustatuagem = (ctx, next) => {
 
 
 const statuspele = (ctx, next) => {
-	request('https://www.emdiacomapele.com.br/' , function(error, response, body) {
+	request({ url: 'https://www.emdiacomapele.com.br/', headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` Em Dia com a Pele`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.emdiacomapele.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6169,6 +6194,7 @@ const statusbiolab = (ctx, next) => {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` Biolab`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://biolabemcasa.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6188,6 +6214,7 @@ const statusdegrau = (ctx, next) => {
         // console.log('error:', error); // Print the error if one occurred
 		// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 		//console.log('body:', body); // Print the HTML for the Google homepage.
+		statustodos.push(` Degrau`);
 		if (response == undefined) {
 			statusresultado.push(`📍 https://www.degraupublicidade.com.br/ | Sem Resposta | Erro: ${error} \n`);
 	        next();
@@ -6209,8 +6236,27 @@ const statusdegrau = (ctx, next) => {
 
 
 
-exec(ctx, statusinicio, statusdocs, statusdne, statusmix, statusunique, statustatuagem, statuspele, statusbiolab, statusmsg, statuspele, statusfinal);
+// exec(ctx, statusinicio, statusdocs, statusdne, statusmix, statusunique, statustatuagem, statuspele, statusbiolab, statusmsg, statuspele, statusfinal);
 
+
+
+bot.command('status', async ctx => {
+
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+		if(statusloading == false){
+			statusid = ctx.update.message.from.id;
+			await ctx.reply(`Fazendo requisições, aguarde... 🕗`);
+			exec(ctx, statusinicio, statusdocs, statusdne, statusmix, statusunique, statustatuagem, statuspele, statusbiolab, statusmsg, statuspele, statusfinal);
+
+		} else {
+			await ctx.reply(`Processando outra requisição. Tenta novamente. :(`);
+		}
+
+	}
+
+
+
+})
 
 
 
