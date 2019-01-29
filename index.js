@@ -6089,10 +6089,10 @@ const statusfinal = (ctx, next) => {
 
 const statusmsg = (ctx, next) => {
 	if (statusresultado.length == 0) {
-		msg(`🔹 Sites testados \n ${statustodos} \n\n👍 Não foram encontrados erros nos sites registrados`, statusid);
+		msg(`👍 Não foram encontrados erros nos sites registrados \n\n🔹 Sites testados \n ${statustodos}`, statusid);
 
 	} else {
-		msg(`🔹 Sites testados \n ${statustodos} \n\nErros encontrados:\n ${statusresultado}`, statusid);
+		msg(`Erros encontrados:\n ${statusresultado} \n\n🔹 Sites testados \n ${statustodos}`, statusid);
 	}
 
 	exec(ctx, statusfinal);
