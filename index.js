@@ -6118,8 +6118,10 @@ const statusmsg = (ctx, next) => {
 			
 			if (statusautomaticomsg == 0) {
 				console.log(`Erros encontrados: \n ${statusresultado} `);
-				msg(`❗❗❗ Erros encontrados ❗❗❗\n ${statusresultado} \n\n Próximo aviso automático em 2 horas. Para checar manualmente, escreva /status `, idKiliano);
-				statusautomaticomsg = 3;
+				msg(`❗❗❗ Erros encontrados ❗❗❗\n\n ${statusresultado} \n\n Próximo aviso automático em 2 horas. Para checar manualmente, escreva /status `, idKiliano);
+				msg(`❗❗❗ Erros encontrados ❗❗❗\n\n ${statusresultado} \n\n Próximo aviso automático em 2 horas. Para checar manualmente, escreva /status `, idMarcos);
+				msg(`❗❗❗ Erros encontrados ❗❗❗\n\n ${statusresultado} \n\n Próximo aviso automático em 2 horas. Para checar manualmente, escreva /status `, idOtavio);
+				statusautomaticomsg = 6;
 			} else {
 				statusautomaticomsg = statusautomaticomsg-1;
 			}
