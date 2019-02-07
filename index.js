@@ -1418,7 +1418,7 @@ const novodia = (ctx, next) => {
 	pedidolistasubstituto = [];
 	pedidosanalisadosunicos = [];
 
-	msg(`função novodia()`, idKiliano)
+	msg(`função novodia - ${datadia}/${datames}/${dataano}`, idKiliano)
 
 	next();
 
@@ -6031,7 +6031,9 @@ var request = require('request');
 var statusloading = false;
 var statusresultado = [];
 var statustodos = [];
-var statussites = ['https://www.degraupublicidade.com.br/','https://biolabemcasa.com.br/','https://www.emdiacomapele.com.br/','https://www.lojadatatuagem.com.br/','https://www.farmaciaunique.com.br/','https://docs.degraupublicidade.com.br/','https://www.drogarianovaesperanca.com.br/','https://www.farmaciamix.com.br/'];
+var statusautomatico = false;
+var statusautomaticomsg = 0;
+var statussites = ['https://www.iprefguarulhos.sp.gov.br/','https://www.degraupublicidade.com.br/','https://biolabemcasa.com.br/','https://www.emdiacomapele.com.br/','https://www.lojadatatuagem.com.br/','https://www.farmaciaunique.com.br/','https://docs.degraupublicidade.com.br/','https://www.drogarianovaesperanca.com.br/','https://www.farmaciamix.com.br/'];
 var statusid = idKiliano;
 
 var statuschecagem = -1;
@@ -6092,15 +6094,39 @@ const statusinicio = (ctx, next) => {
 
 const statusfinal = (ctx, next) => {
 	statusloading = false;
+	statusautomatico = false;
 }
 
 const statusmsg = (ctx, next) => {
-	if (statusresultado.length == 0) {
-		msg(`👍 Não foram encontrados erros nos sites registrados \n\n🔹 Sites testados \n ${statustodos}`, statusid);
 
+	if (statusautomatico == false) {
+		if (statusresultado.length == 0) {
+			msg(`👍 Não foram encontrados erros nos sites registrados \n\n🔹 Sites testados \n ${statustodos}`, statusid);
+
+		} else {
+			msg(`Erros encontrados:\n ${statusresultado} \n\n🔹 Sites testados \n ${statustodos}`, statusid);
+		}
 	} else {
-		msg(`Erros encontrados:\n ${statusresultado} \n\n🔹 Sites testados \n ${statustodos}`, statusid);
+		if (statusresultado.length == 0) {
+			console.log("Não foram encontrados erros nos sites registrados.");
+
+			if (statusautomaticomsg > 0) {
+				statusautomaticomsg = statusautomaticomsg-1;
+			}
+
+		} else {
+			
+			if (statusautomaticomsg == 0) {
+				console.log(`Erros encontrados: \n ${statusresultado} `);
+				msg(`❗❗❗ Erros encontrados ❗❗❗\n ${statusresultado} \n\n Próximo aviso automático em 2 horas. Para checar manualmente, escreva /status `, idKiliano);
+				statusautomaticomsg = 3;
+			} else {
+				statusautomaticomsg = statusautomaticomsg-1;
+			}
+		}
+
 	}
+	
 
 	exec(ctx, statusfinal);
 }
@@ -6124,7 +6150,22 @@ bot.command('status', async ctx => {
 	}
 
 
-})
+});
+
+
+// Checagem automática de sites
+
+setInterval(function() {
+	if(statusloading == false){
+		console.log("Fazendo requisição para checagem de sites");
+		statusautomatico = true;
+		exec(ctx, statusinicio);
+
+	} else {
+		console.log("Checagem de sites não realizada, loading já estava ligado");
+	}
+    
+}, 25000 * 30); // 60 minutos
 
 
 
