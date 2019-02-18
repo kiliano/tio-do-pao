@@ -140,7 +140,7 @@ const ctx = {}
 
 	const bot = new Telegraf(token)
 	const telegram = new Telegram(token);
-	fuso = 2;
+	fuso = 3;
 
 
 
