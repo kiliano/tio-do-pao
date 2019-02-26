@@ -558,7 +558,7 @@ var paopreco = {
 	"paofrances":0.5,
 	"paodemilho":0.5,
 	"rosquinha":1,
-	"rosquinharecheio":1.5,
+	"rosquinharecheio":2,
 	"croissantpresunto":3,
 	"croissantfrango":3,
 	"bisnaga":0.5,
@@ -5835,6 +5835,7 @@ var membrosdegrauNome = [];
 
 // Carregando informação do Online
 const carregarmembros = (ctx, next) => {
+	console.log("Carregar membros");
 	wp.getPosts({
 		type: "cpt-membros",
 		number: "1"
@@ -5845,7 +5846,15 @@ const carregarmembros = (ctx, next) => {
 	    membrosJson = JSON.parse(membrosJson);
 	    console.log(membrosJson);
 
-	    next();
+
+	    if (membrosJson.degrau.length > 0) {
+		    next();
+		    console.log("Tudo ok. indo pra proxima")
+	    } else {
+	    	carregarmembros();
+	    	console.log("Recarregando membros.")
+	    }
+
 	});
 
 			
