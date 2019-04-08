@@ -71,76 +71,82 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idMichel = env.idMichel;
-	// const idOtavio = env.idOtavio;
-	// const idAntibot = env.idAntibot;
-	// const idMarcos = env.idMarcos;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idMichel = env.idMichel;
+	const idOtavio = env.idOtavio;
+	const idAntibot = env.idAntibot;
+	const idMarcos = env.idMarcos;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
+
+	const idChatPao = env.idChatPao;
 	
 
-	// const idTodos = env.idTodos;
-	// const emailSenha = env.emailSenha;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
-	// fuso = 0;
+
+	const tasksUrl = env.tasksUrl;
+	const tasksApi = env.tasksApi;
+
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano;
-	const idBartira = process.env.idBartira;
-	const idRodrigo = process.env.idRodrigo;
-	const idMichel = process.env.idMichel;
-	const idMarcos = process.env.idMarcos;
-	const idOtavio = process.env.idOtavio;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau;
-	const idChatFronts = process.env.idChatFronts;
-	const wordpressPass = process.env.wordpressPass;
-	const idAntibot = process.env.idAntibot;
+	// const idKiliano = process.env.idKiliano;
+	// const idBartira = process.env.idBartira;
+	// const idRodrigo = process.env.idRodrigo;
+	// const idMichel = process.env.idMichel;
+	// const idMarcos = process.env.idMarcos;
+	// const idOtavio = process.env.idOtavio;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau;
+	// const idChatFronts = process.env.idChatFronts;
+	// const wordpressPass = process.env.wordpressPass;
+	// const idAntibot = process.env.idAntibot;
+	// const idChatPao = process.env.idChatPao;
 
+	// const apiTinypng = process.env.apiTinypng;
 
-	const apiTinypng = process.env.apiTinypng;
+	// const idTodos = process.env.idTodos;
 
-	const idTodos = process.env.idTodos;
+	// const emailSenha = process.env.emailSenha;
 
-	const emailSenha = process.env.emailSenha;
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const apiClimatempo = process.env.apiClimatempo
-
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 3;
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 3;
 
 
 
@@ -2088,7 +2094,7 @@ const eventosagendados = (ctx, next) => {
 		// ---- Lembrete Pão
 		var schedulelembretepao = schedule.scheduleJob({hour: 15+fuso, minute: 40}, function(){
 			if (plantao == false) {
-				msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idChatDegrau);
+				msg(`🍞🥐🥖🍩 Não deixe pra última hora! Reserve agora seu pão me enviando um /pao COMO MSG PARTICULAR 🍞🥐🥖🍩`, idChatPao);
 			}
 		});
 		// / Lembrete Pão
@@ -2104,7 +2110,7 @@ const eventosagendados = (ctx, next) => {
 
 
 					👉 Para apagar é só digitar /pedido e clicar em APAGAR TUDO. Caso ele tenha passado, ignorem essa msg.
-					`, idChatDegrau);
+					`, idChatPao);
 
 				}
 			}
@@ -2340,7 +2346,7 @@ bot.hears(['🍞 Pão Francês', '🌽 Pão de Milho', '🍩 Rosquinha', '🍩 c
 
 		pedido.acoes.push(ctx.update.message.from.id+' : '+nome+' : pediu : '+item)
 
-		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}.`, idChatDegrau);
+		msg(`${ctx.update.message.from.first_name} reservou um ${ctx.update.message.text}.`, idChatPao);
 
 	} else {
 		
@@ -2428,7 +2434,7 @@ bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
 
 	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`, tecladoFinal);
-	// msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatDegrau)
+	msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatPao)
 
 })
 
@@ -3498,9 +3504,18 @@ bot.command('msg', async ctx => {
 					if (destino == "fronts" ) {
 						msg(mimic, idChatFronts)
 					} else {
-						await ctx.reply(`Mensagem - ${mimic} - não pode ser entregue porque o destino não foi especificado.
+
+						if (destino == "pao" ) {
+							msg(mimic, idChatPao)
+						} else {
+							await ctx.reply(`Mensagem - ${mimic} - não pode ser entregue porque o destino não foi especificado.
 							Atuais cadastrados: grupo, kiliano, bartira
 						`)
+
+						}
+
+						
+						
 					}
 				}
 			}
@@ -6042,7 +6057,7 @@ var statusresultado = [];
 var statustodos = [];
 var statusautomatico = false;
 var statusautomaticomsg = 0;
-var statussites = ['http://www.sagiturcorretora.com.br/','https://rmgcapital.com.br/','https://rh-8.com.br/','http://reboucasbrasil.com.br/','http://pro-figado.com.br/','http://pliniojunqueiranutricao.com.br/','https://www.ourominas.com/om/','http://nunesoliveira.com.br/','https://www.neopagamentos.com.br/','http://multiativa.com.br/','https://motiveacaopalestras.com.br/','http://montecarloalimentos.com.br/','https://moneybrasil.com.br/','https://www.melhorlanceleiloes.com.br/','http://mcleodferreira.com.br/','https://www.lopesinvesthouse.com.br/','https://www.littlepeopleschool.com.br/','http://liegedecoracoes.com.br/','https://labmixquimica.com.br/','https://www.karinamacieleventos.com.br/','http://jvn.ind.br/','https://www.isapelpapeis.com.br/','https://iprefguarulhos.sp.gov.br/holerites/','https://iprefguarulhos.sp.gov.br/','http://instruir.com.br/','http://ibcectreinamentos.com.br/','https://www.hollys.com.br/','https://www.holdman.com.br/','https://www.hmcinformatica.com.br/','https://www.grupodecombateaocancer.org.br/','https://www.grupoarremateleiloes.com.br/','http://www.gkg.com.br/','https://www.gironews.com/','https://www.funeralsantafe.com.br/','http://fortfrios.com.br/','http://www.fmafornos.com.br/','http://www.fgconvites.com.br/','http://www.fevereiroecruz.com.br/','http://feajr.com/','https://fcapjr.com.br/','https://www.entregarefrigerada.com.br/','https://www.elccontabilidade.com.br/','https://www.elainebianco.com.br/','http://e2atelecom.com.br/','http://donamita.com.br/','http://www.doctortopline.com.br/port/','http://depsmoda.com.br/#!/','https://www.danielejafet.com.br/','http://danielefernandes.com.br/','https://www.couroart.com.br/','http://colibridistribuidora.com.br/','https://clinicadereproducaohumana.com.br/','http://ciasefim.com/','http://cestasimperial.com.br/','https://centerespumas.com.br/','https://cbec.org.br/','https://candelariovalvulas.com.br/','https://brcondominio.com.br/','https://www.brbrindes.com.br/','http://www.brasforno.com.br/','https://autopecas3g.com.br/','http://www.atlanticaseparadores.com.br/','http://aneac.com.br/','http://alemdamidia.com.br/','http://ajatocacavazamentos.com.br/','https://actionsys.com.br/','http://2fti.com.br/','https://www.iprefguarulhos.sp.gov.br/','https://www.degraupublicidade.com.br/','https://www.lojadatatuagem.com.br/','https://docs.degraupublicidade.com.br/'];
+var statussites = ['http://www.sagiturcorretora.com.br/','https://rmgcapital.com.br/','https://rh-8.com.br/','http://reboucasbrasil.com.br/','http://pro-figado.com.br/','http://pliniojunqueiranutricao.com.br/','https://www.ourominas.com/om/','http://nunesoliveira.com.br/','https://www.neopagamentos.com.br/','http://multiativa.com.br/','https://motiveacaopalestras.com.br/','http://montecarloalimentos.com.br/','https://moneybrasil.com.br/','https://www.melhorlanceleiloes.com.br/','http://mcleodferreira.com.br/','https://www.littlepeopleschool.com.br/','http://liegedecoracoes.com.br/','https://labmixquimica.com.br/','https://www.karinamacieleventos.com.br/','http://jvn.ind.br/','https://www.isapelpapeis.com.br/','https://iprefguarulhos.sp.gov.br/holerites/','https://iprefguarulhos.sp.gov.br/','http://instruir.com.br/','http://ibcectreinamentos.com.br/','https://www.hollys.com.br/','https://www.holdman.com.br/','https://www.hmcinformatica.com.br/','https://www.grupodecombateaocancer.org.br/','https://www.grupoarremateleiloes.com.br/','http://www.gkg.com.br/','https://www.gironews.com/','https://www.funeralsantafe.com.br/','http://fortfrios.com.br/','http://www.fmafornos.com.br/','http://www.fgconvites.com.br/','http://www.fevereiroecruz.com.br/','http://feajr.com/','https://fcapjr.com.br/','https://www.entregarefrigerada.com.br/','https://www.elccontabilidade.com.br/','https://www.elainebianco.com.br/','http://e2atelecom.com.br/','http://donamita.com.br/','http://www.doctortopline.com.br/port/','http://depsmoda.com.br/#!/','https://www.danielejafet.com.br/','http://danielefernandes.com.br/','https://www.couroart.com.br/','http://colibridistribuidora.com.br/','https://clinicadereproducaohumana.com.br/','http://ciasefim.com/','http://cestasimperial.com.br/','https://centerespumas.com.br/','https://cbec.org.br/','https://candelariovalvulas.com.br/','https://brcondominio.com.br/','https://www.brbrindes.com.br/','http://www.brasforno.com.br/','https://autopecas3g.com.br/','http://www.atlanticaseparadores.com.br/','http://aneac.com.br/','http://alemdamidia.com.br/','http://ajatocacavazamentos.com.br/','https://actionsys.com.br/','http://2fti.com.br/','https://www.iprefguarulhos.sp.gov.br/','https://www.degraupublicidade.com.br/','https://www.lojadatatuagem.com.br/','https://docs.degraupublicidade.com.br/'];
 var statusid = idKiliano;
 
 var statuschecagem = -1;
@@ -6178,6 +6193,18 @@ setInterval(function() {
     
 }, 25000 * 30); // 60 minutos
 
+
+
+
+
+
+
+
+// Integração com o Tasks
+
+const TeamWorkSession = require('node-teamwork');
+
+const TeamWork = new TeamWorkSession({ url: 'https://your-team.teamwork.com', token: 'your account token'});
 
 
 
