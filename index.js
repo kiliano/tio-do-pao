@@ -2434,7 +2434,7 @@ bot.hears(['❌ Certeza que quero cancelar ❌'], async ctx => {
 
 
 	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`, tecladoFinal);
-	msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatPao)
+	msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatPao);
 
 })
 
@@ -2454,6 +2454,7 @@ bot.command('cancelar', async ctx => {
 	}
 
 	await ctx.replyWithMarkdown(`*Todos os seus pedidos foram removidos*`);
+	msg(`${ctx.update.message.from.first_name} cancelou tudo que pediu`, idChatPao);
 })
 
 bot.command('cancelartodosospedidos', async ctx => {
