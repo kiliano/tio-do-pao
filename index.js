@@ -3542,6 +3542,12 @@ bot.command(['teste'], async ctx => {
 	console.log("Testado");
 })
 
+// Testes
+
+bot.command(['oquemudou'], async ctx => {
+	await ctx.reply("NADA MUDOU!");
+})
+
 
 bot.command(['plantao'], async ctx => {
 	if (ctx.update.message.from.id == idMarcos || ctx.update.message.from.id == idKiliano || ctx.update.message.from.id == idBartira || ctx.update.message.from.id == idOtavio) {
