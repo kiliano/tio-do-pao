@@ -3559,6 +3559,7 @@ bot.command(['oquemudou'], async ctx => {
 var tonivocabulario = ["OLOCO","JÁVI", "AI TATA","QUERO","JA VIU KILIÃDO","SAIU O TREILER","FLIPERAMA","KILIANO","KILIANO", "KILITHANOS", "ROGER GUEDES","MURILU","ABRAÇO","VÔ AÍ TE DAR ABRAÇO","MASSAGEM","HORA DA MASSAGI", "Ô RÓGGGI", "BRAÇO DO GUEDES", "OI", "VINGADORES", "OH", "QUEEEER EYE", "OOO ARNALDO", "SAIU TEMPORADA NOVA DE","!!!","MEME", "ME ELOGIA"];
 var tonirandom =Math.floor(Math.random() * (10)); 
 var tonichat = "";
+var tonirandompalavra = 0;
 
 bot.command(['toni'], async ctx => {
 	if (ctx.chat.id == idChatMenines) {
