@@ -3561,20 +3561,21 @@ var tonirandom =Math.floor(Math.random() * (10));
 var tonichat = "";
 
 bot.command(['toni'], async ctx => {
+	if (ctx.chat.id == idChatMenines) {
+		tonichat = "";
+		tonirandom =Math.floor(Math.random() * (10)); 
 
-	tonichat = "";
-	tonirandom =Math.floor(Math.random() * (10)); 
+	    for (var i = 0; i<(tonirandom+5); i++) {
+	        tonirandompalavra = Math.floor(Math.random() * (tonivocabulario.length)); 
 
-    for (i = 0; i<(tonirandom+5); i++) {
-        tonirandompalavra = Math.floor(Math.random() * (tonivocabulario.length)); 
-
-        tonichat += tonivocabulario[tonirandompalavra]+" ";
-    }
+	        tonichat += tonivocabulario[tonirandompalavra]+" ";
+	    }
 
 
-    console.log(tonichat);
+	    console.log(tonichat);
 
-	await ctx.reply(tonichat);
+		await ctx.reply(tonichat);
+	}
 })
 
 
