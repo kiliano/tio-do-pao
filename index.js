@@ -87,6 +87,8 @@ const ctx = {}
 	// const idRodrigo = env.idRodrigo;
 	// const idIsabel = env.idIsabel;
 	// const idChatDegrau = env.idChatDegrau;
+	// const idChatMenines = env.idChatMenines;
+	
 	// const idChatFronts = env.idChatFronts;
 	// const apiTinypng = env.apiTinypng;
 
@@ -129,6 +131,8 @@ const ctx = {}
 	const idIsabel = process.env.idIsabel;
 	const idChatDegrau = process.env.idChatDegrau;
 	const idChatFronts = process.env.idChatFronts;
+	const idChatMenines = process.env.idChatMenines;
+	
 	const wordpressPass = process.env.wordpressPass;
 	const idAntibot = process.env.idAntibot;
 	const idChatPao = process.env.idChatPao;
@@ -3544,9 +3548,37 @@ bot.command(['teste'], async ctx => {
 
 // Testes
 
+
+// Zueira
+
 bot.command(['oquemudou'], async ctx => {
 	await ctx.reply("NADA MUDOU!");
 })
+
+
+var tonivocabulario = ["OLOCO","JÁVI", "AI TATA","QUERO","JA VIU KILIÃDO","SAIU O TREILER","FLIPERAMA","KILIANO","KILIANO", "KILITHANOS", "ROGER GUEDES","MURILU","ABRAÇO","VÔ AÍ TE DAR ABRAÇO","MASSAGEM","HORA DA MASSAGI", "Ô RÓGGGI", "BRAÇO DO GUEDES", "OI", "VINGADORES", "OH", "QUEEEER EYE", "OOO ARNALDO", "SAIU TEMPORADA NOVA DE","!!!","MEME", "ME ELOGIA"];
+var tonirandom =Math.floor(Math.random() * (10)); 
+var tonichat = "";
+
+bot.command(['toni'], async ctx => {
+
+	tonichat = "";
+	tonirandom =Math.floor(Math.random() * (10)); 
+
+    for (i = 0; i<(tonirandom+5); i++) {
+        tonirandompalavra = Math.floor(Math.random() * (tonivocabulario.length)); 
+
+        tonichat += tonivocabulario[tonirandompalavra]+" ";
+    }
+
+
+    console.log(tonichat);
+
+	await ctx.reply(tonichat);
+})
+
+
+// / Zueira
 
 
 bot.command(['plantao'], async ctx => {
