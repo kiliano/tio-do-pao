@@ -3564,9 +3564,9 @@ var tonirandompalavra = 0;
 bot.command(['toni'], async ctx => {
 	if (ctx.chat.id == idChatMenines) {
 		tonichat = "";
-		tonirandom =Math.floor(Math.random() * (10)); 
+		tonirandom =Math.floor(Math.random() * (5)); 
 
-	    for (var i = 0; i<(tonirandom+5); i++) {
+	    for (var i = 0; i<(tonirandom+3); i++) {
 	        tonirandompalavra = Math.floor(Math.random() * (tonivocabulario.length)); 
 
 	        tonichat += tonivocabulario[tonirandompalavra]+" ";
