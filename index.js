@@ -17,6 +17,9 @@ const Extra = require('telegraf/extra');
 const axios = require('axios');
 var wordpress = require('wordpress');
 const session = require('telegraf/session');
+const cheerio = require('cheerio')
+
+
 // http://itlc.comp.dkit.ie/tutorials/nodejs/create-wordpress-post-node-js/
 // https://www.npmjs.com/package/wordpress
 
@@ -71,86 +74,86 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
-	const telegram = new Telegram(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
+	// const telegram = new Telegram(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idMichel = env.idMichel;
-	const idOtavio = env.idOtavio;
-	const idAntibot = env.idAntibot;
-	const idMarcos = env.idMarcos;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatMenines = env.idChatMenines;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idMichel = env.idMichel;
+	// const idOtavio = env.idOtavio;
+	// const idAntibot = env.idAntibot;
+	// const idMarcos = env.idMarcos;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatMenines = env.idChatMenines;
 	
-	const idChatFronts = env.idChatFronts;
-	const apiTinypng = env.apiTinypng;
+	// const idChatFronts = env.idChatFronts;
+	// const apiTinypng = env.apiTinypng;
 
-	const idChatPao = env.idChatPao;
+	// const idChatPao = env.idChatPao;
 	
 
-	const idTodos = env.idTodos;
-	const emailSenha = env.emailSenha;
+	// const idTodos = env.idTodos;
+	// const emailSenha = env.emailSenha;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
 
-	const tasksUrl = env.tasksUrl;
-	const tasksApi = env.tasksApi;
+	// const tasksUrl = env.tasksUrl;
+	// const tasksApi = env.tasksApi;
 
-	fuso = 0;
+	// fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano;
-	// const idBartira = process.env.idBartira;
-	// const idRodrigo = process.env.idRodrigo;
-	// const idMichel = process.env.idMichel;
-	// const idMarcos = process.env.idMarcos;
-	// const idOtavio = process.env.idOtavio;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau;
-	// const idChatFronts = process.env.idChatFronts;
-	// const idChatMenines = process.env.idChatMenines;
+	const idKiliano = process.env.idKiliano;
+	const idBartira = process.env.idBartira;
+	const idRodrigo = process.env.idRodrigo;
+	const idMichel = process.env.idMichel;
+	const idMarcos = process.env.idMarcos;
+	const idOtavio = process.env.idOtavio;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau;
+	const idChatFronts = process.env.idChatFronts;
+	const idChatMenines = process.env.idChatMenines;
 	
-	// const wordpressPass = process.env.wordpressPass;
-	// const idAntibot = process.env.idAntibot;
-	// const idChatPao = process.env.idChatPao;
+	const wordpressPass = process.env.wordpressPass;
+	const idAntibot = process.env.idAntibot;
+	const idChatPao = process.env.idChatPao;
 
-	// const apiTinypng = process.env.apiTinypng;
+	const apiTinypng = process.env.apiTinypng;
 
-	// const idTodos = process.env.idTodos;
+	const idTodos = process.env.idTodos;
 
-	// const emailSenha = process.env.emailSenha;
+	const emailSenha = process.env.emailSenha;
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
-	// const telegram = new Telegram(token);
-	// fuso = 3;
+	const bot = new Telegraf(token)
+	const telegram = new Telegram(token);
+	fuso = 3;
 
 
 
@@ -3450,7 +3453,7 @@ bot.action('csetedias', async ctx => {
 // Extras
 bot.command('wifi', async ctx => {
 	if (membrosdegrauId.includes(ctx.update.message.from.id) == true){
-		await ctx.replyWithMarkdown(`A senha do wifi *DPI_VISITANTE* é *opedroaindanaoacessa*`)
+		await ctx.replyWithMarkdown(`Senhas de WIFI: \n *DPI_VISITANTE* - *opedroaindanaoacessa* \n *DPI* - *5R@Y#5uA6V$t* `)
 		
 	}
 })
@@ -3545,9 +3548,21 @@ bot.command(['relatorio'], async ctx => {
 // Mario Kart
 bot.command(['mariokart'], async ctx => {
 	request({ url: 'http://kiliano.com.br/mktotal/', headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
-	        console.log('error:', error); // Print the error if one occurred
-			console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-			console.log('body:', body); // Print the HTML for the Google homepage.
+	        // console.log('error:', error); // Print the error if one occurred
+			// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+			// console.log('body:', body); // Print the HTML for the Google homepage.
+
+			if (!error && response.statusCode == 200) {
+			    var $ = cheerio.load(body);
+			    console.log($("h1").html());
+			    var mkSemanaBox = $("#mkSemanaNode").html();
+				var mkSemana = mkSemanaBox.replace(/&quot;/g, '"');
+
+				mkSemana = JSON.stringify(mkSemana);
+				mkSemana = JSON.parse(mkSemana);
+
+			    console.log(mkSemana);
+			  }
 
 	    });
 })
