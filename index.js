@@ -6098,7 +6098,7 @@ bot.command('bolo', async ctx => {
 
 
 
-// Verificações de Websites
+// Verificações de Websites.
 
 var request = require('request');
 var statusloading = false;
