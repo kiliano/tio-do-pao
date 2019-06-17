@@ -2591,8 +2591,7 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	} else {
 		// Listagem do grupo
-		// BBBBBBBBBBBBBBBBBBBBBBB
-		if(ctx.update.message.from.id == idChatDegrau || ctx.update.message.from.id == idChatPao) {
+		if(ctx.chat.id == idChatDegrau || ctx.chat.id == idChatPao) {
 			if (pedido.lista.length > 0) {
 				if (pedido.indisponibilidade.length > 0) {
 					
