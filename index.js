@@ -6023,7 +6023,11 @@ bot.command(['perfil','creditos','credito'], async ctx => {
 		if(ctx.chat.id == idChatDegrau || ctx.chat.id == idChatFronts) {
 			// Se o chat for o grupo da degrau
 
-			var nomedousuario = ctx.update.message.from.first_name+"_"+ctx.update.message.from.last_name;
+			var nomedousuario = ctx.update.message.from.first_name;
+
+			if(membrosdegrauNome.includes(nomedousuario) == true) {
+				var nomedousuario = ctx.update.message.from.first_name+"_"+ctx.update.message.from.last_name;
+			}
 			await ctx.reply(`Oi ${nomedousuario}! Parece que você não tem um perfil criado. Estou criando um pra você... `);
 
 			membrosJson.degrau.push({"id":ctx.update.message.from.id,"nome":nomedousuario,"creditos":500,"ntruco":0});
