@@ -2591,25 +2591,30 @@ bot.command(['pedido', 'fechar', 'finalizar', 'fecharpedido'], async ctx => {
 
 	} else {
 		// Listagem do grupo
-		if (pedido.lista.length > 0) {
-			if (pedido.indisponibilidade.length > 0) {
-				
-				indisponiveltxt = `
-				_Os seguintes itens estavam em falta: ${pedido.indisponibilidade}. Trazer os substitutos:_
-				*${pedidolistasubstituto}*
-				`
+		// BBBBBBBBBBBBBBBBBBBBBBB
+		if(ctx.update.message.from.id == idChatDegrau || ctx.update.message.from.id == idChatPao) {
+			if (pedido.lista.length > 0) {
+				if (pedido.indisponibilidade.length > 0) {
+					
+					indisponiveltxt = `
+					_Os seguintes itens estavam em falta: ${pedido.indisponibilidade}. Trazer os substitutos:_
+					*${pedidolistasubstituto}*
+					`
+				} else {
+					indisponiveltxt = ""
+				}
+
+				await ctx.replyWithMarkdown(`${chamadapedido} 
+					Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
+					*${pedidolista}*
+					${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
+
 			} else {
-				indisponiveltxt = ""
+				await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
 			}
 
-			await ctx.replyWithMarkdown(`${chamadapedido} 
-				Referente ao dia ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} 
-				*${pedidolista}*
-				${indisponiveltxt} ${chamadaendereco}`, tecladoFixoItens)
-
-		} else {
-			await ctx.reply(`A lista de pedidos de ${pedido.dia_data}/${pedido.mes_data}/${pedido.ano_data} está vazia`)
 		}
+		
 	}
 })
 
@@ -5909,11 +5914,12 @@ const carregarmembros = (ctx, next) => {
 
 
 	    if (membrosJson.degrau.length > 0) {
+		    console.log("Membros carregados. indo pra proxima");
+		    console.log(JSON.stringify(membrosJson));
 		    next();
-		    console.log("Tudo ok. indo pra proxima")
 	    } else {
 	    	carregarmembros();
-	    	console.log("Recarregando membros.")
+	    	console.log("Recarregando membros.");
 	    }
 
 	});
@@ -6055,6 +6061,21 @@ bot.action(/transferir (.+)/, async ctx => {
 	} else {
 		await ctx.editMessageText(`Você tem apenas ${ctx.session.creditos} créditos.`);
 	}
+});
+
+
+// Adicionando novo usuário
+// AAAAAAAAAAAAAAAAAA
+bot.command(['oi'], async ctx => {
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+
+		
+
+	} else {
+		await ctx.reply(`Transferências devem ser solicitadas apenas mandando mensagem direta pra mim`);
+	}
+
+	
 });
 
 
