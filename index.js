@@ -169,6 +169,25 @@ var conteudoprimeiro = {};
 var pedidosanalisados = [];
 var pedidosanalisadosunicos =[];
 
+var varHelp = `
+			/pao - abre o menu para fazer o pedido do pão
+			/pedido - mostra os pedidos do dia do pão
+			/quem - mostra os pedidos separadamente de cada um
+			/relatorio - gera relatórios dos pedidos de pão (Só admins podem fazer isso)
+
+			/clima - mostra a previsão do tempo
+			/cpf - gera um cpf aleatório e válido
+			/cnpj - gera um cnpj aleatório e válido
+
+
+			/perfil - vê informações sobre seu perfil, créditos e etc.
+			/wifi - mostra a senha da wifi do visitante
+
+			/transferir 000 - tranfere créditos pra outra pessoa. Substitua o 000 pelo valor de créditos para transferir. 
+
+			/truco - joga truco com a galera (nada de horário comercial ein, tô de olho 😉).
+			`;
+
 // EMAIL
 
 
@@ -3461,17 +3480,7 @@ bot.command('wifi', async ctx => {
 
 bot.command(['help', 'ajuda', 'tio'], async ctx => {
 	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
-		await ctx.reply(`
-			/pao - abre o menu para fazer o pedido do pão
-			/pedido - mostra os pedidos do dia do pão
-			/quem - mostra os pedidos separadamente de cada um
-
-			/relatorio - gera relatórios dos pedidos de pão
-
-			/clima - mostra a previsão do tempo
-			/wifi - mostra a senha da wifi do visitante
-			/truco - joga truco com os amigos
-			`)
+		await ctx.reply(`${varHelp}`);
 		
 	}
 
@@ -3574,8 +3583,13 @@ bot.command(['mariokart'], async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	await ctx.reply("Testado");
+	await ctx.reply(membrosdegrauNome);
+	await ctx.reply(membrosdegrauId);
+	console.log(membrosdegrauId);
+	console.log(membrosdegrauNome);
 	console.log("Testado");
+
+
 })
 
 // Testes
@@ -5951,6 +5965,15 @@ const listandodegrau = (ctx, next) => {
 	next();
 }
 
+// Gerando array da degrau
+const bemvindodegrau = (ctx, next) => {
+	
+	msg(`Perfil criado com sucesso. \n ${varHelp}`, idChatDegrau);
+
+	// Teclado de Usuários
+	next();
+}
+
 
 // Checando atualizações
 const atualizarmembros = (ctx, next) => {
@@ -5978,17 +6001,39 @@ bot.use(session());
 
 bot.command(['perfil','creditos','credito'], async ctx => {
 
-	ctx.session.creditos = 0;
+	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+		// Se o usuário estiver na degrau
 
-	for (var i = 0; i< membrosdegrauId.length; i++) {
-		if (membrosdegrauId[i] == ctx.update.message.from.id) {
-			ctx.session.creditos = membrosJson.degrau[i].creditos;
+		ctx.session.creditos = 0;
+
+		for (var i = 0; i< membrosdegrauId.length; i++) {
+			if (membrosdegrauId[i] == ctx.update.message.from.id) {
+				ctx.session.creditos = membrosJson.degrau[i].creditos;
+			}
+		}
+
+		await ctx.reply(`💰 Você ${ctx.session.creditos} créditos 💰
+
+			Para transferir para alguém basta digitar /transferir, digitando logo em seguida a quantidade.`);
+
+		
+
+	} else {
+		// Se o usuário não estiver na degrau
+		if(ctx.chat.id == idChatDegrau || ctx.chat.id == idChatFronts) {
+			// Se o chat for o grupo da degrau
+
+			var nomedousuario = ctx.update.message.from.first_name+"_"+ctx.update.message.from.last_name;
+			await ctx.reply(`Oi ${nomedousuario}! Parece que você não tem um perfil criado. Estou criando um pra você... `);
+
+			membrosJson.degrau.push({"id":ctx.update.message.from.id,"nome":nomedousuario,"creditos":500,"ntruco":0});
+
+			exec(ctx, atualizarmembros, carregarmembros, listandodegrau, bemvindodegrau);
+
 		}
 	}
 
-	await ctx.reply(`💰 Você ${ctx.session.creditos} créditos 💰
-
-		Para transferir para alguém basta digitar /transferir, digitando logo em seguida a quantidade.`);
+	
 
 	
 	
@@ -6063,19 +6108,6 @@ bot.action(/transferir (.+)/, async ctx => {
 });
 
 
-// Adicionando novo usuário
-// AAAAAAAAAAAAAAAAAA
-bot.command(['oi'], async ctx => {
-	if (membrosdegrauId.includes(ctx.update.message.from.id) == true) {
-
-		
-
-	} else {
-		await ctx.reply(`Transferências devem ser solicitadas apenas mandando mensagem direta pra mim`);
-	}
-
-	
-});
 
 
 // Iniciando Sistema de Membros
@@ -6259,6 +6291,43 @@ setInterval(function() {
     
 }, 25000 * 30); // 60 minutos
 
+
+// Checagem de carregamento de membros
+
+
+setInterval(function() {
+	if(statusloading == false){
+		console.log("Fazendo requisição para checagem de membros");
+		
+
+	} else {
+		console.log("Checagem de membros não realizada, loading já estava ligado");
+	}
+    
+}, 25000 * 59); // 120 minutos
+
+
+const checandomembrosinicio = (ctx, next) => {
+	statusloading = true;
+	next();
+}
+
+const checandomembros = (ctx, next) => {
+
+	if(membrosdegrauId.length > 1) {
+		next();
+	} else {
+		msg("Não foi encontrado membros. Atualizando lista.", idKiliano);
+		exec(ctx, atualizarmembros, carregarmembros, listandodegrau, checandomembrosfinal);
+	}
+	
+}
+
+
+const checandomembrosfinal = (ctx, next) => {
+	statusloading = false;
+	next();
+}
 
 
 
