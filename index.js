@@ -3592,6 +3592,16 @@ bot.command(['teste'], async ctx => {
 
 })
 
+bot.command(['membros'], async ctx => {
+
+	if (ctx.update.message.from.id == idMarcos || ctx.update.message.from.id == idKiliano || ctx.update.message.from.id == idBartira || ctx.update.message.from.id == idOtavio) {
+		await ctx.reply(membrosdegrauNome);
+		await ctx.reply(membrosdegrauId);
+	}
+
+
+})
+
 // Testes
 
 
@@ -5992,6 +6002,7 @@ const atualizarmembros = (ctx, next) => {
 
 // TECLADOS
 var tecladoTransferirCreditos = [];
+var tecladoRemover = [];
 
 
 
@@ -6036,10 +6047,6 @@ bot.command(['perfil','creditos','credito'], async ctx => {
 
 		}
 	}
-
-	
-
-	
 	
 });
 
@@ -6082,8 +6089,6 @@ bot.command(['transferir'], async ctx => {
 	} else {
 		await ctx.reply(`Transferências devem ser solicitadas apenas mandando mensagem direta pra mim`);
 	}
-
-	
 });
 
 bot.action(/transferir (.+)/, async ctx => {
@@ -6111,6 +6116,49 @@ bot.action(/transferir (.+)/, async ctx => {
 	}
 });
 
+
+bot.command(['remover'], async ctx => {
+
+	if (ctx.chat.id == idKiliano || ctx.chat.id == idMarcos || ctx.chat.id == idBartira || ctx.chat.id == idOtavio) {
+		ctx.session.eu = ctx.update.message.from.id;
+		ctx.session.eunome = ctx.update.message.from.first_name;
+
+		tecladoRemover = Extra.markup(Markup.inlineKeyboard(
+			membrosdegrauNome.map(item => Markup.callbackButton(item, `remover ${item}`)),
+			{columns: 4}
+		));
+
+		await ctx.reply(`Quem você quer remover?`, tecladoRemover);
+		// AAAAAAAAAAAAAAAAA
+		
+
+	} else {
+		await ctx.reply(`😡 OLHA LA EIN`);
+	}
+});
+
+
+bot.action(/remover (.+)/, async ctx => {
+
+	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+		for (var i = 0; i< membrosdegrauNome.length; i++) {
+
+			if (membrosdegrauNome[i] == ctx.match[1]) {
+				if (membrosJson.degrau[i].id == idKiliano || membrosJson.degrau[i].id == idMarcos || membrosJson.degrau[i].id == idOtavio || membrosJson.degrau[i].id == idBartira) {
+					ctx.editMessageText(`Você não pode remover um Administrador. Uma mensagem de aviso para esse Admin foi enviada.`);
+					msg(`${ctx.session.eunome} - id: ${ctx.session.eu} tentou remover você. Algo de errado não está certo 😡`, membrosJson.degrau[i].id);
+				} else {
+					membrosJson.degrau.splice(i, 1); 
+					ctx.editMessageText(`${ctx.match[1]} removido. Refazendo lista. Aguarde 1 minuto e escreva /membros para a lista geral`);
+					exec(ctx, atualizarmembros, carregarmembros, listandodegrau);
+
+				}
+			}
+
+		}
+		
+});
 
 
 
