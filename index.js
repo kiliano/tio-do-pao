@@ -74,84 +74,84 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	// const env = require('./.env');
-	// const bot = new Telegraf(env.token);
-	// const telegram = new Telegram(env.token);
+	const env = require('./.env');
+	const bot = new Telegraf(env.token);
+	const telegram = new Telegram(env.token);
 
-	// const apiUrl = env.apiUrl;
-	// const apiFileUrl = env.apiFileUrl;
+	const apiUrl = env.apiUrl;
+	const apiFileUrl = env.apiFileUrl;
 
-	// const idKiliano = env.idKiliano;
-	// const idBartira = env.idBartira;
-	// const idOtavio = env.idOtavio;
-	// const idAntibot = env.idAntibot;
-	// const idMarcos = env.idMarcos;
-	// const idRodrigo = env.idRodrigo;
-	// const idIsabel = env.idIsabel;
-	// const idChatDegrau = env.idChatDegrau;
-	// const idChatMenines = env.idChatMenines;
+	const idKiliano = env.idKiliano;
+	const idBartira = env.idBartira;
+	const idOtavio = env.idOtavio;
+	const idAntibot = env.idAntibot;
+	const idMarcos = env.idMarcos;
+	const idRodrigo = env.idRodrigo;
+	const idIsabel = env.idIsabel;
+	const idChatDegrau = env.idChatDegrau;
+	const idChatMenines = env.idChatMenines;
 	
-	// const idChatFronts = env.idChatFronts;
-	// const apiTinypng = env.apiTinypng;
+	const idChatFronts = env.idChatFronts;
+	const apiTinypng = env.apiTinypng;
 
-	// const idChatPao = env.idChatPao;
+	const idChatPao = env.idChatPao;
 	
 
-	// const idTodos = env.idTodos;
-	// const emailSenha = env.emailSenha;
+	const idTodos = env.idTodos;
+	const emailSenha = env.emailSenha;
 
 
-	// const apiClimatempo = env.apiClimatempo;
+	const apiClimatempo = env.apiClimatempo;
 
-	// const wordpressPass = env.wordpressPass;
+	const wordpressPass = env.wordpressPass;
 
 
-	// const tasksUrl = env.tasksUrl;
-	// const tasksApi = env.tasksApi;
+	const tasksUrl = env.tasksUrl;
+	const tasksApi = env.tasksApi;
 
-	// fuso = 0;
+	fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	var port = (process.env.PORT || 5000)
+	// var port = (process.env.PORT || 5000)
 
-	http.createServer(function(request, response) {
-		response.writeHead(200,{'Content-Type': 'application/json'});
-		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-		response.end();
-	}).listen(port)
+	// http.createServer(function(request, response) {
+	// 	response.writeHead(200,{'Content-Type': 'application/json'});
+	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+	// 	response.end();
+	// }).listen(port)
 
-	const token = process.env.token
+	// const token = process.env.token
 
-	const idKiliano = process.env.idKiliano;
-	const idBartira = process.env.idBartira;
-	const idRodrigo = process.env.idRodrigo;
-	const idMarcos = process.env.idMarcos;
-	const idOtavio = process.env.idOtavio;
-	const idIsabel = process.env.idIsabel;
-	const idChatDegrau = process.env.idChatDegrau;
-	const idChatFronts = process.env.idChatFronts;
-	const idChatMenines = process.env.idChatMenines;
+	// const idKiliano = process.env.idKiliano;
+	// const idBartira = process.env.idBartira;
+	// const idRodrigo = process.env.idRodrigo;
+	// const idMarcos = process.env.idMarcos;
+	// const idOtavio = process.env.idOtavio;
+	// const idIsabel = process.env.idIsabel;
+	// const idChatDegrau = process.env.idChatDegrau;
+	// const idChatFronts = process.env.idChatFronts;
+	// const idChatMenines = process.env.idChatMenines;
 	
-	const wordpressPass = process.env.wordpressPass;
-	const idAntibot = process.env.idAntibot;
-	const idChatPao = process.env.idChatPao;
+	// const wordpressPass = process.env.wordpressPass;
+	// const idAntibot = process.env.idAntibot;
+	// const idChatPao = process.env.idChatPao;
 
-	const apiTinypng = process.env.apiTinypng;
+	// const apiTinypng = process.env.apiTinypng;
 
-	const idTodos = process.env.idTodos;
+	// const idTodos = process.env.idTodos;
 
-	const emailSenha = process.env.emailSenha;
+	// const emailSenha = process.env.emailSenha;
 
-	const apiUrl = `https://api.telegram.org/bot${token}`
-	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	// const apiUrl = `https://api.telegram.org/bot${token}`
+	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	const apiClimatempo = process.env.apiClimatempo
+	// const apiClimatempo = process.env.apiClimatempo
 
-	const bot = new Telegraf(token)
-	const telegram = new Telegram(token);
-	fuso = 3;
+	// const bot = new Telegraf(token)
+	// const telegram = new Telegram(token);
+	// fuso = 3;
 
 
 
@@ -5935,15 +5935,16 @@ const carregarmembros = (ctx, next) => {
 	    membrosJson = JSON.parse(membrosJson);
 	    console.log(membrosJson);
 
-
 	    if (membrosJson.degrau.length > 0) {
 		    console.log("Membros carregados. indo pra proxima");
 		    console.log(JSON.stringify(membrosJson));
 		    next();
 	    } else {
 	    	carregarmembros();
-	    	console.log("Recarregando membros.");
+	    	console.log("Recarregando membros. filho");
 	    }
+
+
 
 	});
 
@@ -5966,6 +5967,11 @@ const listandodegrau = (ctx, next) => {
 
 	tecladoTransferirCreditos = Extra.markup(Markup.inlineKeyboard(
 		membrosdegrauNome.map(item => Markup.callbackButton(item, `transferir ${item}`)),
+		{columns: 4}
+	));
+
+	tecladoPremiarCreditos = Extra.markup(Markup.inlineKeyboard(
+		membrosdegrauNome.map(item => Markup.callbackButton(item, `premiar ${item}`)),
 		{columns: 4}
 	));
 
@@ -6003,6 +6009,7 @@ const atualizarmembros = (ctx, next) => {
 // TECLADOS
 var tecladoTransferirCreditos = [];
 var tecladoRemover = [];
+var tecladoPremiarCreditos = [];
 
 
 
@@ -6091,6 +6098,7 @@ bot.command(['transferir'], async ctx => {
 	}
 });
 
+
 bot.action(/transferir (.+)/, async ctx => {
 	if (ctx.session.creditostransferencia <= ctx.session.creditos) {
 		for (var i = 0; i< membrosdegrauNome.length; i++) {
@@ -6117,6 +6125,94 @@ bot.action(/transferir (.+)/, async ctx => {
 });
 
 
+
+// Premiar com créditos
+bot.command(['premiar'], async ctx => {
+	if (ctx.chat.id == idKiliano || ctx.chat.id == idMarcos ) {
+
+		ctx.session.creditospremiar = 0;
+		ctx.session.motivopremiar = '';
+
+		var mimic = ctx.update.message.text;
+
+		console.log(mimic);
+
+		mimic = mimic.split(" ");
+
+		console.log(mimic);
+
+		mimic.shift();
+
+		console.log(mimic);
+
+		// Valor do premio
+		var mimicvalor = parseInt(mimic[0]);
+		ctx.session.creditospremiar = mimicvalor;
+		console.log("valor: "+mimicvalor);
+
+		
+
+		mimic.shift();
+
+		if (mimic != undefined) {
+			mimic = mimic.join(" ");
+			console.log(mimic);
+			ctx.session.motivopremiar = mimic;
+		}
+
+		
+
+
+		// var mimic = parseInt(mimic.replace("/premiar ", ""));
+
+
+
+		// ctx.session.creditospremiar = mimic;
+
+		if (ctx.session.creditospremiar != undefined && ctx.session.creditospremiar > 0) {
+			await ctx.reply(`Pra quem você quer transferir ${ctx.session.creditospremiar} créditos?`, tecladoPremiarCreditos);
+
+		} else {
+			await ctx.reply(`Quantidade inválida`);
+		}
+
+	} else {
+		if(membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+			await ctx.reply(`Você não tem permissão para premiar`);
+		}
+	}
+});
+
+bot.action(/premiar (.+)/, async ctx => {
+
+	var usuarioalvototal = 0;
+
+	for (var i = 0; i< membrosdegrauNome.length; i++) {
+		if (membrosdegrauNome[i] == ctx.match[1]) {
+			membrosJson.degrau[i].creditos = (membrosJson.degrau[i].creditos+ctx.session.creditospremiar);
+			var premiotxt = "";
+
+			if (ctx.session.motivopremiar != "") {
+
+				premiotxt = " \n Motivo: "+ctx.session.motivopremiar+"\n";
+ 
+			}
+			msg(`Você foi premiado em ${ctx.session.creditospremiar} créditos!${premiotxt} Seu total agora é de ${membrosJson.degrau[i].creditos} créditos`, membrosJson.degrau[i].id);
+			usuarioalvototal = membrosJson.degrau[i].creditos;
+		}
+	}
+	ctx.editMessageText(`Você enviou ${ctx.session.creditospremiar} para ${ctx.match[1]} (${usuarioalvototal} créditos)`);
+
+	ctx.session.creditospremiar = 0;
+
+	exec(ctx, atualizarmembros, carregarmembros, listandodegrau);
+
+	console.log(membrosJson);
+});
+
+
+
+// Removendo usuários
 bot.command(['remover'], async ctx => {
 
 	if (ctx.chat.id == idKiliano || ctx.chat.id == idMarcos || ctx.chat.id == idBartira || ctx.chat.id == idOtavio) {
