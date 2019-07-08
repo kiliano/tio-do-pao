@@ -74,84 +74,84 @@ const ctx = {}
 
 
 // Chamadas para o Local
-	const env = require('./.env');
-	const bot = new Telegraf(env.token);
-	const telegram = new Telegram(env.token);
+	// const env = require('./.env');
+	// const bot = new Telegraf(env.token);
+	// const telegram = new Telegram(env.token);
 
-	const apiUrl = env.apiUrl;
-	const apiFileUrl = env.apiFileUrl;
+	// const apiUrl = env.apiUrl;
+	// const apiFileUrl = env.apiFileUrl;
 
-	const idKiliano = env.idKiliano;
-	const idBartira = env.idBartira;
-	const idOtavio = env.idOtavio;
-	const idAntibot = env.idAntibot;
-	const idMarcos = env.idMarcos;
-	const idRodrigo = env.idRodrigo;
-	const idIsabel = env.idIsabel;
-	const idChatDegrau = env.idChatDegrau;
-	const idChatMenines = env.idChatMenines;
+	// const idKiliano = env.idKiliano;
+	// const idBartira = env.idBartira;
+	// const idOtavio = env.idOtavio;
+	// const idAntibot = env.idAntibot;
+	// const idMarcos = env.idMarcos;
+	// const idRodrigo = env.idRodrigo;
+	// const idIsabel = env.idIsabel;
+	// const idChatDegrau = env.idChatDegrau;
+	// const idChatMenines = env.idChatMenines;
 	
-	const idChatFronts = env.idChatFronts;
-	const apiTinypng = env.apiTinypng;
+	// const idChatFronts = env.idChatFronts;
+	// const apiTinypng = env.apiTinypng;
 
-	const idChatPao = env.idChatPao;
+	// const idChatPao = env.idChatPao;
 	
 
-	const idTodos = env.idTodos;
-	const emailSenha = env.emailSenha;
+	// const idTodos = env.idTodos;
+	// const emailSenha = env.emailSenha;
 
 
-	const apiClimatempo = env.apiClimatempo;
+	// const apiClimatempo = env.apiClimatempo;
 
-	const wordpressPass = env.wordpressPass;
+	// const wordpressPass = env.wordpressPass;
 
 
-	const tasksUrl = env.tasksUrl;
-	const tasksApi = env.tasksApi;
+	// const tasksUrl = env.tasksUrl;
+	// const tasksApi = env.tasksApi;
 
-	fuso = 0;
+	// fuso = 0;
 
 
 // Chamadas para o Heroku
 
-	// var port = (process.env.PORT || 5000)
+	var port = (process.env.PORT || 5000)
 
-	// http.createServer(function(request, response) {
-	// 	response.writeHead(200,{'Content-Type': 'application/json'});
-	// 	response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
-	// 	response.end();
-	// }).listen(port)
+	http.createServer(function(request, response) {
+		response.writeHead(200,{'Content-Type': 'application/json'});
+		response.write(JSON.stringify({name: 'Acorda Horacio', ver: '1.0'}));
+		response.end();
+	}).listen(port)
 
-	// const token = process.env.token
+	const token = process.env.token
 
-	// const idKiliano = process.env.idKiliano;
-	// const idBartira = process.env.idBartira;
-	// const idRodrigo = process.env.idRodrigo;
-	// const idMarcos = process.env.idMarcos;
-	// const idOtavio = process.env.idOtavio;
-	// const idIsabel = process.env.idIsabel;
-	// const idChatDegrau = process.env.idChatDegrau;
-	// const idChatFronts = process.env.idChatFronts;
-	// const idChatMenines = process.env.idChatMenines;
+	const idKiliano = process.env.idKiliano;
+	const idBartira = process.env.idBartira;
+	const idRodrigo = process.env.idRodrigo;
+	const idMarcos = process.env.idMarcos;
+	const idOtavio = process.env.idOtavio;
+	const idIsabel = process.env.idIsabel;
+	const idChatDegrau = process.env.idChatDegrau;
+	const idChatFronts = process.env.idChatFronts;
+	const idChatMenines = process.env.idChatMenines;
 	
-	// const wordpressPass = process.env.wordpressPass;
-	// const idAntibot = process.env.idAntibot;
-	// const idChatPao = process.env.idChatPao;
+	const wordpressPass = process.env.wordpressPass;
+	const idAntibot = process.env.idAntibot;
+	const idChatPao = process.env.idChatPao;
 
-	// const apiTinypng = process.env.apiTinypng;
+	const apiTinypng = process.env.apiTinypng;
 
-	// const idTodos = process.env.idTodos;
+	const idTodos = process.env.idTodos;
 
-	// const emailSenha = process.env.emailSenha;
+	const emailSenha = process.env.emailSenha;
 
-	// const apiUrl = `https://api.telegram.org/bot${token}`
-	// const apiFileUrl = `https://api.telegram.org/file/bot${token}`
+	const apiUrl = `https://api.telegram.org/bot${token}`
+	const apiFileUrl = `https://api.telegram.org/file/bot${token}`
 
-	// const apiClimatempo = process.env.apiClimatempo
+	const apiClimatempo = process.env.apiClimatempo
 
-	// const bot = new Telegraf(token)
-	// const telegram = new Telegram(token);
-	// fuso = 3;
+	const bot = new Telegraf(token)
+	const telegram = new Telegram(token);
+	fuso = 3;
 
 
 
@@ -2097,7 +2097,7 @@ const eventosagendados = (ctx, next) => {
 
 							Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 						 	${clima.data.data[1].text_icon.text.pt} ☀
-						 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+						 	Probabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
 						 	\n
 						`, idChatDegrau);
 
@@ -3261,7 +3261,7 @@ bot.command(['jandira'], async ctx => {
 				HOJE (${clima.data.data[0].date_br})
 					Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
 				 	${clima.data.data[0].text_icon.text.pt} ☀
-				 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+				 	Probabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
 				 	`;
 
 				if (clima.data.data[1].rain.probability >= 90) {
@@ -3286,7 +3286,7 @@ bot.command(['jandira'], async ctx => {
 
 					Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 				 	${clima.data.data[1].text_icon.text.pt} ☀
-				 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
+				 	Probabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}`;
 
 				if (ctx.chat.id != idRodrigo) {
 					ctx.reply(`Previsão de Jandira enviado pro Rodrigo`)
@@ -3346,7 +3346,7 @@ bot.action('choje', async ctx => {
 
 					Temperatura: Min: ${clima.data.data[0].temperature.min}ºC | Max: ${clima.data.data[0].temperature.max}ºC 🌡
 				 	${clima.data.data[0].text_icon.text.pt} ☀
-				 	Provabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
+				 	Probabilidade de chuva: ${clima.data.data[0].rain.probability} % ${climaicon}
 				 	\n
 				 `);
 				
@@ -3393,7 +3393,7 @@ bot.action('camanha', async ctx => {
 
 					Temperatura: Min: ${clima.data.data[1].temperature.min}ºC | Max: ${clima.data.data[1].temperature.max}ºC 🌡
 				 	${clima.data.data[1].text_icon.text.pt} ☀
-				 	Provabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
+				 	Probabilidade de chuva: ${clima.data.data[1].rain.probability} % ${climaicon}
 				 	\n
 				 `);
 				
