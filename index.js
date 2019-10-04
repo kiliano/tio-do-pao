@@ -3584,8 +3584,8 @@ bot.command(['mariokart'], async ctx => {
 
 bot.command(['teste'], async ctx => {
 	await ctx.reply(membrosdegrauNome);
-	await ctx.reply(membrosdegrauId);
-	console.log(membrosdegrauId);
+	// await ctx.reply(membrosdegrauId);
+	// console.log(membrosdegrauId);
 	console.log(membrosdegrauNome);
 	console.log("Testado");
 
