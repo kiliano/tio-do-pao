@@ -3583,11 +3583,13 @@ bot.command(['mariokart'], async ctx => {
 // Testes
 
 bot.command(['teste'], async ctx => {
-	await ctx.reply("Usuários habilitados: "+membrosdegrauNome);
-	// await ctx.reply(membrosdegrauId);
-	// console.log(membrosdegrauId);
+	await ctx.reply(membrosdegrauNome);
+	await ctx.reply(membrosdegrauId);
+	console.log(membrosdegrauId);
 	console.log(membrosdegrauNome);
 	console.log("Testado");
+
+
 })
 
 bot.command(['reset'], async ctx => {
@@ -3597,6 +3599,7 @@ bot.command(['reset'], async ctx => {
 	exec(ctx, atualizarmembros, carregarmembros, listandodegrau, checandomembrosfinal);
 	
 })
+
 
 bot.command(['membros'], async ctx => {
 
