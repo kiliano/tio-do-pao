@@ -3592,13 +3592,13 @@ bot.command(['teste'], async ctx => {
 
 })
 
-bot.command(['reset'], async ctx => {
-	await ctx.reply("x_x morri");
-	await ctx.reply("Conta até 30 e dá /teste maroto. Vai aparecer a lista de usuários habilitados.");
-	exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, liberandopost);
-	exec(ctx, atualizarmembros, carregarmembros, listandodegrau, checandomembrosfinal);
+// bot.command(['reset'], async ctx => {
+// 	await ctx.reply("x_x morri");
+// 	await ctx.reply("Conta até 30 e dá /teste maroto. Vai aparecer a lista de usuários habilitados.");
+// 	exec(ctx, atualizarData, novodia, eventosagendados, carregarum, atualizarlocal, liberandopost);
+// 	exec(ctx, atualizarmembros, carregarmembros, listandodegrau, checandomembrosfinal);
 	
-})
+// })
 
 
 bot.command(['membros'], async ctx => {
