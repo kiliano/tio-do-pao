@@ -90,6 +90,7 @@ const ctx = {}
 	// const idIsabel = env.idIsabel;
 	// const idChatDegrau = env.idChatDegrau;
 	// const idChatMenines = env.idChatMenines;
+	// const userAgent = env.userAgent;
 	
 	// const idChatFronts = env.idChatFronts;
 	// const apiTinypng = env.apiTinypng;
@@ -125,6 +126,7 @@ const ctx = {}
 	const token = process.env.token
 
 	const idKiliano = process.env.idKiliano;
+	const userAgent = process.env.userAgent;
 	const idBartira = process.env.idBartira;
 	const idRodrigo = process.env.idRodrigo;
 	const idMarcos = process.env.idMarcos;
@@ -6321,7 +6323,7 @@ const statuschecar = (ctx,next) => {
 	if (statuschecagem < statussites.length) {
 		console.log("checando item: "+statussites[statuschecagem]);
 
-		 request({ url: statussites[statuschecagem], headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36' }} , function(error, response, body) {
+		 request({ url: statussites[statuschecagem], headers: { 'User-Agent': userAgent }} , function(error, response, body) {
 	        //console.log('error:', error); // Print the error if one occurred
 			//console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 			// console.log('body:', body); // Print the HTML for the Google homepage.
