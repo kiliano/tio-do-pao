@@ -3581,6 +3581,31 @@ bot.command(['mariokart'], async ctx => {
 
 
 
+var tonivocabulario = ["BACURAAAAAAAAAAAAAU","BACURAU","XÁ VIU XERNOBIL???","XERNOBIL","OLOCO","JÁVI", "AI TATA","QUERO","JA VIU KILIÃDO","SAIU O TREILER","FLIPERAMA","KILIANO","KILIANO", "KILITHANOS", "ROGER GUEDES","MURILU","ABRAÇO","VÔ AÍ TE DAR ABRAÇO","MASSAGEM","HORA DA MASSAGI", "Ô RÓGGGI", "BRAÇO DO GUEDES", "OI", "VINGADORES", "OH", "QUEEEER EYE", "OOO ARNALDO", "SAIU TEMPORADA NOVA DE","!!!","MEME", "ME ELOGIA"];
+var tonirandom =Math.floor(Math.random() * (10)); 
+var tonichat = "";
+var tonirandompalavra = 0;
+
+bot.command(['ata'], async ctx => {
+	if (ctx.chat.id == idChatMenines) {
+		tonichat = "";
+		tonirandom =Math.floor(Math.random() * (5)); 
+
+	    for (var i = 0; i<(tonirandom+3); i++) {
+	        tonirandompalavra = Math.floor(Math.random() * (tonivocabulario.length)); 
+
+	        tonichat += tonivocabulario[tonirandompalavra]+" ";
+	    }
+
+
+	    console.log(tonichat);
+
+		await ctx.reply(tonichat);
+	}
+})
+
+
+
 
 // Testes
 
