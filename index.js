@@ -6010,6 +6010,7 @@ const listandodegrau = (ctx, next) => {
 	));
 
 	funcionarios = membrosdegrauNome;
+	funcionariosbbb = membrosdegrauNome;
 
 	// Teclado de Usuários
 	next();
@@ -6299,6 +6300,7 @@ exec(ctx, carregarmembros, listandodegrau);
 // ------------------ BOLO -------------------
 
 var funcionarios = [];
+var funcionariosbbb = [];
 
 bot.command('bolo', async ctx => {
 
@@ -6325,7 +6327,34 @@ bot.command('bolo', async ctx => {
 		await ctx.reply(`🍰 Cabou o bolo 🍰`);
 	}
 
-})
+});
+
+bot.command('bbb', async ctx => {
+
+	if (funcionariosbbb.length > 0 && membrosdegrauId.includes(ctx.update.message.from.id) == true) {
+		var currentIndex = funcionariosbbb.length, temporaryValue, randomIndex;
+
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex -= 1;
+
+			// And swap it with the current element.
+			temporaryValue = funcionariosbbb[currentIndex];
+			funcionariosbbb[currentIndex] = funcionariosbbb[randomIndex];
+			funcionariosbbb[randomIndex] = temporaryValue;
+		}
+
+		var funcionariossorteiobbb = funcionariosbbb[0];
+		funcionariosbbb.splice(0, 1);
+
+		await ctx.reply(`👁👁👁 O ELIMINADO da casa mais vigiada do Brasil é.... \n 👏👏👏${funcionariossorteiobbb}!! 👏👏👏`);
+	} else {
+		await ctx.reply(`👁👁👁 Todas as pessoas foram eliminadas! 👁👁👁`);
+	}
+
+});
 
 
 
@@ -6337,7 +6366,7 @@ var statusresultado = [];
 var statustodos = [];
 var statusautomatico = false;
 var statusautomaticomsg = 0;
-var statussites = ['https://pronextsolar.com.br/','https://cadastrounificado.com.br/','https://portaldoaluno.littlepeopleschool.com.br/','https://sitealphaprint.com.br/','http://thebimteam.org/','https://sotobimaquinas.com.br/','https://vacechi.com.br/','https://termopor.com.br/','https://diferencialcontabil.com.br/','https://www.karinamacieleventos.com.br/','https://fastpays.com.br/','https://www.elccontabilidade.com.br/','https://www.vitalodonto.com.br/','http://isabelletuchband.com.br/','https://iabbrasil.com.br/','https://visualbrandstore.com.br/','http://365indies.com/','http://kiliano.com.br/','http://www.sagiturcorretora.com.br/','https://rmgcapital.com.br/','https://rh-8.com.br/','http://reboucasbrasil.com.br/','http://pro-figado.com.br/','http://pliniojunqueiranutricao.com.br/','https://www.ourominas.com/om/','http://nunesoliveira.com.br/','https://www.neopagamentos.com.br/','http://multiativa.com.br/','https://motiveacaopalestras.com.br/','http://montecarloalimentos.com.br/','https://moneybrasil.com.br/','https://www.melhorlanceleiloes.com.br/','http://mcleodferreira.com.br/','https://www.littlepeopleschool.com.br/','http://liegedecoracoes.com.br/','https://labmixquimica.com.br/','https://www.karinamacieleventos.com.br/','http://jvn.ind.br/','https://www.isapelpapeis.com.br/','https://iprefguarulhos.sp.gov.br/holerites/','https://iprefguarulhos.sp.gov.br/','http://instruir.com.br/','http://ibcectreinamentos.com.br/','https://www.hollys.com.br/','https://www.holdman.com.br/','https://www.hmcinformatica.com.br/','https://www.grupodecombateaocancer.org.br/','http://www.gkg.com.br/','https://www.gironews.com/','https://www.funeralsantafe.com.br/','http://www.fgconvites.com.br/','http://www.fevereiroecruz.com.br/','http://feajr.com/','https://fcapjr.com.br/','https://www.entregarefrigerada.com.br/','https://www.elccontabilidade.com.br/','https://www.elainebianco.com.br/','http://e2atelecom.com.br/','http://donamita.com.br/','http://www.doctortopline.com.br/port/','http://depsmoda.com.br/#!/','https://www.danielejafet.com.br/','http://danielefernandes.com.br/','http://colibridistribuidora.com.br/','https://clinicadereproducaohumana.com.br/','http://ciasefim.com/','https://centerespumas.com.br/','https://cbec.org.br/','https://candelariovalvulas.com.br/','https://brcondominio.com.br/','https://www.brbrindes.com.br/','https://autopecas3g.com.br/','http://www.atlanticaseparadores.com.br/','http://aneac.com.br/','http://alemdamidia.com.br/','http://ajatocacavazamentos.com.br/','https://actionsys.com.br/','http://2fti.com.br/','https://www.degraupublicidade.com.br/','https://www.lojadatatuagem.com.br/','https://docs.degraupublicidade.com.br/'];
+var statussites = ['https://pronextsolar.com.br/','https://cadastrounificado.com.br/','https://portaldoaluno.littlepeopleschool.com.br/','https://sitealphaprint.com.br/','http://thebimteam.org/','https://sotobimaquinas.com.br/','https://vacechi.com.br/','https://termopor.com.br/','https://diferencialcontabil.com.br/','https://www.karinamacieleventos.com.br/','https://fastpays.com.br/','https://www.elccontabilidade.com.br/','https://www.vitalodonto.com.br/','http://isabelletuchband.com.br/','https://iabbrasil.com.br/','https://visualbrandstore.com.br/','http://365indies.com/','http://kiliano.com.br/','http://www.sagiturcorretora.com.br/','https://rmgcapital.com.br/','https://rh-8.com.br/','http://reboucasbrasil.com.br/','http://pro-figado.com.br/','http://pliniojunqueiranutricao.com.br/','https://www.ourominas.com/om/','http://nunesoliveira.com.br/','https://www.neopagamentos.com.br/','http://multiativa.com.br/','https://motiveacaopalestras.com.br/','http://montecarloalimentos.com.br/','https://moneybrasil.com.br/','https://www.melhorlanceleiloes.com.br/','http://mcleodferreira.com.br/','https://www.littlepeopleschool.com.br/','http://liegedecoracoes.com.br/','https://labmixquimica.com.br/','https://www.karinamacieleventos.com.br/','http://jvn.ind.br/','https://iprefguarulhos.sp.gov.br/holerites/','https://iprefguarulhos.sp.gov.br/','http://instruir.com.br/','http://ibcectreinamentos.com.br/','https://www.hollys.com.br/','https://www.holdman.com.br/','https://www.hmcinformatica.com.br/','https://www.grupodecombateaocancer.org.br/','http://www.gkg.com.br/','https://www.gironews.com/','https://www.funeralsantafe.com.br/','http://www.fgconvites.com.br/','http://www.fevereiroecruz.com.br/','http://feajr.com/','https://fcapjr.com.br/','https://www.entregarefrigerada.com.br/','https://www.elccontabilidade.com.br/','https://www.elainebianco.com.br/','http://e2atelecom.com.br/','http://donamita.com.br/','http://www.doctortopline.com.br/port/','http://depsmoda.com.br/#!/','https://www.danielejafet.com.br/','http://danielefernandes.com.br/','http://colibridistribuidora.com.br/','https://clinicadereproducaohumana.com.br/','http://ciasefim.com/','https://centerespumas.com.br/','https://cbec.org.br/','https://candelariovalvulas.com.br/','https://brcondominio.com.br/','https://www.brbrindes.com.br/','https://autopecas3g.com.br/','http://www.atlanticaseparadores.com.br/','http://aneac.com.br/','http://alemdamidia.com.br/','http://ajatocacavazamentos.com.br/','https://actionsys.com.br/','http://2fti.com.br/','https://www.degraupublicidade.com.br/','https://www.lojadatatuagem.com.br/','https://docs.degraupublicidade.com.br/'];
 var statusid = idKiliano;
 
 var statuschecagem = -1;
