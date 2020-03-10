@@ -3619,6 +3619,24 @@ bot.command(['teste'], async ctx => {
 
 })
 
+
+
+
+bot.command(['cafe','café'], async ctx => {
+	await ctx.reply(` ☕️☕️☕️ Como fazer um café nível naldinho ☕️☕️☕️\n\n
+		▪️ Tire a máquina da tomada. \n
+		▪️ Tire o café velho e limpe a máquina.\n
+▪️ Encha o recipiente com água\n
+▪️ Coloque o suporte que tem um pino na máquina e encha com pó de café. Para 2 litros, o limite de água está marcado na lateral interna da máquina. 
+▪️ O limite de pó é a linha que fica no recipiente plástico.\n
+▪️ Tampe e ligue a máquina. Quando a luz vermelha ligar, o café está pronto. \n\n\n
+☕️☕️ Avise os amigos ☕️☕️
+
+`);
+
+
+})
+
 bot.command(['reset'], async ctx => {
 	await ctx.reply("x_x morri");
 	await ctx.reply("Conta até 30 e dá /teste maroto. Vai aparecer a lista de usuários habilitados.");
