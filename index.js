@@ -2125,6 +2125,18 @@ const eventosagendados = (ctx, next) => {
 		// / Lembrete Pão
 
 
+		// ---- CORONA VIRUS
+		var scheduleCorona1 = schedule.scheduleJob({hour: 10+fuso, minute: 40}, function(){
+			msg(`🐼 Não esqueça de limpar as mãos com alcool em gel`, idChatDegrau);
+		});
+
+
+		var scheduleCorona1 = schedule.scheduleJob({hour: 14+fuso, minute: 10}, function(){
+			msg(`🐼 Olá você que almoçou fora hoje. Não esqueça de limpar bem as mãos com alcool em gel. \n Temos potinhos de alcool espalhados na mesa da criação, cozinha e banheiros`, idChatDegrau);
+		});
+		// / CORONA VIRUS
+
+
 		// -----  Checando se o tio do pão Realmente veio
 
 		var schedulepaonaopassou = schedule.scheduleJob({hour: 17+fuso, minute: 45}, function(){
