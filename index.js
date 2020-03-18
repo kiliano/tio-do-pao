@@ -50,6 +50,10 @@ var tiopassou = false;
 var conteudocarregado = false;
 var relatorioTempo = [];
 
+
+// Mensagens automáticas
+var msgautomaticas = false;
+
 // Clima
 
 var clima = {};
@@ -2035,9 +2039,9 @@ const relatoriopaobartira = (ctx, next) => {
 
 const eventosagendados = (ctx, next) => {
 
-
+ 
 	// Dias úteis
-	if (datasemana > 0 && datasemana < 6) {
+	if (datasemana > 0 && datasemana < 6 && msgautomaticas == true) {
 
 		// --- BOM DIA
 		var bomdiarandomminuto = Math.floor(10*Math.random()+10)
